@@ -1,0 +1,42 @@
+<data-loading data-ng-if="profilesCorrespondantsCtrl.loadingFlag"></data-loading>
+<div id="tabCtrl">
+  <div class="th">
+    <table id="tbl_correspondant">
+      <thead>
+        <tr>
+          <th>{{'labels.relationClient.profilesCorrespondants.TABLE_HEADER_NAME' | translate}}</th>
+          <th>{{'labels.relationClient.profilesCorrespondants.TABLE_HEADER_ADDED_DATE' | translate}}</th>
+          <th>{{'labels.relationClient.profilesCorrespondants.TABLE_HEADER_ACCESS' | translate}}</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="container-tbl_correspondant">
+  <div class="tbody">
+    <table id="tbl_correspondant">
+      <tbody>
+        <tr ng-repeat="correspondant in profilesCorrespondantsCtrl.form.correspondants">
+          <td>
+            <strong>{{correspondant.FirstName}}
+              {{correspondant.LastName}}</strong><br/>
+            {{correspondant.Email}}<br/>
+            <span class="titre_clt">{{correspondant.Function + profilesCorrespondantsCtrl.displayOtherFunction(correspondant)}}</span>
+          </td>
+          <td>{{'labels.relationClient.profilesCorrespondants.THE' | translate}}
+            {{correspondant.DateRattachement}}</td>
+          <td>
+            <div ng-repeat="access in correspondant.Access">
+              <input type="checkbox" ng-model="access.HasAccess" ng-disabled="profilesCorrespondantsCtrl.accesDisabled(access)" ng-click="profilesCorrespondantsCtrl.accessChanged(correspondant, access)"/>&nbsp;{{'labels.relationClient.access.' + access.Access | translate}}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div uib-alert class="alert-success" ng-show="profilesCorrespondantsCtrl.saveSuccess">{{'labels.transverse.SAVE_SUCCESS' | translate}}</div>
+  <div uib-alert class="alert-danger" ng-show="profilesCorrespondantsCtrl.operationFailure">{{profilesCorrespondantsCtrl.errorMessagesService}}</div>
+</div>
+  <div class="abs">
+    <button id="ajout" ng-hide="!profilesCorrespondantsCtrl.hasChanged" ng-click="profilesCorrespondantsCtrl.submit()">{{'labels.transverse.SAVE_CHANGES' | translate}}</button>
+  </div>
+</div>

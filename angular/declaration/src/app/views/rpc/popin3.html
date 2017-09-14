@@ -1,0 +1,77 @@
+<div class="mymodal">
+
+    <h1>{{'labels.declaration.rpc_popins.LANCER_MISSION_TITLE' | translate}}</h1>
+    <a class="close-icon" ng-click="rpcCtrl.closeModal()"></a>
+
+    <p>{{'labels.declaration.rpc_popins.LANCER_MISSION_TEXT_1' | translate}}</p>
+
+    <p>{{'labels.declaration.rpc_popins.LANCER_MISSION_TEXT_2' | translate}}</p>
+
+    <p>{{'labels.declaration.rpc_popins.LANCER_MISSION_TEXT_3' | translate}}</p><br />
+
+    <p><b>{{'labels.declaration.rpc_popins.LANCER_MISSION_CHOIX_EXPERT' | translate}}</b></p><br />
+
+    <input type="radio" ng-model="rpcCtrl.ec" value="EC" /><label class="info-check">{{'labels.declaration.rpc_popins.EC' | translate}} </label>
+    <input type="radio" ng-model="rpcCtrl.ec" value="CAC" /><label class="info-check">{{'labels.declaration.rpc_popins.CAC' | translate}}</label><br /> <br />
+
+
+    <button class="suivant btnn" ng-click="rpcCtrl.ChoixExpert()" data-ng-disabled="!rpcCtrl.ec">
+        {{'labels.transverse.BTN_SUIVANT' | translate}}
+    </button>
+    <input id="CloseBtn" value="{{'labels.transverse.BTN_ANNULER' | translate}}" ng-click="rpcCtrl.closeModal()" type="button">
+
+</div>
+
+<!--div class="mymodal" ng-show="rpcCtrl.stepPopin==2">
+    <h1>LANCER LA MISSION DE RAPPORT DE PROCÉDURES CONVENUES</h1>
+
+    <a class="close-icon" ng-click="rpcCtrl.closeModal()"></a>
+
+
+
+    <div class="ctrl_form">
+        <div id="recherche">
+            <label for="id_recherche" id="recherche">&nbsp;</label>
+            <input type="text" name="recherche" id="id_recherche" placeholder="{{'labels.relationClient.choixEntreprise.SEARCH' | translate}}"
+                   data-ng-model="rpcCtrl.someVal" data-ng-change="rpcCtrl.textChanged()" data-ng-Trim="false">
+        </div>
+    </div>
+
+    <div class="table_produits">
+        <table id="choice_expert">
+            <tr>
+                <th>Nom &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                <th>Adresse &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                <th>Adresse e-mail &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            </tr>
+            <tr data-ng-repeat="myexpert in rpcCtrl.expertsList" data-ng-click="rpcCtrl.expertSelected">
+                <td>{{myexpert.name}}</td>
+                <td>{{myexpert.adresse}}</td>
+                <td>{{myexpert.mail}}</td>
+            </tr>
+        </table>
+    </div>
+    <button id="ajout" data-ng-click="rpcCtrl.displayMore()">Afficher plus</button>
+
+    <button class="suivant" ng-click="">VALIDER</button>
+
+    <button id="CloseBtn" ng-click="rpcCtrl.closeModal()">Annuler</button>
+</div>
+
+<div class="mymodal" ng-show="rpcCtrl.stepPopin==3" >
+
+    <h1>ACTIVER LE CODE DE VALIDATION DU RPC</h1>
+    <a class="close-icon" ng-click="rpcCtrl.closeModal()"></a>
+
+    <p>Ce code vous est transmis par votre Expert par email et vous permet de nous transmettre vos données RPC en toute sécurité.</p>
+
+    <input type="text" name="code" placeholder="Saisir mon code" ng-model="rpcCtrl.codeActivation"  ><br /> <br />
+
+    <button class="btn suivant" ng-click="validationCode()" ng-disabled="rpcCtrl.codeActivation=''">
+        {{'labels.transverse.BTN_VALIDER' | translate}}
+    </button>
+    <a href="" ng-click="rpcCtrl.closeModal()">
+        {{'labels.transverse.BTN_ANNULER' | translate}}
+    </a>
+
+</div-->

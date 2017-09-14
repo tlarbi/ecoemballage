@@ -1,0 +1,9 @@
+<!-- <select>
+    <option class="gris" value="" disabled selected ng-transclude></option>
+    <option class="option" data-ng-repeat="country in selectCountriesCtrl.countries" data-ng-value="country.code">{{country.label}}</option>
+</select>
+-->
+
+<select data-ng-options="country.code as country.label for country in selectCountriesCtrl.countries | orderBy: 'label'">
+    <option class="gris" value="" data-ng-disabled="elementBis.required" selected>{{replace}}{{elementBis.required ? '*' : ''}}</option>
+</select>

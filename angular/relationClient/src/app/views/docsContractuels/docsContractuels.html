@@ -1,0 +1,38 @@
+<div class="tbody_compte">
+    <table id="tbl_compte">
+        <tbody>
+            <tr ng-show="docsContractuelsCtrl.status_code_contrat==200&&docsContractuelsCtrl.contrat.vc_Error==''">
+                <td>{{'labels.relationClient.contrat.CONTRAT_NAME' | translate}}</td>
+                <td class="acte"><div class="pict_visu" ng-click="docsContractuelsCtrl.getContratFile()" target="_blank"></div></td>
+                <td class="acte"><div class="pict_telecharge" ng-click="docsContractuelsCtrl.getContratFileAttachement()"></div></td>
+            </tr>
+            <tr ng-show="docsContractuelsCtrl.attestation.AdhesionEtat==0">
+                <td>{{'labels.relationClient.attestation.ATTESTATION_NAME' | translate}}</td>
+                <td class="acte"><a href="{{docsContractuelsCtrl.attestation.Url}}?display=inline" target="_blank"><div class="pict_visu"></div></a></td>
+                <td class="acte"><a href="{{docsContractuelsCtrl.attestation.Url}}?display=attachement"><div class="pict_telecharge"></div></a></td>
+            </tr>
+            <tr ng-show="docsContractuelsCtrl.attestation.AdhesionEtat==1">
+                <td colspan="1">{{'labels.relationClient.attestation.ATTESTATION_NAME' | translate}}</td>
+                <td colspan="2">{{'labels.relationClient.attestation.ATTESTATION_ETAT_1' | translate}}</td>
+            </tr>
+
+            <tr ng-show="docsContractuelsCtrl.attestation.AdhesionEtat==2">
+                <td colspan="1">{{'labels.relationClient.attestation.ATTESTATION_NAME' | translate}}</td>
+                <td colspan="2">{{'labels.relationClient.attestation.ATTESTATION_ETAT_2' | translate}}</td>
+            </tr>
+
+
+            <tr ng-show="docsContractuelsCtrl.attestation.AdhesionEtat==3">
+                <td colspan="1">{{'labels.relationClient.attestation.ATTESTATION_NAME' | translate}}</td>
+                <td colspan="2">{{'labels.relationClient.attestation.ATTESTATION_ETAT_3' | translate}}</td>
+            </tr>
+
+            <tr ng-show="docsContractuelsCtrl.status_code_delegation==200 && docsContractuelsCtrl.delegation.vc_Error==''">
+                <td>{{'labels.relationClient.contrat.DELEGATION_NAME' | translate}}</td>
+                <td class="acte"><div class="pict_visu" ng-click="docsContractuelsCtrl.getDelegationFile()" target="_blank"></div></td>
+                <td class="acte"><div class="pict_telecharge" ng-click="docsContractuelsCtrl.getDelegationFileAttachement()"></div></td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>

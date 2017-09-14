@@ -1,0 +1,7 @@
+﻿<div class="mymodal">
+  <h1>{{'labels.declaration.uvc.popin_suppression.TITLE' | translate}}</h1>
+  <a class="close-icon" ng-click="historiqueCtrl.closeModalSuppression()"></a>
+
+   <p data-ng-if="!historiqueCtrl.suppresion_ok">{{'labels.declaration.uvc.popin_suppression.ERREUR' | translate}}</p>
+    <p data-ng-if="historiqueCtrl.suppresion_ok">{{'labels.declaration.uvc.popin_suppression.SUCCES' | translate}}</p>
+</div>

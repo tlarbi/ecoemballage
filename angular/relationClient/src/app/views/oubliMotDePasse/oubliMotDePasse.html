@@ -1,0 +1,33 @@
+<div data-ng-if="!oubliMotDePasseCtrl.nextPageFlag">
+    <h1>{{'labels.relationClient.oubliMotDePasse.TITLE' | translate}}</h1>
+    <div class="oubli_mdp">
+        <span>{{'labels.relationClient.oubliMotDePasse.INSTRUCTION' | translate}}</span>
+        <form name="oubliMotDePasseForm" data-ng-submit="oubliMotDePasseCtrl.submit()" novalidate>
+
+        <div id="identifiant">
+            <label for="id_identifiant"><img src="/sites/default/files/inline-images/pict_mail.png" alt="picto mail"/></label>
+            <label data-ng-if="!oubliMotDePasseForm.email.$error.required" class="exposant" for="email">{{'labels.relationClient.oubliMotDePasse.ID_PLACEHOLDER' | translate}}</label>
+            <input data-ng-class="{'error' : oubliMotDePasseCtrl.formValidateFlag && (oubliMotDePasseForm.email.$invalid || oubliMotDePasseCtrl.technicalErrorFlag || oubliMotDePasseCtrl.emailNotExistFlag), 'success' : oubliMotDePasseForm.email.$valid && !oubliMotDePasseCtrl.checkFlags()}" type="text" name="email" id="id_identifiant" placeholder="{{'labels.relationClient.oubliMotDePasse.ID_PLACEHOLDER' | translate}}" data-ng-model="oubliMotDePasseCtrl.form.email" data-ng-pattern="oubliMotDePasseCtrl.emailRegEx" data-ng-focus="oubliMotDePasseCtrl.onFocus()" data-ng-blur="oubliMotDePasseCtrl.onBlur()" required>
+        </div>
+
+        <div data-ng-if="oubliMotDePasseCtrl.formValidateFlag" data-ng-messages="oubliMotDePasseForm.email.$error" class="error">
+            <label ng-message="required">{{'errors.oubliMotDePasse.ERROR_ID_REQUIRED' | translate}}</label>
+            <label ng-message="pattern">{{'errors.oubliMotDePasse.ERROR_ID_INVALID' | translate}}</label>
+        </div>
+
+        <div data-ng-if="oubliMotDePasseCtrl.formValidateFlag && oubliMotDePasseForm.email.$valid" class='error'>
+            <label data-ng-if="oubliMotDePasseCtrl.technicalErrorFlag">{{'errors.transverse.TECHNICAL' | translate}}</label>
+            <label data-ng-if="oubliMotDePasseCtrl.emailNotExistFlag">{{'errors.oubliMotDePasse.ERROR_ID_NOT_FOUND' | translate}}</label>
+        </div>
+
+        <a id="CloseBtn" href="/login">{{'labels.transverse.BTN_ANNULER' | translate}}</a>&nbsp;<button class="suivant marg_btn btn" type="submit">{{'labels.transverse.BTN_SEND' | translate}}</button>
+        </form>
+    </div>
+</div>
+
+<!-- message réinitialisation mot de passe envoyé -->
+<div data-ng-if="oubliMotDePasseCtrl.nextPageFlag">
+    <h1>{{'labels.relationClient.transverse.GET_NEW_PASSWORD' | translate}}</h1>
+    <div>{{'labels.relationClient.transverse.NEW_PASSWORD_REQUEST_SENT' | translate}}</div>
+    <button class="suivant marg_ht-but" data-ng-click="oubliMotDePasseCtrl.next()">{{'labels.transverse.BTN_OK' | translate}}</button>
+</div>

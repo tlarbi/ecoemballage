@@ -1,0 +1,5 @@
+<!-- gestion des erreurs après click sur le bouton -->
+<div class="alert alert-warning" data-ng-show="errorCtrl.errors && errorCtrl.errors.length!=0">
+    <span class="help-block" data-ng-repeat="error in errorCtrl.errors track by $index">{{error |
+		translate}}</span>
+</div>

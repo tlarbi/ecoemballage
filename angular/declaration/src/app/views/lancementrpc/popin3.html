@@ -1,0 +1,29 @@
+<div class="mymodal">
+
+    <h1>LANCER LA MISSION DE RAPPORT DE PROCÉDURES CONVENUES</h1>
+    <!--<a class="close-icon" href="/mon-espace/declaration/accueil"></a>-->
+    <a class="close-icon" ng-click="lancementrpcCtrl.closeModal()"></a>
+
+
+    <p>Le RPC est obligatoire dès 2017. Ainsi si vous ne l'avez pas réalisé ces 2 dernières années, vous devez</p>
+    <p>le produire pour la déclaration 2016.</p><br />
+
+    <p>Le RPC est un programme de travail établi sous forme de points de contrôle visnat tous les aspects</p>
+    <p>de la démarche déclarative.</p><br />
+
+    <p>Véritable outil de diagnostic et d'accompagnement, il vous permet d'identifier facilement les</p>
+    <p>non-conformités de votre déclaration et d'adapter votre processus déclaratif.</p><br /><br /><br />
+
+    <p><b>Choisissez l'Expert qui réalisera la mission :</b></p><br />
+
+    <input type="radio" ng-model="lancementrpcCtrl.ec" value="EC"/><label class="info-check">Expert Comptable </label>
+    <input type="radio" ng-model="lancementrpcCtrl.ec" value="CAC"/><label class="info-check">Commissaire aux comptes</label><br /> <br />
+    <button class="suivant" ng-click="lancementrpcCtrl.ChoixExpert()" ng-disabled="!lancementrpcCtrl.ec">
+        SUIVANT
+    </button>
+    <button ng-click="lancementrpcCtrl.closeModal()">
+        Annuler
+    </button>
+
+
+</div>

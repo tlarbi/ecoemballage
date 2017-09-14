@@ -1,0 +1,22 @@
+
+  <div class="tbody_compte">
+    <table id="tbl_compte">
+      <tbody>
+        <tr ng-repeat="entreprise in visualisationEntreprisesCtrl.entreprises">
+          <td ng-class="{'actif': entreprise.CurrentClient}">
+            <span class="compte_clt">{{entreprise.Name}}</span><br/>
+            {{entreprise.Number}}
+          </td>
+          <td>
+            <button class="contour" ng-click="visualisationEntreprisesCtrl.selectionnerEntreprise(entreprise)" ng-if="!entreprise.CurrentClient">{{'labels.relationClient.visualisationEntreprises.BTN_CONNECT' | translate}}</button>
+          </td>
+          <td>
+            <div class="pict_delete" ng-show="visualisationEntreprisesCtrl.showDelete" ng-click="visualisationEntreprisesCtrl.demandeSuppressionRattachement(entreprise.IdClient)">&nbsp;</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="abs">
+    <button id="ajout" ng-click="visualisationEntreprisesCtrl.demandeRattachement()">{{'labels.relationClient.visualisationEntreprises.BTN_ADD_COMPANY' | translate}}</button>
+  </div>

@@ -1,0 +1,51 @@
+﻿<div class="mymodal">
+    <a class="close-icon" ng-click="historiqueCtrl.closeModal()"></a>
+    <div class="list_widget" ng-show="historiqueCtrl.etape_choix_mode_saisie==1">
+        <div class="widget_uvc">
+            <div class="bloc_saisie" ng-click="historiqueCtrl.GoToDelarationEnLigne()">
+                <div class="enligne"></div>
+                <h4>{{'labels.declaration.choixdeclaration.choix_mode_saisi.TITLE_DECLARATION_LIGNE' | translate}}</h4>
+
+            </div>
+            <p>
+                {{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_DECLARATION_FORFAIT_DECLARATION_EN_LIGNE_UN' | translate}}
+                <strong>{{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_DECLARATION_FORFAIT_DECLARATION_EN_LIGNE_DEUX' | translate}}</strong>
+                {{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_DECLARATION_FORFAIT_DECLARATION_EN_LIGNE_TROIS' | translate}}
+            </p>
+        </div>
+        <div class="widget_uvc">
+            <div class="bloc_saisie" ng-click="historiqueCtrl.etape_choix_mode_saisie=2">
+                <div class="excel"></div>
+                <h4>{{'labels.declaration.choixdeclaration.choix_mode_saisi.TITLE_DECLARATION_EXCEL' | translate}}</h4>
+            </div>
+            <p>
+                {{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_DECLARATION_FORFAIT_DECLARATION_SUR_EXCEL_UN' | translate}}
+                <strong>{{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_DECLARATION_FORFAIT_DECLARATION_SUR_EXCEL_DEUX' | translate}}</strong>
+                {{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_DECLARATION_FORFAIT_DECLARATION_SUR_EXCEL_TROIS' | translate}}
+            </p>
+        </div>
+    </div>
+    <div class="options_excel"  ng-show="historiqueCtrl.etape_choix_mode_saisie==2">
+        <h1>{{'labels.declaration.choixdeclaration.choix_mode_saisi.TITLE_CHOIX_OPTION_EXCEL' | translate}} </h1>
+        <div class="choix_param_container">
+            <div class="choix_param_langue">
+                <p>{{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_LANGUE' | translate}} </p>
+                <input type="radio" name="langue" value="francais" ng-model="historiqueCtrl.langue_excel" /><label>{{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_LANGUE_FRANCAIS' | translate}}</label>
+                <input type="radio" name="langue" value="anglais" ng-model="historiqueCtrl.langue_excel" /><label>{{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_LANGUE_ANGLAIS' | translate}}</label>
+            </div>
+            <div class="choix_param_annee">
+                <p>{{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_ANNEE' | translate}} </p>
+                <input type="radio" name="annee" value="2007" ng-model="historiqueCtrl.annee_excel" /><label>{{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_ANNEE_EXCEL2007' | translate}}</label>
+                <input type="radio" name="annee" value="2003" ng-model="historiqueCtrl.annee_excel" /><label>{{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_ANNEE_EXCEL2003' | translate}}</label>
+
+            </div>
+        </div>
+        <br />
+        <p>
+            {{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_DECLARATION_FORFAIT_MSG1' | translate}}&nbsp;<a href="/mon-espace/declaration/accueil">{{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_DECLARATION_FORFAIT_MSG2' | translate}}</a>&nbsp;{{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_DECLARATION_FORFAIT_MSG3' | translate}}
+        </p>
+        <input class="btn" ng-disabled="!historiqueCtrl.langue_excel || !historiqueCtrl.annee_excel" type="button" value="Valider" ng-click="historiqueCtrl.sendDeclarationExcel()" />
+
+        <input id="CloseBtn" type="button" value="Annuler" class="marg_btn" ng-click="historiqueCtrl.closeModal()">
+    </div>
+</div>

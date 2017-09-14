@@ -1,0 +1,57 @@
+<div id="ControlEcart">
+    <h1>{{'labels.declaration.controle_ecart.title' | translate}} </h1>
+    <p>
+        <br /> {{'labels.declaration.controle_ecart.MSG1' | translate}}
+        <br />{{'labels.declaration.controle_ecart.MSG2' | translate}}
+    </p>
+    <form name="myForm" novalidate>
+
+        <table>
+            <tr>
+                <td colspan="4">
+                    <label class="controlChamp" ng-show="myForm.motif.$invalid && (controleecartCtrl.form_submitted || myForm.motif.$touched)">
+                        {{'labels.declaration.controle_ecart.MSG3' | translate}}
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>
+                        <select name="motif" class="selectforcountry" ng-options="t.Code as t.Libelle for t in controleecartCtrl.MotifEcartTab"
+                                ng-model="controleecartCtrl.selected_motif" required>
+                            <option value="">{{'labels.declaration.controle_ecart.MSG4' | translate}}</option>
+                        </select>
+                    </label>
+                    <a class="infobulle_uvc" style="margin-top: 5px;">
+                        <span class="arrow_box">{{'labels.declaration.controle_ecart.INFOBULLE'|translate}}</span>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td> <textarea class="no-border" placeholder="Commentaires (facultatif)" rows="5" cols="45" ng-model="controleecartCtrl.commentaire"></textarea></td>
+            </tr>
+        </table>
+        <div class="foot_acces_direct">
+            <ul>
+                <li><button id="btn-grey" ng-click="controleecartCtrl.goBack()">{{'labels.declaration.controle_ecart.BTN_RETOUR' | translate}}</button></li>
+                <li><a class="btn_sauvegarder" ng-click="controleecartCtrl.submit_commentaireSave(myForm)">{{'labels.declaration.controle_ecart.BTN_ENREGISTRER' | translate}}</a></li>
+                <li>
+                    <button class="btn suivant" ng-disabled="myForm.$invalid" ng-click="controleecartCtrl.submit_commentaire(myForm)">{{'labels.declaration.controle_ecart.BTN_SUIVANT' | translate}} </button>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

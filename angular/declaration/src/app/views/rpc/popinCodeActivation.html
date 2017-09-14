@@ -1,0 +1,21 @@
+﻿<div class="mymodal">
+<form name="codeActivationForm" ng-submit="rpcCtrl.validationCode()" novalidate>
+    <h1>{{'labels.declaration.rpc_popins.CODE_ACTIVATION_TITLE' | translate}}</h1>
+    <a class="close-icon" ng-click="rpcCtrl.closeModal()"></a>
+
+    <p>{{'labels.declaration.rpc_popins.CODE_ACTIVATION_TEXT' | translate}}</p>
+
+    <div>
+      <input type="text" name="code" placeholder="Saisir mon code" ng-model="rpcCtrl.mCodeActivation" ng-focus="rpcCtrl.codeFocus()" required><br /> <br />
+      <div ng-if="rpcCtrl.invalidCode">
+        <label>{{'labels.declaration.rpc_popins.CODE_ACTIVATION_INVALID' | translate}}</label>
+      </div>
+    </div>
+
+    <button class="valider suivant" type="submit" ng-disabled="codeActivationForm.$invalid">
+        {{'labels.transverse.BTN_VALIDER' | translate}}
+    </button>
+    <input id="CloseBtn" value="{{'labels.transverse.BTN_ANNULER' | translate}}" ng-click="rpcCtrl.closeModal()" type="button">
+</form>
+
+ </div>

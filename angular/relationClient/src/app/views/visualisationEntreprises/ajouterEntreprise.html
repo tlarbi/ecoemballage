@@ -1,0 +1,23 @@
+<h1>{{'labels.relationClient.visualisationEntreprises.TITLE_ADD_COMPANY' | translate}}</h1>
+<form name="ajouterEntrepriseForm" novalidate>
+  <div>{{'labels.relationClient.visualisationEntreprises.TEXT_ADD_COMPANY' | translate}}</div>
+  <div id="divNumeroClient">
+    <input
+      type="text"
+      name="numeroClient"
+      placeholder="{{'labels.relationClient.visualisationEntreprises.PLACEHOLDER_CLIENT_NUMBER' | translate}}"
+      ng-model="visualisationEntreprisesCtrl.numeroClient"
+      ng-class="{'error': ajouterEntrepriseForm.numeroClient.$invalid && ajouterEntrepriseForm.numeroClient.$touched, 'success': ajouterEntrepriseForm.numeroClient.$valid && ajouterEntrepriseForm.numeroClient.$touched}"
+      ng-focus="visualisationEntreprisesCtrl.numeroClientFocus()"
+      ng-blur="visualisationEntreprisesCtrl.checkNumeroClient()"
+      required/>
+    <label class="error" ng-if="ajouterEntrepriseForm.numeroClient.$dirty && ajouterEntrepriseForm.numeroClient.$error.required">
+      <span>{{'errors.visualisationEntreprises.CLIENT_NUMBER_REQUIRED' | translate}}</span>
+    </label>
+    <label class="error" ng-if="ajouterEntrepriseForm.numeroClient.$dirty && visualisationEntreprisesCtrl.numeroClientChecked && !visualisationEntreprisesCtrl.numeroClientOk">
+      <span>{{'errors.visualisationEntreprises.' + visualisationEntreprisesCtrl.checkCompanyMessageCode | translate}}</span>
+    </label>
+  </div>
+  <button type="button" ng-disabled="ajouterEntrepriseForm.$invalid || !visualisationEntreprisesCtrl.numeroClientChecked || !visualisationEntreprisesCtrl.numeroClientOk" ng-click="visualisationEntreprisesCtrl.ajouteRattachement()">{{'labels.relationClient.visualisationEntreprises.BTN_ADD' | translate}}</button>
+  <button type="button" ng-click="visualisationEntreprisesCtrl.annuleModal()">{{'labels.transverse.BTN_ANNULER' | translate}}</button>
+</form>

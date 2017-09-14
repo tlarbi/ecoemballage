@@ -1,0 +1,129 @@
+<div ng-hide="entrepriseCtrl.loading">
+    <div ng-show="entrepriseCtrl.step=='controle_ecart'">
+        <data-controleecart data-declarationid="{{entrepriseCtrl.RecapDeclaration.IdDeclaration}}" onvalidate="entrepriseCtrl.step = 'entreprises_marques'"
+                            onback="entrepriseCtrl.goToDeclarationUvcWeb()"></data-controleecart>
+    </div>
+    <div class="entreprises_marques" ng-show="entrepriseCtrl.step=='entreprises_marques'">
+        <div class="forms_container">
+            <h1><strong>{{'labels.declaration.choixdeclaration.societes_marques.titre' | translate}}</strong></h1>
+            <h4>{{'labels.declaration.choixdeclaration.societes_marques.societe_MSG1' | translate}}</h4>
+            <p>
+                {{'labels.declaration.choixdeclaration.societes_marques.societe_MSG2' | translate}}
+                &nbsp;? &nbsp;
+                <input class="test" data-ng-model="entrepriseCtrl.choix" data-ng-value="true" name="entreprise" type="radio" /><label>
+                    {{'labels.declaration.choixdeclaration.societes_marques.MSG3' | translate}}
+                </label>
+                <input data-ng-model="entrepriseCtrl.choix" data-ng-value="false" name="entreprise" type="radio" /><label>{{'labels.declaration.choixdeclaration.societes_marques.MSG4' | translate}}</label>
+            </p>
+            <!-- GESTION DES SOCIETES -->
+            <form name="myForm" novalidate>
+                <div ng-show="entrepriseCtrl.choix">
+                    <table>
+                        <tr>
+                            <td colspan="4"><label class="controlChamp" ng-show="entrepriseCtrl.msgErreurForEntreprise">{{'labels.declaration.choixdeclaration.societes_marques.LABEL_ERROR_ENTREPRISE' | translate}} </label></td>
+                        </tr>
+                        <tr>
+                            <td><label class="controlChamp" ng-show="myForm.name.$invalid && entrepriseCtrl.submitted">{{'labels.declaration.choixdeclaration.societes_marques.LABEL_ERROR_SOCIETE' | translate}}</label></td>
+                            <td></td>
+                            <td colspan="2"><label class="controlChamp" ng-show="myForm.pays.$invalid && entrepriseCtrl.submitted">{{'labels.declaration.choixdeclaration.societes_marques.LABEL_ERROR_PAYS' | translate}}</label></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="produit_exposant" ng-hide="entrepriseCtrl.hideExposant(entrepriseCtrl.entrepriseinput.nom)">{{'labels.declaration.choixdeclaration.societes_marques.PLACEHOLDER_SOCIETE' | translate}}</label>
+                            </td>
+                            <td>
+                                <label class="produit_exposant" ng-hide="entrepriseCtrl.hideExposant(entrepriseCtrl.entrepriseinput.siret)">{{'labels.declaration.choixdeclaration.societes_marques.PLACEHOLDER_SIRET' | translate}} </label>
+                            </td>
+                            <td>
+                                <label class="produit_exposant" ng-hide="entrepriseCtrl.hideExposant(entrepriseCtrl.entrepriseinput.pays)">{{'labels.declaration.choixdeclaration.societes_marques.PLACEHOLDER_PAYS' | translate}} </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" name="name" ng-model="entrepriseCtrl.entrepriseinput.nom" required placeholder="{{'labels.declaration.choixdeclaration.societes_marques.PLACEHOLDER_SOCIETE' | translate}} *" />  &nbsp; &nbsp;
+                            </td>
+                            <td>
+                                <input type="text" name="siret" ng-model="entrepriseCtrl.entrepriseinput.siret" placeholder="{{'labels.declaration.choixdeclaration.societes_marques.PLACEHOLDER_SIRET' | translate}}" />  &nbsp; &nbsp;
+                            </td>
+                            <td>
+                                <select class="selectforcountry" name="pays" ng-options="t.Code as t.Designation for t in entrepriseCtrl.Pays" required ng-model="entrepriseCtrl.entrepriseinput.pays">
+                                    <option value="">{{'labels.declaration.choixdeclaration.societes_marques.PLACEHOLDER_PAYS' | translate}} * </option>
+                                </select>
+                            </td>
+                            <td></td>
+                        </tr>
+
+                        <tr ng-repeat="e in entrepriseCtrl.entreprises">
+                            <td>
+                                <input type="text" placeholder="{{e.nom}}" class="no-border" disabled>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="{{e.siret}}" class="no-border" disabled>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="{{'pays.'+e.pays | translate}}" class="no-border" disabled>
+                            </td>
+                            <td>
+                                <div ng-click="entrepriseCtrl.removeEntreprise(e)" class="pict_delete"></div>
+                            </td>
+                        </tr>
+                    </table>
+                    <input id="ajout" type="submit" ng-disabled="myForm.$invalid" ng-click="entrepriseCtrl.addEntreprise()" value="{{'labels.declaration.choixdeclaration.societes_marques.societe_AJOUTER_ENTREPRISE' | translate}}" ng-keyup="$event.keyCode == 13 && entrepriseCtrl.addEntreprise()" value="{{'labels.declaration.choixdeclaration.societes_marques.societe_AJOUTER_ENTREPRISE' | translate}}" />
+                </div>
+            </form>
+            <hr color="#EFEFEF">
+            <!-- GESTION DES MARQUES -->
+            <h4>{{'labels.declaration.choixdeclaration.societes_marques.marque_MSG1' | translate}}</h4>
+            <p>
+                {{'labels.declaration.choixdeclaration.societes_marques.marque_MSG2' | translate}}
+                &nbsp;? &nbsp;
+                <input data-ng-model="entrepriseCtrl.choixmarque" data-ng-value="true" name="marque" type="radio" /><label>{{'labels.declaration.choixdeclaration.societes_marques.MSG3' | translate}}</label>
+                <input data-ng-model="entrepriseCtrl.choixmarque" data-ng-value="false" name="marque" type="radio" /><label>{{'labels.declaration.choixdeclaration.societes_marques.MSG4' | translate}}</label>
+            </p>
+            <form name="myForm1" novalidate>
+                <div ng-show="entrepriseCtrl.choixmarque">
+                    <table>
+
+                        <tr>
+                            <td><label class="controlChamp" ng-show="entrepriseCtrl.msgErreurForMarque">{{'labels.declaration.choixdeclaration.societes_marques.LABEL_ERROR_MARQUE' | translate}} </label></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="produit_exposant" ng-hide="entrepriseCtrl.hideExposant(entrepriseCtrl.marqueinput)">{{'labels.declaration.choixdeclaration.societes_marques.PLACEHOLDER_MARQUE' | translate}} </label>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <input ng-keyup="$event.keyCode == 13 && entrepriseCtrl.addMarque()" type="text" name="name" ng-model="entrepriseCtrl.marqueinput" required placeholder="{{'labels.declaration.choixdeclaration.societes_marques.PLACEHOLDER_MARQUE' | translate}} *" />
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr ng-repeat="marque in entrepriseCtrl.marques">
+
+                            <td>
+                                <input type="text" placeholder="{{marque}}" class="no-border" disabled>
+                            </td>
+                            <td>
+                                <div ng-click="entrepriseCtrl.removeMarque(marque)" class="pict_delete"></div>
+                            </td>
+                        </tr>
+                    </table>
+                    <input id="ajout" type="button" ng-disabled="myForm1.$invalid" value="{{'labels.declaration.choixdeclaration.societes_marques.marque_AJOUTER_MARQUE' | translate}}" ng-click="entrepriseCtrl.addMarque()">
+
+                </div>
+            </form>
+        </div>
+        <div class="entreprises_marques_footer">
+            <ul>
+                <li> <button id="btn-grey" ng-click="entrepriseCtrl.goBack()">{{'labels.declaration.choixdeclaration.societes_marques.BTN_ETAPE_RETOUR' | translate}}</button></li>
+                <li> <a class="btn_sauvegarder " ng-click="entrepriseCtrl.SaveWithoutAddfalse();entrepriseCtrl.Save(false); entrepriseCtrl.valideEnregistrement()">{{'labels.declaration.choixdeclaration.societes_marques.BTN_ETAPE_SAUVEGARDER' | translate}} </a></li>
+                <li>
+                    <button class="suivant" ng-click="entrepriseCtrl.submitFromOutSide('myForm')">{{'labels.declaration.choixdeclaration.societes_marques.BTN_ETAPE_SUIVANTE' | translate}}</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+

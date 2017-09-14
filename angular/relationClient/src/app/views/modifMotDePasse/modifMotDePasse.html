@@ -1,0 +1,73 @@
+<div class="create_compte">
+  <div class="champs">
+    <div ng-bind-html="'labels.relationClient.modifMotDePasse.INFORMATION' | translate"></div>
+  </div>
+  <form name="modifMotDePasseCtrl.modifMotDePasseForm" ng-submit="modifMotDePasseCtrl.submit()" class="form-horizontal" novalidate>
+    <div uib-alert class="alert-success" ng-show="modifMotDePasseCtrl.saveSuccess">{{'labels.relationClient.modifMotDePasse.SAVE_SUCCESS' | translate}}</div>
+    <div uib-alert class="alert-danger" ng-show="modifMotDePasseCtrl.operationFailure">{{modifMotDePasseCtrl.errorMessage}}</div>
+    <div id="oldPassword">
+      <label class="exposant" for="oldPassword" ng-if="!modifMotDePasseCtrl.modifMotDePasseForm.oldPassword.$error.required">{{'labels.relationClient.modifMotDePasse.PLACEHOLDER_OLDPASSWORD' | translate}}</label>
+      <input
+        id="oldPassword"
+        name="oldPassword"
+        type="password"
+        ng-model="modifMotDePasseCtrl.form.oldPassword"
+        ng-class="{'error': modifMotDePasseCtrl.modifMotDePasseForm.oldPassword.$touched && (modifMotDePasseCtrl.modifMotDePasseForm.oldPassword.$invalid || modifMotDePasseCtrl.wrongCurrentPasswordFlag), 'success': modifMotDePasseCtrl.modifMotDePasseForm.oldPassword.$success && modifMotDePasseCtrl.modifMotDePasseForm.oldPassword.$valid}"
+        placeholder="{{'labels.relationClient.modifMotDePasse.PLACEHOLDER_OLDPASSWORD' | translate}}"
+        data-ng-focus="modifMotDePasseCtrl.onFocus()"
+        required/>
+      <label class="error" ng-if="modifMotDePasseCtrl.modifMotDePasseForm.oldPassword.$touched && modifMotDePasseCtrl.isEmpty('oldPassword')">
+        <span>{{'errors.modifMotDePasse.ERROR_OLDPASSWORD_REQUIRED' | translate}}</span>
+      </label>
+      <label class="error" ng-if="modifMotDePasseCtrl.wrongCurrentPasswordFlag && !modifMotDePasseCtrl.accountLocked">
+        <span>{{('errors.modifMotDePasse.ERROR_OLDPASSWORD_INCORRECT' | translate).replace('#attemptCount#', modifMotDePasseCtrl.remainingAttemptCount)}}</span>
+      </label>
+    </div>
+    <div id="newPassword">
+      <label class="exposant" for="newPassword" ng-if="!modifMotDePasseCtrl.modifMotDePasseForm.newPassword.$error.required">{{'labels.relationClient.modifMotDePasse.PLACEHOLDER_NEWPASSWORD' | translate}}</label>
+      <input
+        id="newPassword"
+        name="newPassword"
+        type="password"
+        ng-model="modifMotDePasseCtrl.form.newPassword"
+        ng-class="{'error': modifMotDePasseCtrl.modifMotDePasseForm.newPassword.$touched && (!modifMotDePasseCtrl.checkPattern('pass') || modifMotDePasseCtrl.modifMotDePasseForm.newPassword.$invalid), 'success': modifMotDePasseCtrl.modifMotDePasseForm.newPassword.$touched && modifMotDePasseCtrl.checkPattern('pass') && modifMotDePasseCtrl.modifMotDePasseForm.newPassword.$valid}"
+        placeholder="{{'labels.relationClient.modifMotDePasse.PLACEHOLDER_NEWPASSWORD' | translate}}"
+        required/>
+      <label class="error" ng-if="modifMotDePasseCtrl.modifMotDePasseForm.newPassword.$touched && modifMotDePasseCtrl.modifMotDePasseForm.newPassword.$error.required">
+        <span>{{'errors.modifMotDePasse.ERROR_NEWPASSWORD_REQUIRED' | translate}}</span>
+      </label>
+      <label class="error" ng-if="modifMotDePasseCtrl.modifMotDePasseForm.newPassword.$touched && !modifMotDePasseCtrl.checkNewPasswordPattern()">
+        <span>{{'errors.modifMotDePasse.ERROR_NEWPASSWORD_INVALID' | translate}}</span>
+      </label>
+    </div>
+
+    <div class="controlPassword" ng-show="modifMotDePasseCtrl.modifMotDePasseForm.newPassword.$dirty">
+      <strong>{{'labels.relationClient.transverse.PASSWORD_RULES' | translate}}</strong><br>
+      <span ng-class="{'success': modifMotDePasseCtrl.checkPattern('length')}">{{'labels.relationClient.transverse.PASSWORD_RULE_LENGTH' | translate}}</span><br>
+      <span ng-class="{'success': modifMotDePasseCtrl.checkPattern('maj')}">{{'labels.relationClient.transverse.PASSWORD_RULE_MAJ' | translate}}</span><br>
+      <span ng-class="{'success': modifMotDePasseCtrl.checkPattern('min')}">{{'labels.relationClient.transverse.PASSWORD_RULE_MIN' | translate}}</span><br>
+      <span ng-class="{'success': modifMotDePasseCtrl.checkPattern('num')}">{{'labels.relationClient.transverse.PASSWORD_RULE_NUM' | translate}}</span><br>
+      <span ng-class="{'success': modifMotDePasseCtrl.checkPattern('specialCar')}">{{'labels.relationClient.transverse.PASSWORD_RULE_SPECIAL_CAR' | translate}}@, #, $, %, ^, &amp;, +, =</span>
+    </div>
+
+    <div id="newPasswordConfirm">
+      <label class="exposant" for="newPasswordConfirm" ng-if="!modifMotDePasseCtrl.modifMotDePasseForm.newPasswordConfirm.$error.required">{{'labels.relationClient.modifMotDePasse.PLACEHOLDER_NEWPASSWORD_CONFIRM' | translate}}</label>
+      <input
+        id="newPasswordConfirm"
+        name="newPasswordConfirm"
+        type="password"
+        ng-model="modifMotDePasseCtrl.form.newPasswordConfirm"
+        ng-class="{'error': modifMotDePasseCtrl.modifMotDePasseForm.newPasswordConfirm.$touched && !modifMotDePasseCtrl.checkPassword(false), 'success': modifMotDePasseCtrl.modifMotDePasseForm.newPasswordConfirm.$touched && modifMotDePasseCtrl.checkPassword(false)}"
+        placeholder="{{'labels.relationClient.modifMotDePasse.PLACEHOLDER_NEWPASSWORD_CONFIRM' | translate}}"
+        required/>
+      <label class="error" ng-if="modifMotDePasseCtrl.modifMotDePasseForm.newPasswordConfirm.$touched && modifMotDePasseCtrl.modifMotDePasseForm.newPasswordConfirm.$error.required">
+        <span>{{'errors.modifMotDePasse.ERROR_NEWPASSWORDCONFIRM_REQUIRED' | translate}}</span>
+      </label>
+      <label class="error" ng-if="modifMotDePasseCtrl.modifMotDePasseForm.newPasswordConfirm.$touched && !modifMotDePasseCtrl.checkPassword(true)">
+        <span>{{'errors.modifMotDePasse.ERROR_PASSWORD_MISMATCH' | translate}}</span>
+      </label>
+    </div>
+
+    <button class="confirm" type="submit" ng-disabled="modifMotDePasseCtrl.modifMotDePasseForm.$invalid || !modifMotDePasseCtrl.checkPassword(false) || !modifMotDePasseCtrl.checkNewPasswordPattern()" class="btn btn-default">{{'labels.transverse.BTN_COMFIRM' | translate}}</button>
+  </form>
+</div>

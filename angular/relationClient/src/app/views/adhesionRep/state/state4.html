@@ -1,0 +1,14 @@
+<div>
+    <h1>{{'labels.relationClient.adhesionRep.ETAPE_4' | translate}}<br /> {{'labels.relationClient.adhesionRep.INTITULE_ETAPE_4' | translate}}</h1>
+
+    <form id="adhesion-rep-4">
+        <p>{{'labels.relationClient.adhesionRep.ETAPE_4_QUESTION_1' | translate}}</p>
+        <input type="checkbox" id="oui_1" ng-model="adhesionRepCtrl.form_etape4_question1_rep_oui_1" ng-change="adhesionRepCtrl.form_etape4_question1_rep=false;"/> <label for="oui_1">{{'labels.relationClient.adhesionRep.ETAPE_4_QUESTION_1_REP_1' | translate}}</label> <br />
+        <input type="checkbox" id="oui_2" ng-model="adhesionRepCtrl.form_etape4_question1_rep_oui_2" ng-change="adhesionRepCtrl.form_etape4_question1_rep=false;" /> <label for="oui_2">{{'labels.relationClient.adhesionRep.ETAPE_4_QUESTION_1_REP_2' | translate}}</label> <br />
+        <input type="checkbox" id="non" ng-model="adhesionRepCtrl.form_etape4_question1_rep" ng-change="adhesionRepCtrl.form_etape4_question1_rep_oui_1=false;adhesionRepCtrl.form_etape4_question1_rep_oui_2=false" /> <label for="non">{{'labels.relationClient.adhesionRep.ETAPE_4_QUESTION_1_REP_3' | translate}}</label>
+    </form>
+    <div class="form_validation">
+        <a ui-sref="state3" ng-click="adhesionRepCtrl.removeStep4Session()">{{'labels.relationClient.adhesionRep.RETOUR' | translate}}</a>
+        <input type="button" class="btn suivant" ng-click="adhesionRepCtrl.etape4Validation(1,1,'Oui')" ng-disabled="adhesionRepCtrl.form_etape4_question1_rep==false && adhesionRepCtrl.form_etape4_question1_rep_oui_1==false && adhesionRepCtrl.form_etape4_question1_rep_oui_2==false" value="{{'labels.relationClient.adhesionRep.RESULTATS' | translate}}">
+    </div>
+</div>

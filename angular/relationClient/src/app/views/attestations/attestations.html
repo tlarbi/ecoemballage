@@ -1,0 +1,29 @@
+<table>
+    <tbody>
+        <tr>
+            <th>{{'labels.relationClient.attestation.ATTESTATION_TITLE' | translate}}</th>
+            <th colspan="2"><a href="/mon-espace/mon-compte-client/mes-documents">{{'labels.transverse.VOIR_TOUT' | translate}}</a></th> 
+        </tr>
+        <tr ng-show="attestationsCtrl.attestation.AdhesionEtat==0">
+            <td>{{'labels.relationClient.attestation.ATTESTATION_NAME' | translate}}</td> 
+            <td class="acte"><a href="{{attestationsCtrl.attestation.Url}}?display=inline" target="_blank" ><div class="pict_visu">&nbsp;</div></a></td> 
+            <td class="acte"><a href="{{attestationsCtrl.attestation.Url}}?display=attachement"><div class="pict_telecharge">&nbsp;</div></a></td>
+        </tr>
+        <tr ng-show="attestationsCtrl.attestation.AdhesionEtat==1">
+            <td colspan="3">{{'labels.relationClient.attestation.ATTESTATION_NON_DISPONIBLE' | translate}}</td>
+        </tr>
+        <tr ng-show="attestationsCtrl.attestation.AdhesionEtat==2">
+            <td colspan="3">{{'labels.relationClient.attestation.ATTESTATION_NON_DISPONIBLE' | translate}}</td>
+        </tr>
+
+
+        <tr ng-show="attestationsCtrl.attestation.AdhesionEtat==3">
+            <td colspan="3">{{'labels.relationClient.attestation.ATTESTATION_NON_DISPONIBLE' | translate}}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+

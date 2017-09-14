@@ -1,0 +1,42 @@
+<div class="mymodal">
+    <h1 data-ng-if="!rpcCtrl.IsModification">{{'labels.declaration.rpc.RPC_LAUNCH_1' | translate}}</h1>
+    <h1 data-ng-if="rpcCtrl.IsModification">{{'labels.declaration.rpc.RPC_LAUNCH_2' | translate}}</h1>
+    <!--<a class="close-icon" href="/mon-espace/declaration/accueil"></a>-->
+    <a class="close-icon" ng-click="rpcCtrl.closeModal()"></a>
+
+
+    <p><b> {{'labels.declaration.rpc.RPC_TEXT_TOP_BAR' | translate}} </b></p>
+
+    <div class="ctrl_form">
+        <div id="recherche">
+            <label for="id_recherche" id="recherche">&nbsp;</label>
+            <input type="text" name="recherche" id="id_recherche" placeholder="{{'labels.declaration.rpc.RPC_SEARCH_BAR' | translate}}"
+                   data-ng-model="rpcCtrl.someVal" data-ng-change="rpcCtrl.textChanged()">
+        </div>
+    </div>
+    
+    <div class="table_produits" data-ng-show="rpcCtrl.expertsList.length">
+        <table id="choice_expert">
+            <tr>
+                <th>{{'labels.declaration.rpc.RPC_LAUNCH_3' | translate}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                <th>{{'labels.declaration.rpc.RPC_LAUNCH_4' | translate}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                <th>{{'labels.declaration.rpc.RPC_LAUNCH_5' | translate}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            </tr>
+            <tr data-ng-repeat="myexpert in rpcCtrl.expertsList" data-ng-click="rpcCtrl.eltSelected(myexpert)" ng-class="{'row_selected': myexpert.email===rpcCtrl.eltChosen.email && myexpert.nom===rpcCtrl.eltChosen.nom && myexpert.prenom===rpcCtrl.eltChosen.prenom}">
+                <td>{{myexpert.nom}}  {{myexpert.prenom}}</td>
+                <td>{{myexpert.adresse}} <br /> {{myexpert.code_postal}}  {{myexpert.ville}} </td>
+                <td>{{myexpert.email}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <p data-ng-if="rpcCtrl.no_contact_found">  {{'labels.declaration.rpc.RPC_NO_RESULT_FOUND' | translate}}  </p>
+
+    <!--data-ng-hide="!rpcCtrl.diplayMoreState"  ng-if="rpcCtrl.expertsList.length>0"-->
+    <button class="btnn" id="ajout" data-ng-click="rpcCtrl.displayMore()" data-ng-disabled="!rpcCtrl.diplayMoreState" >{{'labels.declaration.rpc.RPC_LAUNCH_6' | translate}}</button>
+
+    <!--type="submit" data-ng-disabled="authentificationForm.$invalid || authentificationCtrl.checkErrors()" class="btn btn-default suivant"-->
+    <button type="submit" class="suivant btnn" data-ng-click="rpcCtrl.createRPC()" data-ng-model="rpcCtrl.validerState" data-ng-disabled="!rpcCtrl.validerState">{{'labels.transverse.BTN_VALIDER' | translate}}</button>
+    <input id="CloseBtn" value="{{'labels.transverse.BTN_ANNULER' | translate}}" ng-click="rpcCtrl.closeModal()" type="button">
+
+</div>

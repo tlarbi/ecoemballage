@@ -1,0 +1,33 @@
+<div class="logo" data-ng-click="headerCtrl.route('home')"></div>
+<div class="glob">
+<ul class="prise_contact">
+    <li class="cgu" data-ng-if="!headerCtrl.isNotRestrictedUrl">
+	   <div class="langues" id="choix_langue"><a language="fr" onclick="javascript:loadhref('fr')" class="actif">FR</a>&nbsp;|&nbsp;<a language="en" onclick="javascript:loadhref('en')">EN</a></div>
+	</li>
+    <li class="cgu" data-ng-if="!headerCtrl.isNotRestrictedUrl"><a href="/mentions-legales">{{'labels.relationClient.header.LEGAL_MENTIONS' | translate}}</a> - <a href="/cgu">{{'labels.relationClient.header.CGU' | translate}}</a></li>
+    <li><a class="gris"><span class="head_contact"></span>{{'labels.relationClient.header.PHONE_NUMBER' | translate}}<span data-ng-if="headerCtrl.adelpheContextFlag" class="phone-price">{{'labels.relationClient.header.PHONE_RATE' | translate}}</span></a></li>
+    <li ng-if="false"><a href="#"><span class="head_rdv"></span>{{'labels.relationClient.header.MAKE_AN_APPOINTMENT' | translate}}</a></li>
+    <li><a href="mailto:{{headerCtrl.emailContact}}"><a href="mailto:{{headerCtrl.emailContact}}"><span class="head_mail"></span>{{'labels.relationClient.header.SEND_EMAIL' | translate}}</a></li>
+</ul>
+<ul data-ng-if="!headerCtrl.pageNotFoundFlag">
+        <li class="compte">
+            <div class="pastille-clt">{{headerCtrl.userInfo.initials}}</div>
+
+            <div class="p-pastille">
+                <a href="#">
+                    {{headerCtrl.userInfo.firstName}}&nbsp;{{headerCtrl.userInfo.lastName}}<br />
+                    <span><strong>{{headerCtrl.userInfo.clientName}}&nbsp;</strong>{{headerCtrl.userInfo.clientNumber}}</span>
+                </a>
+            </div>
+            <span class="head_chevron"></span>
+
+            <ul>
+                <li data-ng-click="headerCtrl.route('personalInfo')" data-ng-if="headerCtrl.isNotRestrictedUrl">{{'labels.relationClient.header.PERSONAL_INFO' | translate}}</li>
+                <li data-ng-if="headerCtrl.isNotRestrictedUrl" data-ng-click="headerCtrl.route('myAccount')">{{'labels.relationClient.header.MY_ACCOUNT' | translate}}</li>
+                <li data-ng-click="headerCtrl.route('companies')" data-ng-if="headerCtrl.isNotRestrictedUrl">{{'labels.relationClient.header.MANAGE_MY_ACCOUNTS' | translate}}</li>
+                <li data-ng-click="headerCtrl.logout()">{{'labels.relationClient.header.LOGOUT' | translate}}</li>
+            </ul>
+        </li>
+        <li ng-if="false"><a href="#"><img data-entity-type="file" src="/sites/default/files/inline-images/pict_recherche.png" /></a></li>
+</ul>
+</div>

@@ -1,0 +1,10 @@
+<a class="close-icon" ng-click="visualisationEntreprisesCtrl.annuleModal()"></a>
+<div ng-show="visualisationEntreprisesCtrl.canRemove">
+  <div>{{'labels.relationClient.visualisationEntreprises.COMFIRM_REMOVE_COMPANY' | translate}}</div>
+  <button type="button" ng-click="visualisationEntreprisesCtrl.supprimeRattachement()">{{'labels.transverse.BTN_SAUVEGARDER' | translate}}</button>
+  <button type="button" class="btn-annuler" ng-click="visualisationEntreprisesCtrl.annuleModal()">{{'labels.transverse.BTN_ANNULER' | translate}}</button>
+</div>
+<div ng-hide="visualisationEntreprisesCtrl.canRemove">
+  <div ng-bind-html="('labels.relationClient.visualisationEntreprises.DELETION_DENIED' | translate).replace('#ADRESSE#', visualisationEntreprisesCtrl.hotLineMailLink).replace('#TEL#', visualisationEntreprisesCtrl.hotLinePhone)"></div>
+  <button type="button" ng-click="visualisationEntreprisesCtrl.annuleModal()">{{'labels.transverse.BTN_OK' | translate}}</button>
+</div>

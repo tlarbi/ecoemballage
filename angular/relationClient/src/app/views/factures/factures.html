@@ -1,0 +1,14 @@
+<table>
+    <tbody>
+        <tr>
+            <th>{{'labels.relationClient.facture.FACTURE_TITLE' | translate}}</th>
+            <th colspan="2" ng-show="facturesCtrl.factures!=''" ><a href="/OldApp/Facturation/EcdFacturesDuplicatas">{{'labels.transverse.VOIR_TOUT' | translate}}</a></th>
+        </tr>
+        <tr data-ng-repeat="facture in facturesCtrl.factures | limitTo:3">
+            <td>{{'labels.relationClient.mois.'+(facture.DateFacture|date:'MM') | translate}} {{facture.DateFacture | date:'yyyy-MM-dd' | date:'yyyy' | translate}} </td> 
+            <td class="acte"><a href="{{facture.URLFacture}}?display=inline" target="_blank"><div class="pict_visu">&nbsp;</div></a></td>
+            <td class="acte"><a href="{{facture.URLFacture}}?display=attachement"><div class="pict_telecharge">&nbsp;</div></a></td>
+        </tr>
+    </tbody>
+</table>
+

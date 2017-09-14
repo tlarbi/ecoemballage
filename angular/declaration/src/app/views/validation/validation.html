@@ -1,0 +1,34 @@
+﻿<div class="bloc_wrapper">
+    <div class="bloc_wrapper_content">
+        <form id="mail_form" name="mail_form" novalidate>
+            <h1><strong>{{'labels.declaration.uvc.send_mails.TITLE' | translate}}</strong></h1>
+            <p>
+                {{'labels.declaration.uvc.send_mails.TITLE_ADD_MSG_1' | translate}} <br />
+                {{'labels.declaration.uvc.send_mails.TITLE_ADD_MSG_2' | translate}} <br /> <br />
+                {{'labels.declaration.uvc.send_mails.TITLE_ADD_MSG_3' | translate}}
+            </p>
+            <table class="tab_declaration ajout_desti">
+                <tr>
+                    <td>
+                        <img src="/sites/default/files/inline-images/pict_mail.png" class="marg-img" /><input type="email" name="email" ng-model="validationCtrl.mailinput" ng-keyup="$event.keyCode == 13 && !mail_form.email.$invalid && !mail_form.email.$error.pattern && validationCtrl.addMails()" ng-pattern="validationCtrl.email_pattern" autocomplete="off" placeholder="{{'labels.declaration.uvc.send_mails.PLACEHOLDER_EMAIL' | translate}}" required>
+                        <span ng-show="mail_form.email.$invalid && !mail_form.email.$pristine && mail_form.email.$error.pattern" class="help-block error">{{'labels.declaration.uvc.send_mails.LABEL_ERROR' | translate}}</span>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr ng-repeat="mail in validationCtrl.mails">
+                    <td><input type="email" name="email" placeholder="{{mail}}" class="no-border" disabled></td>
+                    <td><div ng-click="validationCtrl.removeMail(mail)" class="pict_delete">&nbsp;</div></td>
+                </tr>
+            </table>
+            <input id="ajout" type="button" value="{{'labels.declaration.uvc.send_mails.LABEL_ADD_RECIPIENTS' | translate}}" ng-disabled="mail_form.$invalid" ng-click="validationCtrl.addMails()">
+            <br />
+        </form>
+    </div>
+    <div class="bottom_bar">
+        <ul>
+            <li><input type="button" id="btn-grey" ng-click="validationCtrl.saveMails()" value="{{'labels.declaration.uvc.send_mails.LABEL_BTN_NO_VALIDATE' | translate}}" /></li>
+            <li><input type="checkbox" ng-model="checked" ng-click="selected()" /><label class="info-check">{{'labels.declaration.uvc.send_mails.LABEL_CERTIFIE' | translate}}</label></li>
+            <li><input type="button" class="btn" ng-disabled="!checked" ng-click="validationCtrl.valideMails()" value="{{'labels.declaration.uvc.send_mails.LABEL_BTN_VALIDATE' | translate}}" /></li>
+        </ul>
+    </div>    
+</div>

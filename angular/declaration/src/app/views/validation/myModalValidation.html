@@ -1,0 +1,23 @@
+﻿<div class="mymodal">
+    <div ng-hide="validationCtrl.loading">
+        <a class="close-icon" href="/mon-espace/declaration/accueil"></a>
+        <div ng-show="validationCtrl.status_code==200">
+            <h1>{{'labels.declaration.uvc.popin_validation.TITLE' | translate}}</h1>
+            <p>{{'labels.declaration.uvc.popin_validation.RAPPEL_CONTRIB' | translate}}<span class="chiffre_decla">{{validationCtrl.RecapDeclaration.ContributionTotale | decimalSeparator}} € {{'labels.declaration.uvc.popin_validation.TAXE' | translate}}</span></p>
+            <div class="list_widget">
+                <a class="widget env_justif" ng-show="{{validationCtrl.RecapDeclaration.Decote==true&&validationCtrl.RecapDeclaration.AttestationRecycleValidee==false}}" href="/OldApp/Declaration/EcdJustificatifs?typeDocument=AttestRec">
+                    {{'labels.declaration.uvc.popin_validation.LABEL_BTN_ATTESTATIONS' | translate}}
+                </a>  
+            </div>
+                <button class="suivant" onclick='window.location.href="/mon-espace/declaration/accueil"'>
+                    {{'labels.declaration.uvc.popin_validation.LABEL_BTN_ACCUEIL' | translate}}
+                </button>
+        </div>
+        <div ng-hide="validationCtrl.status_code==200">
+            <h1>{{'labels.declaration.uvc.popin_validation.ERROR_MSG' | translate}}</h1>
+        </div>
+    </div>
+    <div class="loading_spinner" ng-show="validationCtrl.loading">
+        <loading></loading>   
+    </div>
+</div>

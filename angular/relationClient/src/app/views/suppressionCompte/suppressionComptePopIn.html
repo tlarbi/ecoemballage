@@ -1,0 +1,40 @@
+<a class="close-icon" ng-click="suppressionCompteCtrl.annulerModal()"></a>
+<div class="mymodal" ng-hide="suppressionCompteCtrl.canDeleteUserAccount">
+  <div>{{'labels.relationClient.suppressionCompte.CANNOT_DELETE' | translate}}</div>
+  <button type="button" class="btn btn-default" ng-click="suppressionCompteCtrl.annulerModal()">{{'labels.transverse.BTN_OK' | translate}}</button>
+</div>
+<div class="mymodal" ng-show="suppressionCompteCtrl.canDeleteUserAccount">
+  <h1>{{'labels.relationClient.suppressionCompte.ATTENTION' | translate}}</h1>
+  <form name="suppressionCompteCtrl.suppressionCompteForm" novalidate>
+    <div>{{'labels.relationClient.suppressionCompte.EXPLAINATION' | translate}}</div>
+    <div uib-alert class="alert-danger" ng-show="suppressionCompteCtrl.operationFailure">{{suppressionCompteCtrl.errorMessage}}</div>
+    <div id="divMotif">
+      <select id="motif" name="motif" ng-model="suppressionCompteCtrl.motif" ng-focus="suppressionCompteCtrl.motifFoucs()" required>
+        <option value="">{{'labels.relationClient.suppressionCompte.GIVE_REASON' | translate}}</option>
+        <option class="option" ng-repeat="reason in suppressionCompteCtrl.reasons track by $index" ng-value="reason.code">{{reason.label}}</option>
+      </select>
+      <label class="error" ng-if="suppressionCompteCtrl.emptyReason">
+        <span>{{'errors.suppressionCompte.REASON_REQUIRED' | translate}}</span>
+      </label>
+    </div>
+    <div id="divPassword" class="input">
+      <input
+        type="password"
+        id="password"
+        name="password"
+        ng-model="suppressionCompteCtrl.password"
+        placeholder="{{'labels.relationClient.suppressionCompte.PLACEHOLDER_PASSWORD' | translate}}"
+        ng-class="{ 'error': suppressionCompteCtrl.suppressionCompteForm.password.$touched && suppressionCompteCtrl.suppressionCompteForm.password.$invalid, 'success': suppressionCompteCtrl.suppressionCompteForm.password.$touched && suppressionCompteCtrl.suppressionCompteForm.password.$valid }"
+        ng-focus="suppressionCompteCtrl.passwordFocus()"
+        required/>
+      <label class="error" ng-if="suppressionCompteCtrl.suppressionCompteForm.password.$touched && suppressionCompteCtrl.suppressionCompteForm.password.$error.required">
+        <span>{{'errors.suppressionCompte.PASSWORD_REQUIRED' | translate}}</span>
+      </label>
+      <label class="error" ng-if="suppressionCompteCtrl.passwordChecked && !suppressionCompteCtrl.passwordValid">
+        <span>{{('errors.suppressionCompte.INVALID_PASSWORD' | translate).replace('#attemptCount#', suppressionCompteCtrl.remainingAttemptCount)}}</span>
+      </label>
+    </div>
+    <button type="button" class="btn btn-default" id="supprimer" name="supprimer" ng-click="suppressionCompteCtrl.supprimerCompte()" ng-disabled="suppressionCompteCtrl.suppressionCompteForm.$invalid">{{'labels.transverse.BTN_REMOVE' | translate}}</button>
+    <button type="button" class="btn btn-default btn-annuler" id="annuler" name="annuler" ng-click="suppressionCompteCtrl.annulerModal()">{{'labels.transverse.BTN_ANNULER' | translate}}</button>
+  </form>
+</div>

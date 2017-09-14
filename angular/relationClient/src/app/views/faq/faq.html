@@ -1,0 +1,9 @@
+<div id="tabCtrl">
+    <ul>
+        <li data-ng-repeat="myitem in faqCtrl.faqs | orderBy:'mytype'" class="item_faq" id="{{myitem.mytype}}">
+            <a class="title-item">{{myitem.myquestion}}</a>
+
+            <div class="rep-item" data-ng-bind-html="myitem.myreponse"></div>
+        </li>        
+    </ul>
+</div>

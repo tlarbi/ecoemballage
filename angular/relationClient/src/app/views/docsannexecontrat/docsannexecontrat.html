@@ -1,0 +1,17 @@
+
+<div class="tbody_compte">
+    <table id="tbl_compte">
+        <tbody>
+            <tr data-ng-repeat="url in docsannexecontratCtrl.files_urls_docs">
+                <td>{{url.name}}</td>
+                 <td class="acte"><a href="{{url.url}}?display=inline" target="_blank"><div class="pict_visu"></div></a></td>
+                 <td class="acte"><a href="{{url.url}}?display=attachement"><div class="pict_telecharge"></div></a></td>
+            </tr>
+    
+        </tbody>
+    </table>
+</div>
+
+
+
+

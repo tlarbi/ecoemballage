@@ -1,0 +1,115 @@
+<loading ng-if="donneesPersonnellesCtrl.loading"></loading>
+<div class="create_compte" ng-if="donneesPersonnellesCtrl.formLoaded">
+  <form name="donneesPersonnellesForm" ng-submit="donneesPersonnellesCtrl.submit()" novalidate>
+    <div uib-alert class="alert-success" ng-show="donneesPersonnellesCtrl.saveSuccess">{{'labels.transverse.SAVE_SUCCESS' | translate}}</div>
+    <div uib-alert class="alert-danger" ng-show="donneesPersonnellesCtrl.operationFailure">{{donneesPersonnellesCtrl.errorMessage}}</div>
+    <div id="civilite" class="clearfix">
+      <label>{{'labels.relationClient.donneesPersonnelles.CIVILITY_FIELD' | translate}}</label> 
+      <span class=""><input type="radio" ng-model="donneesPersonnellesCtrl.form.Title" value="Monsieur" ng-checked disabled/>{{'labels.relationClient.donneesPersonnelles.MSG_MONSIEUR' | translate}}</span>
+      <span class=""><input type="radio" ng-model="donneesPersonnellesCtrl.form.Title" value="Madame" disabled/>{{'labels.relationClient.donneesPersonnelles.MSG_MADAME' | translate}}</span>
+    </div>
+
+    <div id="prenom">
+      <label class="exposant" for="firstName" ng-if="!donneesPersonnellesForm.firstName.$error.required">{{'labels.relationClient.donneesPersonnelles.PLACEHOLDER_FIRSTNAME' | translate}}</label>
+      <input
+        type="text"
+        id="firstName"
+        name="firstName"
+        ng-model="donneesPersonnellesCtrl.form.FirstName"
+        placeholder="{{'labels.relationClient.donneesPersonnelles.PLACEHOLDER_FIRSTNAME' | translate}}"
+        ng-class="{'error': donneesPersonnellesForm.firstName.$invalid, 'success': donneesPersonnellesForm.firstName.$valid && donneesPersonnellesForm.firstName.$touched}"
+        disabled/>
+      <label class="error" ng-if="donneesPersonnellesForm.firstName.$error.required">
+        <span>{{'errors.donneesPersonnelles.ERROR_FIRSTNAME_REQUIRED' | translate}}</span>
+      </label>
+    </div>
+
+    <div id="nom">
+      <label class="exposant" for="lastName" ng-if="!donneesPersonnellesForm.lastName.$error.required">{{'labels.relationClient.donneesPersonnelles.PLACEHOLDER_LASTNAME' | translate}}</label>
+      <input
+        type="text"
+        id="lastName"
+        name="lastName"
+        ng-model="donneesPersonnellesCtrl.form.LastName"
+        placeholder="{{'labels.relationClient.donneesPersonnelles.PLACEHOLDER_LASTNAME' | translate}}"
+        ng-class="{'error': donneesPersonnellesForm.lastName.$invalid, 'success': donneesPersonnellesForm.lastName.$valid && donneesPersonnellesForm.lastName.$touched}"
+        disabled/>
+      <label class="error" ng-if="donneesPersonnellesForm.lastName.$error.required">
+        <span>{{'errors.donneesPersonnelles.ERROR_LASTNAME_REQUIRED' | translate}}</span>
+      </label>
+    </div>
+
+    <div id="fonction">
+      <label class="exposant" for="function" ng-if="!donneesPersonnellesForm.function.$error.required">{{'labels.relationClient.donneesPersonnelles.FUNCTION' | translate}}</label>
+      <select id="function" name="function" ng-model="donneesPersonnellesCtrl.form.Function" ng-options="function.code as function.label for function in donneesPersonnellesCtrl.functions | filter:donneesPersonnellesCtrl.showFunction" required>
+        <option value="" class="option" disabled>{{'labels.relationClient.donneesPersonnelles.FUNCTION' | translate}}</option>
+      </select>
+      <label class="error" ng-if="donneesPersonnellesForm.function.$error.required">
+        <span>{{'errors.donneesPersonnelles.ERROR_POSITION_REQUIRED' | translate}}</span>
+      </label>
+    </div>
+
+    <div id="autreFonction" ng-show="donneesPersonnellesCtrl.hasFunction()">
+      <label class="exposant" for="otherFunction" ng-if="!donneesPersonnellesCtrl.isOtherFunctionEmpty()">{{'labels.relationClient.donneesPersonnelles.OTHER_FUNCTION' | translate}}</label>
+      <select id="otherFunction" name="otherFunction" ng-model="donneesPersonnellesCtrl.form.OtherFunction" ng-options="function.code as function.label for function in donneesPersonnellesCtrl.functions | filter:donneesPersonnellesCtrl.showOtherFunction">
+        <option class="option" value="">{{'labels.relationClient.donneesPersonnelles.OTHER_FUNCTION' | translate}}</option>
+      </select>
+    </div>
+
+    <div id="email" class="clearfix">
+      <label class="exposant" for="mail" ng-if="!donneesPersonnellesForm.mail.$error.required">{{'labels.relationClient.donneesPersonnelles.PLACEHOLDER_EMAIL' | translate}}</label>
+      <input
+        type="mail"
+        id="mail"
+        name="mail"
+        ng-model="donneesPersonnellesCtrl.form.Email"
+        ng-pattern="donneesPersonnellesCtrl.emailRegExp"
+        placeholder="{{'labels.relationClient.donneesPersonnelles.PLACEHOLDER_EMAIL' | translate}}"
+        ng-class="{ 'error': donneesPersonnellesForm.mail.$invalid, 'success': donneesPersonnellesForm.mail.$valid && donneesPersonnellesForm.mail.$touched }"
+        disabled/>
+      <label class="error" ng-if="donneesPersonnellesForm.mail.$error.pattern">
+        <span>{{'errors.donneesPersonnelles.EMAIL_INVALID' | translate}}</span>
+      </label>
+      <label class="error" ng-if="donneesPersonnellesForm.mail.$error.required">
+        <span>{{'errors.donneesPersonnelles.ERROR_EMAIL_REQUIRED' | translate}}</span>
+      </label>
+    </div>
+
+    <div id="telephone">
+      <label class="exposant" for="phone" ng-if="!donneesPersonnellesForm.phone.$error.required">{{'labels.relationClient.donneesPersonnelles.PLACEHOLDER_PHONE' | translate}}</label>
+      <input type="text" id="phone" name="phone" ng-model="donneesPersonnellesCtrl.form.Phone" required ng-pattern="donneesPersonnellesCtrl.telRegExp" placeholder="{{'labels.relationClient.donneesPersonnelles.PLACEHOLDER_PHONE' | translate}}" ng-class="{'error': donneesPersonnellesForm.phone.$invalid, 'success': donneesPersonnellesForm.phone.$touched && donneesPersonnellesForm.phone.$valid}" />
+      <label class="error" ng-if="donneesPersonnellesForm.phone.$error.required">
+        <span>{{'errors.donneesPersonnelles.ERROR_PHONE_REQUIRED' | translate}}</span>
+      </label>
+      <label class="error" ng-if="donneesPersonnellesForm.phone.$error.pattern">
+        <span>{{'errors.donneesPersonnelles.ERROR_TELEPHONE_INVALID' | translate}}</span>
+      </label>
+    </div>
+
+    <div id="mobile">
+      <label class="exposant" for="mobilePhone" ng-if="!donneesPersonnellesCtrl.isMobliePhoneEmpty()">{{'labels.relationClient.donneesPersonnelles.PLACEHOLDER_MOBILEPHONE' | translate}}</label>
+      <input type="text" id="mobilePhone" name="mobilePhone" ng-model="donneesPersonnellesCtrl.form.MobilePhone" ng-pattern="donneesPersonnellesCtrl.telRegExp" placeholder="{{'labels.relationClient.donneesPersonnelles.PLACEHOLDER_MOBILEPHONE' | translate}}"/>
+      <label class="error" ng-if="donneesPersonnellesForm.mobilePhone.$dirty && donneesPersonnellesForm.mobilePhone.$error.pattern">
+        <span>{{'errors.donneesPersonnelles.ERROR_MOBILEPHONE_INVALID' | translate}}</span>
+      </label>
+    </div>
+
+    <div id="access">
+      <label class="exposant" for="acces">{{'labels.relationClient.donneesPersonnelles.PLACEHOLDER_ACCESS' | translate}}</label>
+      <input id="acces" type="text" value="{{donneesPersonnellesCtrl.form.DisplayedAccess}}" placeholder="{{'labels.relationClient.donneesPersonnelles.PLACEHOLDER_ACCESS' | translate}}" disabled/>
+    </div>
+
+    <div id="principal">
+      <label class="exposant" for="correspondantPrincipal">{{'labels.relationClient.donneesPersonnelles.PLACEHOLDER_PRINCIPAL' | translate}}</label>
+      <input
+        id="correspondantPrincipal"
+        type="text"
+        value="{{donneesPersonnellesCtrl.principal.FirstName}} {{donneesPersonnellesCtrl.principal.LastName}}"
+        placeholder="{{'labels.relationClient.donneesPersonnelles.PLACEHOLDER_PRINCIPAL' | translate}}"
+        disabled/>
+    </div>
+
+    <button class="suivant" type="submit" ng-disabled="donneesPersonnellesForm.$invalid">{{'labels.relationClient.donneesPersonnelles.BTN_SAVE_CHANGES' | translate}}</button>
+
+  </form>
+</div>

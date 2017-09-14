@@ -1,0 +1,26 @@
+﻿<div class="mymodal">
+    <div ng-hide="excelCtrl.loading">
+        <a class="close-icon" ng-click="excelCtrl.closeModal()"></a>
+        <div ng-show="excelCtrl.status_code==200">
+            <div class="recap_decla">
+                <h1>{{'labels.declaration.uvc.popin_confirmation.TITRE' | translate}}</h1>
+                <p>
+                    {{'labels.declaration.uvc.popin_confirmation.LABEL1' | translate}} {{excelCtrl.RecapDeclaration.Annee}} {{'labels.declaration.uvc.popin_confirmation.LABEL2' | translate}}
+                    <span class="chiffre_decla">
+                        {{excelCtrl.RecapDeclaration.ContributionTotale | decimalSeparator}} € {{'labels.declaration.uvc.popin_confirmation.HT' | translate}}
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div ng-hide="excelCtrl.status_code==200">
+            <h1>{{'labels.declaration.uvc.popin_confirmation.ERROR_MSG' | translate}}</h1>
+            <div>{{excelCtrl.errors | translate}}</div>
+        </div>
+        <div ng-show="excelCtrl.status_code==200" class="recap_decla">
+            <button id="ValideBtn"  class="suivant"  ng-click="excelCtrl.valideModal()">{{'labels.transverse.BTN_VALIDER' | translate}}</button>
+        </div>
+    </div>
+    <div class="loading_spinner" ng-show="excelCtrl.loading">
+        <loading></loading>      
+    </div>
+</div>

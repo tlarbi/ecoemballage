@@ -1,0 +1,7 @@
+<div class="ng-cloak" ng-if="accueil_declarationCtrl.isVisible">
+    <span ng-bind-html="accueil_declarationCtrl.declarationBloc"></span>
+    <button class="trans suivant-noir" ng-click="accueil_declarationCtrl.goToChoixDeclaration()">{{'labels.declaration.accueil_declaration.BOUTON' | translate}}</button>
+</div>
+<div class="ng-cloak" ng-if="!accueil_declarationCtrl.isVisible">
+    <span ng-bind-html="accueil_declarationCtrl.notDeclarationBloc"></span>
+</div>

@@ -1,0 +1,34 @@
+<div class="mymodal">
+    <a class="close-icon" ng-click="choixdeclarationCtrl.closeModal()"></a>
+    <h1>{{'labels.declaration.choixdeclaration.choix_mode_saisi.TITLE_CHOIX_OPTION_EXCEL' | translate}} </h1>
+    <div class="choix_param_container">
+        <div class="choix_param_langue">
+            <p>{{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_LANGUE' | translate}} </p>
+            <input type="radio" name="langue" value="francais" ng-model="choixdeclarationCtrl.langue_excel" /><label>{{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_LANGUE_FRANCAIS' | translate}}</label>
+            <input type="radio" name="langue" value="anglais" ng-model="choixdeclarationCtrl.langue_excel" /><label>{{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_LANGUE_ANGLAIS' | translate}}</label>
+        </div>
+        <div class="choix_param_annee">
+            <p>{{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_ANNEE' | translate}} </p>
+            <input type="radio" name="annee" value="2007" ng-model="choixdeclarationCtrl.annee_excel" /><label>{{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_ANNEE_EXCEL2007' | translate}}</label>
+            <input type="radio" name="annee" value="2003" ng-model="choixdeclarationCtrl.annee_excel" /><label>{{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_ANNEE_EXCEL2003' | translate}}</label>
+          
+        </div>
+    </div>
+     <br/>
+    <p>
+    {{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_DECLARATION_FORFAIT_MSG1' | translate}}&nbsp;<a href="/mon-espace/declaration/accueil">{{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_DECLARATION_FORFAIT_MSG2' | translate}}</a>&nbsp;{{'labels.declaration.choixdeclaration.choix_mode_saisi.LABEL_DECLARATION_FORFAIT_MSG3' | translate}}
+    </p>
+    <input class="btn" ng-disabled="!choixdeclarationCtrl.langue_excel || !choixdeclarationCtrl.annee_excel " type="button" value="Valider" ng-click="choixdeclarationCtrl.sendDeclarationExcel()" />
+
+    <input id="CloseBtn" type="button" value="Annuler" class="marg_btn" ng-click="choixdeclarationCtrl.closeModal()">
+</div>
+
+
+
+
+
+    
+
+
+
+

@@ -1,0 +1,14 @@
+
+<article>
+    <h1 class="size30">{{'labels.relationClient.acceuilPortail.TITLE_1' | translate}} <br /> {{'labels.relationClient.acceuilPortail.TITLE_2' | translate}} </h1>
+    <div>
+        <span>{{'labels.relationClient.acceuilPortail.TEXT_PART_1' | translate}} <span class="bleu"> {{acceuilPortailCtrl.civility}} </span>  <span class="bleu"> {{acceuilPortailCtrl.LastNameFirstName}} </span> </span>
+        <span>{{'labels.relationClient.acceuilPortail.TEXT_PART_2' | translate}}</span><br /><br />
+
+        <span>{{'labels.relationClient.acceuilPortail.TEXT_PART_3' | translate}} <a class="force-minuscule" target="_blank" href="{{acceuilPortailCtrl.urlNavigation}}">{{'labels.relationClient.acceuilPortail.LINK' | translate}}</a></span>
+        <br /><br />
+
+        <button class="suivant" data-ng-click="acceuilPortailCtrl.submit()">{{'labels.relationClient.acceuilPortail.ACCESS_ACCOUNT' | translate}}</button>
+
+    </div>
+</article>

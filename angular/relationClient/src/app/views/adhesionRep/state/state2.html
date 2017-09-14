@@ -1,0 +1,31 @@
+<div>
+    <h1>{{'labels.relationClient.adhesionRep.ETAPE_2' | translate}}  <br /> {{'labels.relationClient.adhesionRep.INTITULE_ETAPE_2' | translate}}</h1>
+
+    <form id="adhesion-rep-2">
+        <div>
+            <p>{{'labels.relationClient.adhesionRep.ETAPE_2_QUESTION_A' | translate}} </p>
+            <input type="radio" value="Oui" id="oui_a" ng-model="adhesionRepCtrl.form_etape2_questionA_rep" /> <label for="oui_a">{{'labels.relationClient.adhesionRep.REP_OUI' | translate}}</label>
+            <input type="radio" value="Non" id="non_a" ng-model="adhesionRepCtrl.form_etape2_questionA_rep" /> <label for="non_a">{{'labels.relationClient.adhesionRep.REP_NON' | translate}}</label>
+            <br />
+        </div>
+
+        <div ng-show="adhesionRepCtrl.form_etape2_questionA_rep=='Oui'">
+            <p>{{'labels.relationClient.adhesionRep.ETAPE_2_QUESTION_B' | translate}}</p> 
+            <input type="radio" value="Rep1" id="rep1" ng-model="adhesionRepCtrl.form_etape2_questionB_rep" /> <label for="rep1">{{'labels.relationClient.adhesionRep.ETAPE_2_QUESTION_B_REP_1' | translate}}</label>
+            <input type="radio" value="Rep2" id="rep2" ng-model="adhesionRepCtrl.form_etape2_questionB_rep" /> <label for="rep2">{{'labels.relationClient.adhesionRep.ETAPE_2_QUESTION_B_REP_2' | translate}}</label>
+            <br />
+        </div>
+
+        <div ng-show="adhesionRepCtrl.form_etape2_questionA_rep=='Oui' && adhesionRepCtrl.form_etape2_questionB_rep=='Rep2'">
+            <p>{{'labels.relationClient.adhesionRep.ETAPE_2_QUESTION_C' | translate}}</p>
+            <input type="radio" value="Oui" id="oui_c" ng-model="adhesionRepCtrl.form_etape2_questionC_rep" /> <label for="oui_c">{{'labels.relationClient.adhesionRep.REP_OUI' | translate}}</label>
+            <input type="radio" value="Non" id="non_c" ng-model="adhesionRepCtrl.form_etape2_questionC_rep" /> <label for="non_c">{{'labels.relationClient.adhesionRep.REP_NON' | translate}}</label>
+        </div>
+    </form>
+
+    <div class="form_validation">
+        <a ui-sref="state1" ng-click="adhesionRepCtrl.removeStep2Session()">{{'labels.relationClient.adhesionRep.RETOUR' | translate}}</a>
+        <input type="button" class="btn suivant" ng-disabled="!(adhesionRepCtrl.form_etape2_questionA_rep=='Non'||adhesionRepCtrl.form_etape2_questionB_rep=='Rep1'|| (adhesionRepCtrl.form_etape2_questionC_rep=='Oui'||adhesionRepCtrl.form_etape2_questionC_rep=='Non'))" ng-click="adhesionRepCtrl.etape2Validation(1,1,'Oui')" ui-sref="state3" value="{{'labels.relationClient.adhesionRep.SUIVANT' | translate}}">
+    </div>
+</div>
+   

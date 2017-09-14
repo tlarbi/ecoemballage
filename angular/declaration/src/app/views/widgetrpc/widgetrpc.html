@@ -1,0 +1,28 @@
+<div ng-if="widgetrpcCtrl.runRpcFlag">
+	<a class="slogan">{{'labels.declaration.rpcFaqWidget.RUN_RPC' | translate}}</a>
+</div>
+
+<div ng-if="widgetrpcCtrl.faqFlag && widgetrpcCtrl.ecoContextFlag">
+	<div class="cursor" onclick="window.location.href='/mon-espace/faq/accueil#declaration'">
+	<h3>{{'labels.declaration.rpcFaqWidget.FAQ_TITLE_1' | translate}}</h3>
+
+	<p class="slogan">{{'labels.declaration.rpcFaqWidget.FAQ_SLOGAN_1' | translate}}<br />
+	{{'labels.declaration.rpcFaqWidget.FAQ_SLOGAN_2' | translate}}</p>
+	<button class="trans suivant" onclick="window.location.href='/mon-espace/faq/accueil#declaration';">{{'labels.declaration.rpcFaqWidget.FAQ_TEXT_1' | translate}}<br />
+	{{'labels.declaration.rpcFaqWidget.FAQ_TEXT_2' | translate}}</button></div>
+</div>
+
+<div ng-if="widgetrpcCtrl.faqFlag && widgetrpcCtrl.adelpheContextFlag" class="cursor" onclick="window.location.href='/mon-espace/faq/accueil#declaration'">
+    <h3 class="ng-binding">{{'labels.declaration.rpcFaqWidget.FAQ_TITLE' | translate}}</h3>
+    <button class="trans suivant" onclick="window.location.href='/mon-espace/faq/accueil#declaration';">{{'labels.declaration.rpcFaqWidget.FAQ_TEXT_1' | translate}}<br />
+    {{'labels.declaration.rpcFaqWidget.FAQ_TEXT_2' | translate}}</button>
+</div>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,30 @@
+
+<div ng-if="historique_widgetCtrl.annee_en_cours != historique_widgetCtrl.AnneesContractualisation">
+    <table>
+        <tbody>
+            <tr>
+                <th colspan="1">{{'labels.declaration.historique.TITRE_WIDGET' | translate}}</th>
+                <th colspan="2"><a href="{{historique_widgetCtrl.url_historique}}">{{'labels.declaration.historique.LIEN_VOIR_TOUT' | translate}}</a></th>
+            </tr>
+            <tr  data-ng-repeat="declaration in historique_widgetCtrl.listdeclarations | limitTo:3">
+                <td>{{'labels.declaration.historique.LABEL_DECLARATION' | translate}} {{declaration.Annee}}</td>
+                <td>{{'labels.statut_declaration.'+declaration.Statut  | translate}}</td>
+                <td class="acte"><a href="{{historique_widgetCtrl.url_historique}}"><div class="pict_visu"></div></a></td>
+            </tr>
+        </tbody>
+    </table>
+</div> 
+
+
+<div  ng-if="historique_widgetCtrl.annee_en_cours == historique_widgetCtrl.AnneesContractualisation">
+    <table>
+        <tbody>
+            <tr>
+                <th colspan="1">{{'labels.declaration.historique.TITRE_WIDGET' | translate}}</th>
+                <th colspan="2">{{'labels.declaration.historique.LIEN_A_VENIR' | translate}}</th>
+            </tr>
+        </tbody>
+    </table>
+</div> 
+
+

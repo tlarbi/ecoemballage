@@ -1,0 +1,74 @@
+<loader type="quarter" ng-if="depotDeclarationCtrl.sendingFormFlag" covered>Dépôt de la déclaration</loader>
+
+
+<form name="depotDeclarationForm" id="depot-declaration-form" ng-submit="depotDeclarationCtrl.submit(depotDeclarationForm)" novalidate>
+    
+    <!-- ID CLIENT -->
+    <div>
+        <label class="exposant" for="id_client" data-ng-if="depotDeclarationCtrl.form.clientId">Numéro client</label><input data-ng-model="depotDeclarationCtrl.form.clientId" type="text" name="id_client" id="id-client" maxlength="40" placeholder="Numéro client" required control-input>
+
+        <div data-ng-if="depotDeclarationForm.id_client.$touched" data-ng-messages="depotDeclarationForm.id_client.$error" class="error depot-declaration-error">
+            <label class="error" ng-message="required">Numéro client requis</label>
+        </div>
+    </div>
+    
+    
+     <!-- YEAR -->
+    <div>
+        <label class="exposant" for="year" data-ng-if="depotDeclarationCtrl.form.year">Année</label><input data-ng-model="depotDeclarationCtrl.form.year" type="text" name="year" id="year" maxlength="4" placeholder="Année" required control-input>
+
+        <div data-ng-if="depotDeclarationForm.year.$touched" data-ng-messages="depotDeclarationForm.year.$error" class="error depot-declaration-error">
+            <label class="error" ng-message="required">Année requise</label>
+        </div>
+    </div>
+    
+    <!-- CORRECTIVE FLAG -->
+    <div>
+        <label for="corrective-flag-yes">S'agit-t-il d'une corrective de déclaration ?</label>
+        <input data-ng-model="depotDeclarationCtrl.form.correctiveFlag" type="radio" name="corrective_flag" id="corrective-flag-yes" data-ng-value="true"><label for="corrective-flag-yes">{{'labels.relationClient.adhesionRestreinte.transverse.RADIO_YES' | translate}}</label>
+        <input data-ng-model="depotDeclarationCtrl.form.correctiveFlag" type="radio" name="corrective_flag" id="corrective-flag-no" data-ng-value="false" required><label for="corrective-flag-no">{{'labels.relationClient.adhesionRestreinte.transverse.RADIO_NO' | translate}}</label>
+
+        <div data-ng-if="depotDeclarationForm.corrective_flag.$touched" data-ng-messages="depotDeclarationForm.corrective_flag.$error" class="error depot-declaration-error">
+            <label class="error" ng-message="required">Vous devez indiquer si c'est une cerrective de déclaration</label>
+        </div>
+    </div>
+    
+    <div data-ng-if="depotDeclarationCtrl.form.correctiveFlag" id="comment-and-motif-bloc">
+        <!-- MOTIF -->
+        <div>
+            <select id="select-motifs" name="motifs" ng-model="depotDeclarationCtrl.form.motif" data-ng-class="{ 'error' : corrective_form.motifs.$invalid && historiqueCtrl.corrective_submitted}" required>
+                <option value="">{{'labels.declaration.uvc.popin_corrective.LABEL_MOTIF' | translate}}</option>
+                <option ng-repeat="motif in depotDeclarationCtrl.motifsCorrective" value="{{motif.Code}}">{{'motifs_correctives.'+motif.Code | translate}}</option>
+            </select>
+        </div>
+
+        <!-- COMMENT -->
+        <div id="comment-gabarit">
+            <label class="exposant" for="comment" data-ng-if="depotDeclarationCtrl.form.comment">Commentaire</label><textarea data-ng-model="depotDeclarationCtrl.form.comment" name="comment" id="dd-comment" maxlength="500" placeholder="Commentaire" control-input></textarea>
+        </div>
+    </div>
+    
+    
+    
+    <!-- FILE -->
+    <div>
+
+        <label for="file-upload" id="file-button" class="contour marg_rgt pointer">{{'labels.relationClient.adhesionRestreinte.informationsAdministratives.ADD_FILE' | translate}}</label>
+        <div id="dd-file-link" tabindex="-1">
+            <a href="" ng-click="">{{depotDeclarationCtrl.form.fileAttachment.name}}</a>
+            <!-- PICTO CORBEILLE -->
+            <!--<div class="pict_delete" id="file-delete" ng-if="depotDeclarationCtrl.fileAttachment" ng-click="depotDeclarationCtrl.deleteAttachment(depotDeclarationForm.file_upload)"></div>-->
+        </div>
+        <div id="dd-file-error" data-ng-if="depotDeclarationForm.file_upload.$touched" data-ng-messages="depotDeclarationForm.file_upload.$error" class="error depot-declaration-error">
+            <label class="error" ng-message="fileEmpty">{{'errors.adhesionRestreinte.ERROR_FILE_REQUIRED' | translate}}</label>
+            <label class="error" ng-message="fileType">Le fichier doit être au format : ZIP ou FDE.</label>
+            <label class="error" ng-message="fileSize">{{'errors.adhesionRestreinte.ERROR_FILE_SIZE' | translate}}</label>
+        </div>
+        <input type="file" data-ng-hide="true" id="file-upload" name="file_upload" ng-model="depotDeclarationCtrl.fakeFile" file-upload-control="depotDeclarationCtrl.form.fileAttachment" extension-control="depotDeclarationCtrl.extensionsList" value="fake value"/>
+    </div>
+    
+    
+    
+    <button type="submit">Envoyer</button>
+    <button type="button" ng-click="depotDeclarationCtrl.navigate()">Retour</button>
+</form>

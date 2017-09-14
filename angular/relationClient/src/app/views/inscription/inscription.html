@@ -1,0 +1,100 @@
+<data-loading ng-if="inscriptionCtrl.sendingFormFlag" id="loading-signup"></data-loading>
+
+<h1>{{'labels.relationClient.inscription.CREATION_ACCOUNT_TITLE' | translate}}</h1>
+<span>{{'labels.relationClient.inscription.CREATION_ACCOUNT_ALERT_CLIENT_NUMBER_REQUIRED' | translate}}<br><br>{{'labels.relationClient.inscription.CREATION_ACCOUNT_INSTRUCTION' | translate}}</span>
+<div class="create_compte">
+    <form name="inscriptionForm" ng-submit="inscriptionCtrl.submit()" novalidate>
+        <!-- CIVILITE -->
+        <div id="civilite" class="clearfix">
+            {{'labels.relationClient.inscription.RADIO_BUTTON_CIVILITY' | translate}}<input type="radio" ng-model="inscriptionCtrl.form.civility" name="civility" value="Monsieur" id="id_mr">{{'labels.relationClient.inscription.RADIO_BUTTON_MR' | translate}}&nbsp;&nbsp;&nbsp;<input type="radio" ng-model="inscriptionCtrl.form.civility" name="civility" value="Madame" id="id_mme">{{'labels.relationClient.inscription.RADIO_BUTTON_MISS' | translate}}
+            <label class="error" data-ng-if="inscriptionCtrl.captchaCheckedFlag && inscriptionCtrl.isEmpty('civility')"><span>{{'errors.inscription.ERROR_CIVILITY_REQUIRED' | translate}}</span></label>
+        </div><br>
+        <!-- EMAIL -->
+        <div id="email" class="clearfix">
+            <label class="exposant" for="id_mail" data-ng-if="!inscriptionForm.email.$error.required">{{'labels.relationClient.inscription.PLACEHOLDER_EMAIL' | translate}}</label>
+            <input type="email" name="email" ng-model="inscriptionCtrl.form.email" ng-pattern="inscriptionCtrl.emailRegEx" data-ng-focus="inscriptionCtrl.setFocusFlag('email')" data-ng-blur="inscriptionCtrl.verifyEmail()" placeholder="{{'labels.relationClient.inscription.PLACEHOLDER_EMAIL' | translate}}" id="id_mail" data-ng-class="{ 'error' : inscriptionCtrl.isEmailExist() || (inscriptionForm.email.$invalid && inscriptionForm.email.$touched),'success' : inscriptionForm.email.$valid && inscriptionForm.email.$dirty && !inscriptionCtrl.isEmailExist()}" required><br>
+            <label class="error" data-ng-if="inscriptionForm.email.$touched && inscriptionForm.email.$error.pattern"><span>{{'errors.inscription.ERROR_EMAIL_INVALID' | translate}}</span></label>
+            <label class="error" data-ng-if="(inscriptionForm.email.$dirty || inscriptionCtrl.captchaCheckedFlag) && !inscriptionForm.email.$error.pattern && inscriptionCtrl.isEmpty('email')"><span>{{'errors.inscription.ERROR_EMAIL_REQUIRED' | translate}}</span></label>
+            <label class="error" data-ng-if="inscriptionCtrl.isEmailExist() && !inscriptionCtrl.isEmpty('email')"><span>{{'errors.inscription.ERROR_EMAIL_USED_YET' | translate}}</span>&nbsp;&nbsp;&nbsp;<a href="/login">{{'errors.inscription.ERROR_EMAIL_LOGIN' | translate}}</a></label>
+        </div><br>
+        <!-- PRENOM  -->
+        <div id="prenom">
+            <label class="exposant" for="id_prenom" data-ng-if="!inscriptionForm.firstName.$error.required">{{'labels.relationClient.inscription.PLACEHOLDER_FIRSTNAME' | translate}}</label>
+            <input id="id_prenom" type="text" name="firstName" ng-model="inscriptionCtrl.form.firstName" placeholder="{{'labels.relationClient.inscription.PLACEHOLDER_FIRSTNAME' | translate}}" data-ng-class="{ 'error' : inscriptionForm.firstName.$invalid && inscriptionForm.firstName.$dirty,'success' : inscriptionForm.firstName.$valid && inscriptionForm.firstName.$dirty }" required><br>
+            <label class="error" data-ng-if="(inscriptionForm.firstName.$dirty || inscriptionCtrl.captchaCheckedFlag) && !inscriptionForm.firstName.$error.minlength && inscriptionCtrl.isEmpty('firstName')"><span>{{'errors.inscription.ERROR_FIRSTNAME_REQUIRED' | translate}}</span></label>
+		</div>
+        <!-- NOM -->
+        <div id="nom">
+            <label class="exposant" for="id_nom" data-ng-if="!inscriptionForm.lastName.$error.required">{{'labels.relationClient.inscription.PLACEHOLDER_LASTNAME' | translate}}</label>
+            <input id="id_nom" type="text" name="lastName" ng-model="inscriptionCtrl.form.lastName" placeholder="{{'labels.relationClient.inscription.PLACEHOLDER_LASTNAME' | translate}}" data-ng-class="{ 'error' : inscriptionForm.lastName.$invalid && inscriptionForm.lastName.$dirty,'success' : inscriptionForm.lastName.$valid && inscriptionForm.lastName.$dirty }" required><br>
+            <label class="error" data-ng-if="(inscriptionForm.lastName.$dirty || inscriptionCtrl.captchaCheckedFlag) && !inscriptionForm.lastName.$error.minlength && inscriptionCtrl.isEmpty('lastName')"><span>{{'errors.inscription.ERROR_LASTNAME_REQUIRED' | translate}}</span></label>
+		</div>
+        <!-- MOT DE PASSE -->
+        <div id="mdp">
+            <label class="exposant" for="id_mdp" data-ng-if="!inscriptionForm.pass.$error.required">{{'labels.relationClient.inscription.PLACEHOLDER_PASSWORD' | translate}}</label>
+            <input id="id_mdp" type="password" id="pass" name="pass" ng-model="inscriptionCtrl.form.pass" placeholder="{{'labels.relationClient.inscription.PLACEHOLDER_PASSWORD' | translate}}" data-ng-class="{ 'error' : (!inscriptionCtrl.checkPattern('pass') || inscriptionForm.pass.$invalid || inscriptionCtrl.isEmpty('pass')) && inscriptionForm.pass.$dirty,'success' : inscriptionForm.pass.$valid && inscriptionForm.pass.$dirty && !inscriptionCtrl.isEmpty('pass') && inscriptionCtrl.checkPattern('pass')}" required><br>
+            <label class="error" data-ng-if="inscriptionForm.pass.$dirty && !inscriptionCtrl.isEmpty('pass') && !inscriptionCtrl.checkPattern('pass')"><span>{{'errors.inscription.ERROR_PASSWORD_INVALID' | translate}}</span></label>
+            <label class="error" data-ng-if="(inscriptionForm.pass.$dirty || inscriptionCtrl.captchaCheckedFlag) && inscriptionCtrl.isEmpty('pass')"><span>{{'errors.inscription.ERROR_PASSWORD_REQUIRED' | translate}}</span></label>
+        </div>
+        <!-- REGLES MOT DE PASSE -->
+        <p class="indic"><strong>{{'labels.relationClient.transverse.PASSWORD_RULES' | translate}}</strong><br>
+            <span ng-class="{'success': inscriptionCtrl.checkPattern('length')}">{{'labels.relationClient.transverse.PASSWORD_RULE_LENGTH' | translate}}</span><br>
+            <span ng-class="{'success': inscriptionCtrl.checkPattern('maj')}">{{'labels.relationClient.transverse.PASSWORD_RULE_MAJ' | translate}}</span><br>
+            <span ng-class="{'success': inscriptionCtrl.checkPattern('min')}">{{'labels.relationClient.transverse.PASSWORD_RULE_MIN' | translate}}</span><br>
+            <span ng-class="{'success': inscriptionCtrl.checkPattern('num')}">{{'labels.relationClient.transverse.PASSWORD_RULE_NUM' | translate}}</span><br>
+            <span ng-class="{'success': inscriptionCtrl.checkPattern('specialCar')}">{{'labels.relationClient.transverse.PASSWORD_RULE_SPECIAL_CAR' | translate}}@, #, $, %, ^, &amp;, +, =</span>
+        </p>
+        <!-- CONFIRMATION MOT DE PASSE -->
+        <div id="confirm_mdp" class="clearfix">
+            <label class="exposant" for="id_confirm-mdp" data-ng-if="!inscriptionForm.confirmPass.$error.required">{{'labels.relationClient.inscription.PLACEHOLDER_CONFIRM_PASSWORD' | translate}}</label>
+            <input id="id_confirm-mdp" type="password" id="confirmPass" name="confirmPass" ng-model="inscriptionCtrl.form.confirmPass"
+                placeholder="{{'labels.relationClient.inscription.PLACEHOLDER_CONFIRM_PASSWORD' | translate}}" data-ng-class="{ 'error' : inscriptionForm.confirmPass.$dirty && !inscriptionCtrl.checkPasswords(),'success' : inscriptionForm.confirmPass.$dirty && inscriptionCtrl.checkPasswords()}" required><br>
+            <label class="error" data-ng-if="!inscriptionCtrl.isEmpty('confirmPass') && !inscriptionCtrl.isEmpty('pass') && !inscriptionCtrl.checkPasswords()"><span>{{'errors.inscription.ERROR_PASSWORD_MISMATCH' | translate}}</span></label>
+            <label class="error" data-ng-if="(inscriptionForm.confirmPass.$dirty || inscriptionCtrl.captchaCheckedFlag) && inscriptionCtrl.isEmpty('confirmPass')"><span>{{'errors.inscription.ERROR_CONFIRM_PASSWORD_REQUIRED' | translate}}</span></label>
+		</div><br>
+        <!-- TELEPHONE -->
+        <div id="telephone">
+            <label class="exposant" for="id_telephone" data-ng-if="!inscriptionForm.tel.$error.required">{{'labels.relationClient.inscription.PLACEHOLDER_TELEPHONE' | translate}}</label>
+            <input id="id_telephone" type="text" name="tel" ng-model="inscriptionCtrl.form.tel" ng-pattern="inscriptionCtrl.telRegEx"
+                placeholder="{{'labels.relationClient.inscription.PLACEHOLDER_TELEPHONE' | translate}}" data-ng-class="{ 'error' : inscriptionForm.tel.$invalid && inscriptionForm.tel.$touched,'success' : inscriptionForm.tel.$valid && inscriptionForm.tel.$dirty }" required><br>
+            <label class="error" data-ng-if="inscriptionForm.tel.$touched && inscriptionForm.tel.$error.pattern"><span>{{'errors.inscription.ERROR_TELEPHONE_INVALID' | translate}}</span></label>
+            <label class="error" data-ng-if="(inscriptionForm.tel.$dirty || inscriptionCtrl.captchaCheckedFlag) && !inscriptionForm.tel.$error.pattern && inscriptionCtrl.isEmpty('tel')"><span>{{'errors.inscription.ERROR_TELEPHONE_REQUIRED' | translate}}</span></label>
+        </div>
+        <div id="num_clt">
+            <label class="exposant" for="id_num-clt" data-ng-if="!inscriptionForm.clientNumber.$error.required">{{'labels.relationClient.inscription.PLACEHOLDER_CLIENT_NUMBER' | translate}}</label>
+            <input id="id_num-clt" type="text" name="clientNumber" ng-model="inscriptionCtrl.form.clientNumber" ng-pattern="inscriptionCtrl.clientNumberRegEx"
+                placeholder="{{'labels.relationClient.inscription.PLACEHOLDER_CLIENT_NUMBER' | translate}}" data-ng-focus="inscriptionCtrl.setFocusFlag('clientNumber')" data-ng-blur="inscriptionCtrl.verifyClientNumber()" data-ng-class="{ 'error' : inscriptionCtrl.isClientNumberNotExist() || (inscriptionForm.clientNumber.$invalid && inscriptionForm.clientNumber.$touched),'success' : inscriptionForm.clientNumber.$valid && inscriptionForm.clientNumber.$dirty && !inscriptionCtrl.isClientNumberNotExist() }" required><br>
+            <label class="error" data-ng-if="inscriptionForm.clientNumber.$touched && inscriptionForm.clientNumber.$error.pattern"><span>{{'errors.inscription.ERROR_CLIENT_NUMBER_INVALID' | translate}}</span></label>
+            <label class="error" data-ng-if="(inscriptionForm.clientNumber.$dirty || inscriptionCtrl.captchaCheckedFlag) && !inscriptionForm.clientNumber.$error.pattern && inscriptionCtrl.isEmpty('clientNumber')"><span>{{'errors.inscription.ERROR_CLIENT_NUMBER_REQUIRED' | translate}}</span></label>
+            <label class="error" data-ng-if="inscriptionForm.clientNumber.$dirty && !inscriptionForm.clientNumber.$error.pattern && inscriptionCtrl.isClientNumberNotExist() && !inscriptionCtrl.isEmpty('clientNumber')"><span>{{'errors.inscription.ERROR_CLIENT_NUMBER_NOT_EXIST' | translate}}</span></label>
+        </div>
+        <!-- FUNCTION -->
+        <div>
+            <select name="function" data-ng-model="inscriptionCtrl.form.function" required>
+                <option class="gris" value="" disabled selected>{{'labels.relationClient.inscription.PLACEHOLDER_FUNCTION' | translate}}</option>
+                <option class="option" data-ng-repeat="function in inscriptionCtrl.functions track by $index" data-ng-value="function.code" data-ng-hide="function.code == inscriptionCtrl.form.otherFunction">{{function.label}}</option>
+            </select>
+            <label class="error" data-ng-if="inscriptionCtrl.captchaCheckedFlag && inscriptionCtrl.isEmpty('function')"><span>{{'errors.inscription.ERROR_FUNCTION_REQUIRED' | translate}}</span></label>
+        </div>
+        <!-- OTHER FUNCTION -->
+        <div>
+            <select name="otherFunction" data-ng-model="inscriptionCtrl.form.otherFunction" data-ng-if="!inscriptionForm.function.$error.required">
+                <option class="" value="" selected>{{'labels.relationClient.inscription.PLACEHOLDER_OTHER_FUNCTION' | translate}}</option>
+                <option class="option" data-ng-repeat="function in inscriptionCtrl.functions track by $index" data-ng-value="function.code" data-ng-hide="function.code == inscriptionCtrl.form.function" placeholder="{{'labels.relationClient.inscription.PLACEHOLDER_OTHER_FUNCTION' | translate}}">{{function.label}}</option>
+            </select>
+        </div>
+        <!-- GOOGLE CAPTCHA -->
+        <div class="captcha clearfix">
+            <div vc-recaptcha
+                theme="'light'"
+                key="inscriptionCtrl.captchaKey"
+                on-create="inscriptionCtrl.setWidgetId(widgetId)"
+                on-success="inscriptionCtrl.setResponse(response)"
+                on-expire="inscriptionCtrl.cbExpiration()"
+				lang="('labels.relationClient.inscription.LANGUE_CAPTCHA' | translate)"
+            ></div>
+        </div><br><br>
+        <!-- BOUTTON ENVOYER -->
+        <button type="submit" data-ng-disabled="inscriptionForm.$invalid || inscriptionCtrl.isEmpty('civility') || inscriptionCtrl.isEmailExist() || inscriptionCtrl.focusEmailFlag || inscriptionCtrl.focusClientNumberFlag || inscriptionCtrl.processFlag || inscriptionCtrl.isClientNumberNotExist() || !inscriptionCtrl.checkPasswords()" class="btn btn-default">{{'labels.relationClient.inscription.CREATION_ACCOUNT_ACTION' | translate}}</button>&nbsp;<span class="marg_btn">{{'labels.relationClient.inscription.ACCOUNT_EXIST_YET' | translate}}&nbsp;<a href="/login">{{'labels.relationClient.inscription.LOGIN' | translate}}</a></span>
+    </form>
+    <div class="champs"><p><span>{{'labels.relationClient.inscription.REQUIRED_FIELDS' | translate}}</span><span ng-bind-html="('labels.relationClient.inscription.INFORMATION' | translate).replace('#orgaContext#', inscriptionCtrl.orgaContext).replace('#linkMail#',inscriptionCtrl.linkMail)"></span></p></div>

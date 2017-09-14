@@ -1,0 +1,14 @@
+<div class="mymodal">
+    <a class="close-icon" ng-click="popupsCtrl.closePopup()"></a>
+    <div>
+        <div class="recap_decla">
+            <h1>{{'labels.declaration.uvc.popin_confirmation.TITRE' | translate}}</h1>
+            <p>
+                {{'labels.declaration.uvc.popin_confirmation.LABEL1' | translate}} {{popupsCtrl.RecapDeclaration.Annee}} {{'labels.declaration.uvc.popin_confirmation.LABEL2' | translate}}
+                <span class="chiffre_decla">
+                    {{popupsCtrl.contributionTotale | decimalSeparator}} € {{'labels.declaration.uvc.popin_confirmation.HT' | translate}}
+                </span>
+            </p>
+        </div>
+    </div>
+</div>

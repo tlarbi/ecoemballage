@@ -1,0 +1,67 @@
+﻿<div class="choix_decla_over">
+    <h1>{{'labels.declaration.choixdeclaration.choix_type_declaration.TITLE' | translate}} {{choixdeclarationCtrl.annee}}</h1>
+    <h3>1.{{'labels.declaration.choixdeclaration.choix_type_declaration.TITLE_DECLARATION_UVC' | translate}}</h3>
+    <p>{{('labels.declaration.choixdeclaration.choix_type_declaration.LABEL_DECLARATION_UVC_SUR_MARCHE' | translate).replace('#year#', choixdeclarationCtrl.annee)}}</p>
+    <form ng-keyup="$event.keyCode == 13 && choixdeclarationCtrl.GetChoix()">
+       
+            <div ng-show="choixdeclarationCtrl.annee>=2016" class="slider_wrapper">
+                <div ui-slider="{range: 'min'}" min="0" max="100" ng-model="choixdeclarationCtrl.nbuvc"></div>
+                <div style="width:16.67%; float:left;">.</div>
+                <div style="width:33.33%; float:left;text-align:center;">.</div>
+                <div style="width:33.33%; float:left;text-align:center;">.</div>
+                <div style="width:16.67%; float:left;text-align:right;">.</div>
+                <div style="width:16.67%;float:left;">0</div>
+                <div style="width:33.33%;float:left; text-align:center">10 000</div>
+                <div style="width:33.33%;float:left; text-align:center">500 000</div>
+                <div style="width:16.67%;float:left; text-align:right">...</div>
+                <br style="clear:both" /><br />
+                <p ng-show="choixdeclarationCtrl.nbuvc < 34">{{'labels.declaration.choixdeclaration.choix_type_declaration.LABEL_MOINS_10000'| translate}}</p>
+                <p ng-show="choixdeclarationCtrl.nbuvc > 33 && choixdeclarationCtrl.nbuvc < 67">{{'labels.declaration.choixdeclaration.choix_type_declaration.LABEL_ENTRE_10000_50000'| translate}}</p>
+                <p ng-show="choixdeclarationCtrl.nbuvc > 66">{{'labels.declaration.choixdeclaration.choix_type_declaration.LABEL_SUP_500000'| translate}}</p>
+            </div>
+            <div ng-show="choixdeclarationCtrl.annee<2016" class="slider_wrapper">
+                <div ui-slider="{range: 'min'}" min="0" max="100" ng-model="choixdeclarationCtrl.nbuvc"></div>
+                <div style="width:20%; float:left">.</div>
+                <div style="width:60%; float:left;text-align:center;">.</div> 
+                <div style="width:20%; float:left;text-align:right;">.</div>
+                <div style="width:20%;float:left;">0</div>
+                <div style="width:60%;float:left; text-align:center">180 000</div> 
+                <div style="width:20%;float:left; text-align:right">...</div>
+                <br style="clear:both" /><br />
+                <p ng-show="choixdeclarationCtrl.nbuvc < 50">{{'labels.declaration.choixdeclaration.choix_type_declaration.LABEL_MOINS_180000'| translate}}</p>
+                <p ng-show="choixdeclarationCtrl.nbuvc >= 50 ">{{'labels.declaration.choixdeclaration.choix_type_declaration.LABEL_SUP_180000'| translate}}</p>
+ 
+            </div>
+            <!--<input type="text" ng-model="choixdeclarationCtrl.nbuvc" placeholder="exemple 12 000" required />&nbsp;<label>UVC</label><br />-->
+        <button class="contour" ng-click="choixdeclarationCtrl.GetChoix()">{{'labels.transverse.BTN_VALIDER' | translate}}</button>
+        
+        <div class="choix_decla">
+            <div data-ng-repeat="choix in choixdeclarationCtrl.html">
+                <div ng-show="$first && choixdeclarationCtrl.html.length>=1">
+                    <h4>2.{{'labels.declaration.choixdeclaration.choix_type_declaration.LABEL_DECLARATION_CHOIX_DU_TYPE'| translate}}</h4>
+                    <p class="premier_p">{{'labels.declaration.choixdeclaration.choix_type_declaration.LABEL_DECLARATION_CONSEILLE'| translate}}</p>
+                </div>
+                <div class="bloc_choix_wrapper">
+                    <input type="radio" ng-model="choixdeclarationCtrl.selected_type" value="{{choix.type}}" />
+                    <div class="bloc_choix" ng-class="{'selected': choixdeclarationCtrl.selected_type == choix.type }" ng-click="choixdeclarationCtrl.selected_type=choix.type">
+                        <h3>{{choix.titre}} </h3>
+                        <p data-ng-bind-html="choix.html"></p>
+                    </div>
+                    <div class="autre_choix" ng-show="$first && choixdeclarationCtrl.html.length>1">
+                        <p class="choix_decla_p">{{'labels.declaration.choixdeclaration.choix_type_declaration.LABEL_DECLARATION_AUTRE_CONSEILLE'| translate}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="foot_acces_direct">
+            <ul>
+                 <li> 
+                    <input type="button" class="btn suivant" ng-show="choixdeclarationCtrl.selected_type != ''" ng-click="choixdeclarationCtrl.valideChoixDeclaration()" value="{{'labels.declaration.choixdeclaration.choix_type_declaration.LABEL_DECLARATION_CONTINUER' | translate}}" />
+                 </li>
+            </ul>
+        </div>   
+    </form>
+</div>
+
+
+

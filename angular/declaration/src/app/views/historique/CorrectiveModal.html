@@ -1,0 +1,35 @@
+﻿<div class="mymodal">
+    <a class="close-icon" ng-click="historiqueCtrl.closeModal()"></a> 
+    <div ng-show="historiqueCtrl.etape_corrective==1">
+        <h1>{{'labels.declaration.uvc.popin_corrective.TITRE' | translate}}</h1>
+        <p>{{'labels.declaration.uvc.popin_corrective.LABEL1' | translate}}&nbsp;<strong>{{'labels.declaration.uvc.popin_corrective.LABEL2' | translate}} {{historiqueCtrl.selected_annee}}</strong></p>
+        <p class="question">
+            {{'labels.declaration.uvc.popin_corrective.QUESTION' | translate}}
+        </p>
+        <form name="corrective_form" ng-submit="historiqueCtrl.submit_corrective(corrective_form)" novalidate>     
+            <select name="motifs" ng-model="historiqueCtrl.selected_motif" data-ng-class="{ 'error' : corrective_form.motifs.$invalid && historiqueCtrl.corrective_submitted}" required>
+                <option value="">{{'labels.declaration.uvc.popin_corrective.LABEL_MOTIF' | translate}}</option>
+                <option ng-repeat="motif in historiqueCtrl.motifs_corrective" value="{{motif.Code}}">{{'motifs_correctives.'+motif.Code | translate}}</option>
+            </select>
+            <label class="control-label" ng-show="corrective_form.motifs.$invalid && (historiqueCtrl.corrective_submitted || corrective_form.motifs.$touched)">{{'labels.declaration.uvc.popin_corrective.LABEL3' | translate}}</label>
+            <textarea placeholder="{{'labels.declaration.uvc.popin_corrective.LABEL_COMMENTAIRE' | translate}}" rows="7" ng-model="historiqueCtrl.commentaire"></textarea>
+            <input id="ValideBtn" type="submit" value="{{'labels.transverse.BTN_SUIVANT' | translate}}" />
+            <input id="CloseBtn" type="button" value="{{'labels.transverse.BTN_ANNULER' | translate}}" ng-click="historiqueCtrl.closeModal()" />
+        </form>
+    </div>
+    <div ng-show="historiqueCtrl.etape_corrective==2">
+        <h1>{{'labels.declaration.uvc.popin_corrective.TITRE2' | translate}} {{historiqueCtrl.selected_annee}}<!--{{'labels.declaration.uvc.popin_corrective.TITRE' | translate}}--></h1>
+        <p class="rappel">{{'labels.declaration.uvc.popin_corrective.LABEL4' | translate}} {{historiqueCtrl.selected_annee}} <strong>{{'labels.type_declaration.'+historiqueCtrl.type_declaration | translate}} - {{'labels.mode_declaration.'+historiqueCtrl.mode_saisie | translate}}</strong></p>
+        <p class="question">
+            {{'labels.declaration.uvc.popin_corrective.QUESTION2' | translate}} 
+        </p>
+        <form name="modification_form" ng-submit="historiqueCtrl.submit_modification(modification_form)" novalidate>
+            <input type="radio" name="radio_group" ng-model="historiqueCtrl.modifier_mode_type_declaration" value="true" required />&nbsp;{{'labels.declaration.uvc.popin_corrective.REPONSE_OUI' | translate}}
+            <input type="radio" name="radio_group" ng-model="historiqueCtrl.modifier_mode_type_declaration" value="false" required />&nbsp;{{'labels.declaration.uvc.popin_corrective.REPONSE_NON' | translate}}
+            <label class="control-label" ng-show="modification_form.radio_group.$invalid && historiqueCtrl.corrective_submitted">{{'labels.declaration.uvc.popin_corrective.CHAMPS_OBLIGATOIRE' | translate}}</label>
+            <br />
+            <input id="ValideBtn" type="submit" value="{{'labels.transverse.BTN_SUIVANT' | translate}}" />
+            <input id="CloseBtn" type="button" value="{{'labels.transverse.BTN_ANNULER' | translate}}" ng-click="historiqueCtrl.closeModal()" />
+         </form>        
+    </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="page_historique" ng-cloak>
+    <div class="page_historique_content">
+        <table>
+            <thead>
+                <tr> 
+                    <td colspan="7" style="background-color:transparent">
+                        <h1>{{'labels.declaration.historique.TITRE' | translate}}</h1> 
+                        <p>{{'labels.declaration.historique.DESCRIPTION' | translate}}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th width="26%">{{'labels.declaration.historique.COL1' | translate}}</th>
+                    <th width="15%">{{'labels.declaration.historique.COL2' | translate}}</th>
+                    <th width="15%">{{'labels.declaration.historique.COL3' | translate}}</th>
+                    <th width="13%">{{'labels.declaration.historique.COL4' | translate}}</th>
+                    <th width="13%" class="montant">{{'labels.declaration.historique.COL5' | translate}}</th>
+                    <th width="8%"></th>
+                    <th width="12%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="declaration in historiqueCtrl.listdeclarations">
+                    <td>
+                        <span class="pict_corrective" ng-show="{{declaration.Corrective}}"></span>
+                      <label ng-show="{{declaration.Corrective}}">{{'labels.declaration.historique.CORRECTIVE' | translate}}</label> {{'labels.declaration.historique.LABEL_DECLARATION' | translate}} {{declaration.Annee}}
+                    </td>
+                    <td>
+                        <span ng-show="declaration.TypeDecla!=''">
+                            {{'labels.type_declaration.'+declaration.TypeDecla | translate}}
+                        </span>
+                        <a title="{{'labels.declaration.historique.LABEL_MODIFIER' | translate}}" class="pict_editer" ng-show="declaration.LienChangementType" href="/mon-espace/declaration/choix/#?annee={{declaration.Annee}}"></a>
+                        <label ng-show="declaration.TypeDecla==''">-</label>      
+                    </td>                  
+                    <td>
+                        <span ng-show="declaration.ModeSaisie!=''">
+                            {{'labels.mode_declaration.'+declaration.ModeSaisie | translate}}
+                        </span>
+                        <a title="{{'labels.declaration.historique.LABEL_MODIFIER' | translate}}" class="pict_editer" ng-show="declaration.LienChangementModeSaisie" ng-click="historiqueCtrl.ModifierModeSaisie(declaration.IdDeclaration,declaration.Annee,declaration.TypeDecla,declaration.ModeSaisie)"></a>
+                        <label ng-show="declaration.ModeSaisie==''">-</label><br />                       
+                    </td>                 
+                    <td data-ng-class="{ 'validee' : declaration.Statut=='VALIDEE' }">{{'labels.statut_declaration.'+declaration.Statut  | translate }}</td>
+                    <td class="montant">
+                        <label ng-show="declaration.ContributionTotale!='0'">{{declaration.ContributionTotale  | decimalSeparator }} €</label>
+                        <label ng-show="declaration.ContributionTotale=='0'">-</label>
+                    </td>
+                    <td class="modification">
+                        <a title="{{'labels.declaration.historique.LABEL_CORRIGER' | translate}}" class="pict_editer" ng-show="declaration.LienModification" ng-click="historiqueCtrl.ModifierDeclaration(declaration.IdDeclaration,declaration.Annee,declaration.TypeDecla,declaration.ModeSaisie)"></a>
+						<a title="{{'labels.declaration.historique.LABEL_ANNULER' | translate}}" class="pict_delete" ng-show="declaration.LienSupprimer" ng-click="historiqueCtrl.DemandeSuppressionDeclaration(declaration.IdDeclaration,declaration.Annee,declaration.TypeDecla,declaration.ModeSaisie)"></a>
+                    </td>
+                    <td>
+                        <a class="button" ng-show="declaration.LienCreation" href="/mon-espace/declaration/choix/#?annee={{declaration.Annee}}">{{'labels.declaration.historique.LABEL_SAISIR' | translate}}</a>
+                        <a class="button" ng-show="declaration.LienTelechargement" ng-click="historiqueCtrl.GetLienTelechargement(declaration.TypeDecla,declaration.Annee)">{{'labels.declaration.historique.LABEL_TELECHARGER' | translate}}</a>
+                        <a class="button" ng-show="declaration.LienFinalisationSectDetail" ng-click="historiqueCtrl.GetLienFinalisationSectDetail(declaration.TypeDecla,declaration.ModeSaisie,declaration.Annee)">{{'labels.declaration.historique.LABEL_COMPLETER' | translate}}</a>
+                        <a class="button" ng-show="declaration.LienFinalisationForfait" ng-click="historiqueCtrl.GetLienFinalisationForfait(declaration.IdDeclaration,declaration.Annee,declaration.Etape!=null?declaration.Etape:0)">{{'labels.declaration.historique.LABEL_COMPLETER' | translate}}</a>
+                        <a class="button" ng-show="declaration.LienFinalisationUVC" ng-click="historiqueCtrl.GetLienFinalisationUvc(declaration.Statut,declaration.IdDeclaration,declaration.ModeSaisie,declaration.Etape)">{{'labels.declaration.historique.LABEL_COMPLETER' | translate}}</a><!--/*historiqueCtrl.GetLienFinalisationUvc(declaration.Statut,declaration.IdDeclaration,declaration.ModeSaisie,declaration.Etape)*/-->
+                    </td>
+                </tr>
+            </tbody> 
+        </table>
+    </div>
+</div>
+

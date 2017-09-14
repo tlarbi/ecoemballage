@@ -1,0 +1,20 @@
+<div class="mymodal">
+
+    <h1>MODIFIER LA MISSION DE RAPPORT DE PROCÉDURES CONVENUES</h1>
+    <!--<a class="close-icon" href="/mon-espace/declaration/accueil"></a>-->
+    <a class="close-icon" ng-click="lancementrpcCtrl.closeModal()"></a>
+    
+
+    <p><b>Choisissez l'Expert qui réalisera la mission :</b></p><br />
+
+    <input type="radio" ng-model="lancementrpcCtrl.ec" value="EC"/><label class="info-check">Expert Comptable </label>
+    <input type="radio" ng-model="lancementrpcCtrl.ec" value="CAC"/><label class="info-check">Commissaire aux comptes</label><br /> <br />
+    <button class="suivant" ng-click="lancementrpcCtrl.ChoixExpert()" ng-disabled="!lancementrpcCtrl.ec">
+        SUIVANT
+    </button>
+    <button ng-click="lancementrpcCtrl.closeModal()">
+        Annuler
+    </button>
+
+
+</div>

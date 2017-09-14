@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr" class=" js">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style type="text/css">
+        [uib-typeahead-popup].dropdown-menu {
+            display: block;
+        }
+    </style>
+    <style type="text/css">
+        .uib-time input {
+            width: 50px;
+        }
+    </style>
+    <style type="text/css">
+        [uib-tooltip-popup].tooltip.top-left > .tooltip-arrow, [uib-tooltip-popup].tooltip.top-right > .tooltip-arrow, [uib-tooltip-popup].tooltip.bottom-left > .tooltip-arrow, [uib-tooltip-popup].tooltip.bottom-right > .tooltip-arrow, [uib-tooltip-popup].tooltip.left-top > .tooltip-arrow, [uib-tooltip-popup].tooltip.left-bottom > .tooltip-arrow, [uib-tooltip-popup].tooltip.right-top > .tooltip-arrow, [uib-tooltip-popup].tooltip.right-bottom > .tooltip-arrow, [uib-tooltip-html-popup].tooltip.top-left > .tooltip-arrow, [uib-tooltip-html-popup].tooltip.top-right > .tooltip-arrow, [uib-tooltip-html-popup].tooltip.bottom-left > .tooltip-arrow, [uib-tooltip-html-popup].tooltip.bottom-right > .tooltip-arrow, [uib-tooltip-html-popup].tooltip.left-top > .tooltip-arrow, [uib-tooltip-html-popup].tooltip.left-bottom > .tooltip-arrow, [uib-tooltip-html-popup].tooltip.right-top > .tooltip-arrow, [uib-tooltip-html-popup].tooltip.right-bottom > .tooltip-arrow, [uib-tooltip-template-popup].tooltip.top-left > .tooltip-arrow, [uib-tooltip-template-popup].tooltip.top-right > .tooltip-arrow, [uib-tooltip-template-popup].tooltip.bottom-left > .tooltip-arrow, [uib-tooltip-template-popup].tooltip.bottom-right > .tooltip-arrow, [uib-tooltip-template-popup].tooltip.left-top > .tooltip-arrow, [uib-tooltip-template-popup].tooltip.left-bottom > .tooltip-arrow, [uib-tooltip-template-popup].tooltip.right-top > .tooltip-arrow, [uib-tooltip-template-popup].tooltip.right-bottom > .tooltip-arrow, [uib-popover-popup].popover.top-left > .arrow, [uib-popover-popup].popover.top-right > .arrow, [uib-popover-popup].popover.bottom-left > .arrow, [uib-popover-popup].popover.bottom-right > .arrow, [uib-popover-popup].popover.left-top > .arrow, [uib-popover-popup].popover.left-bottom > .arrow, [uib-popover-popup].popover.right-top > .arrow, [uib-popover-popup].popover.right-bottom > .arrow, [uib-popover-html-popup].popover.top-left > .arrow, [uib-popover-html-popup].popover.top-right > .arrow, [uib-popover-html-popup].popover.bottom-left > .arrow, [uib-popover-html-popup].popover.bottom-right > .arrow, [uib-popover-html-popup].popover.left-top > .arrow, [uib-popover-html-popup].popover.left-bottom > .arrow, [uib-popover-html-popup].popover.right-top > .arrow, [uib-popover-html-popup].popover.right-bottom > .arrow, [uib-popover-template-popup].popover.top-left > .arrow, [uib-popover-template-popup].popover.top-right > .arrow, [uib-popover-template-popup].popover.bottom-left > .arrow, [uib-popover-template-popup].popover.bottom-right > .arrow, [uib-popover-template-popup].popover.left-top > .arrow, [uib-popover-template-popup].popover.left-bottom > .arrow, [uib-popover-template-popup].popover.right-top > .arrow, [uib-popover-template-popup].popover.right-bottom > .arrow {
+            top: auto;
+            bottom: auto;
+            left: auto;
+            right: auto;
+            margin: 0;
+        }
+
+        [uib-popover-popup].popover, [uib-popover-html-popup].popover, [uib-popover-template-popup].popover {
+            display: block !important;
+        }
+    </style>
+    <style type="text/css">
+        .uib-datepicker-popup.dropdown-menu {
+            display: block;
+            float: none;
+            margin: 0;
+        }
+
+        .uib-button-bar {
+            padding: 10px 9px 2px;
+        }
+    </style>
+    <style type="text/css">
+        .uib-position-measure {
+            display: block !important;
+            visibility: hidden !important;
+            position: absolute !important;
+            top: -9999px !important;
+            left: -9999px !important;
+        }
+
+        .uib-position-scrollbar-measure {
+            position: absolute !important;
+            top: -9999px !important;
+            width: 50px !important;
+            height: 50px !important;
+            overflow: scroll !important;
+        }
+
+        .uib-position-body-scrollbar-measure {
+            overflow: scroll !important;
+        }
+    </style>
+    <style type="text/css">
+        .uib-datepicker .uib-title {
+            width: 100%;
+        }
+
+        .uib-day button, .uib-month button, .uib-year button {
+            min-width: 100%;
+        }
+
+        .uib-left, .uib-right {
+            width: 100%;
+        }
+    </style>
+    <style type="text/css">
+        .ng-animate.item:not(.left):not(.right) {
+            -webkit-transition: 0s ease-in-out left;
+            transition: 0s ease-in-out left;
+        }
+    </style>
+    <style type="text/css">
+        @charset "UTF-8";
+
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide:not(.ng-hide-animate) {
+            display: none !important;
+        }
+
+        ng\:form {
+            display: block;
+        }
+
+        .ng-animate-shim {
+            visibility: hidden;
+        }
+
+        .ng-anchor {
+            position: absolute;
+        }
+    </style>
+
+
+    <title>Mon Espace | Eco-Emballages</title>
+    <link rel="stylesheet" href="./style/css1.css" media="all">
+    <link rel="stylesheet" href="./style/css2.css" media="all">
+    <link rel="stylesheet" href="./style/main.css" media="all">
+    <link rel="stylesheet" href="./style/css3.css" media="all">
+    <link href="./style/uvc_web.css" rel="stylesheet" />
+</head>
+<body class="user-logged-in path-node page-node-type-true-page has-glyphicons ng-scope" ng-app="edc">
+    <div role="main" class="main-container container-fluid js-quickedit-main-content" style="padding:0px!important; margin-top:0px!important; margin-bottom:0px!important; height:100%!important;">
+        <div class="row" style="padding:0px!important; height:100%!important;">
+            <div class="col-sm-12" role="heading" style="padding:0px!important; margin-top:0px!important; margin-bottom:0px!important;">
+                <div class="region region-header">
+                    <section id="block-custom-topbarcutom-client" class="block block-block-content block-block-content36f15b96-4434-450c-aafe-db3378b3d84a clearfix">
+                        <div class="field field--name-body field--type-text-with-summary field--label-hidden field--item"><header><data-custom-header class="ng-isolate-scope"><div class="logo"></div> <div class="glob"> <ul class="prise_contact"> <li><a class="gris ng-binding"><span class="head_contact"></span>0 810 00 17 23</a></li> <!-- ngIf: false --> <li><a href="mailto:conseillers.entreprises@ecoemballages.fr" class="ng-binding"><span class="head_mail"></span>envoyer un e-mail</a></li> </ul> <ul> <li class="compte"> <div class="pastille-clt ng-binding">JB</div> <div class="p-pastille"> <a href="https://monespace-ee.e-fil.com/mon-espace/declaration/choix/#" class="ng-binding"> Jennifer_test&nbsp;BAUMANN<br> <span class="ng-binding"><strong class="ng-binding">ARLA FOODS FRANCE&nbsp;</strong>507751</span> </a> </div> <span class="head_chevron"></span> <ul> <!-- ngIf: headerCtrl.isNotRestrictedUrl --><li data-ng-click="headerCtrl.route('personalInfo')" data-ng-if="headerCtrl.isNotRestrictedUrl" class="ng-binding ng-scope">Mes informations personnelles</li><!-- end ngIf: headerCtrl.isNotRestrictedUrl --> <!-- ngIf: headerCtrl.isNotRestrictedUrl --><li data-ng-if="headerCtrl.isNotRestrictedUrl" data-ng-click="headerCtrl.route('myAccount')" class="ng-binding ng-scope">Mon compte client</li><!-- end ngIf: headerCtrl.isNotRestrictedUrl --> <!-- ngIf: headerCtrl.isNotRestrictedUrl --><li data-ng-click="headerCtrl.route('companies')" data-ng-if="headerCtrl.isNotRestrictedUrl" class="ng-binding ng-scope">Gérer mes comptes clients</li><!-- end ngIf: headerCtrl.isNotRestrictedUrl --> <li data-ng-click="headerCtrl.logout()" class="ng-binding">Me déconnecter</li> </ul> </li> <!-- ngIf: false --> </ul> </div></data-custom-header></header></div>
+                    </section>
+                </div>
+            </div>
+            <nav class="col-sm-2" role="complementary" style="padding:0px!important; margin-top:0px!important; margin-bottom:0px!important; height:100%!important;">
+                <div class="region region-sidebar-first">
+                    <section id="block-custom-navigation-bloc-type" class="block block-block-content block-block-content07bc030b-6115-4162-b214-8f005343d3e4 clearfix">
+                        <div class="field field--name-body field--type-text-with-summary field--label-hidden field--item">
+                            <nav id="princ">
+                                <ul>
+                                    <li onclick="window.location.href="/mon-espace/accueil";">
+                                    <img alt="picto mon espace" data-entity-type="file" src="/sites/default/files/inline-images/pict_espace.png">
+                                    <a href="https://monespace-ee.e-fil.com/mon-espace/declaration/choix/#">
+                                        Mon<br>
+                                        espace
+                                    </a>
+                                    </li>
+                                    <li onclick="window.location.href="/mon-espace/declaration/accueil";">
+                                    <img alt="picto mes déclarations" data-entity-type="file" src="/sites/default/files/inline-images/pict_declaration.png">
+                                    <a href="https://monespace-ee.e-fil.com/mon-espace/declaration/choix/#">Déclarations</a></li>
+                                    <!-- /OldApp/Facturation/EcdDematFacture -->
+                                    <li onclick="window.location.href="/mon-espace/accueil/facturations";">
+                                    <img alt="picto mes facturations" data-entity-type="file" src="/sites/default/files/inline-images/pict_facturation.png">
+                                    <a href="https://monespace-ee.e-fil.com/mon-espace/declaration/choix/#">Factures</a></li>
+                                    <li onclick="window.location.href="/OldApp/Declaration/EcdTableauBord";">
+                                    <img alt="picto tableau de bord" data-entity-type="file" src="/sites/default/files/inline-images/pict_table-bord.png">
+                                    <a href="https://monespace-ee.e-fil.com/mon-espace/declaration/choix/#">
+                                        Tableaux<br>
+                                        de bord
+                                    </a>
+                                    </li>
+                                    <li>
+                                        <img alt="picto outils et services" data-entity-type="file" src="/sites/default/files/inline-images/pict_outil.png"><a href="http://www.ecoemballages.fr/bienvenue-dans-votre-espace-entreprises" target="_blank">
+                                            Outils<br>
+                                            et services
+                                        </a>
+                                    </li>
+                                    <li onclick="window.location.href="/mon-espace/docutile/guides";">
+                                    <img alt="picto documents administratifs" data-entity-type="file" src="/sites/default/files/inline-images/pict_doc.png">
+                                    <a href="https://monespace-ee.e-fil.com/mon-espace/declaration/choix/#">
+                                        Documents<br>
+                                        Utiles
+                                    </a>
+                                    </li>
+                                    <li onclick="window.location.href="/mon-espace/accueil/faq";">
+                                    <img alt="picto FAQ" data-entity-type="file" src="/sites/default/files/inline-images/pict_faq.png">
+                                    <a href="https://monespace-ee.e-fil.com/mon-espace/declaration/choix/#">FAQ</a></li>
+                                    <!--<li><img alt="picto partage de documents" data-entity-type="file" src="/sites/default/files/inline-images/pict_partage.png" /><a href="#">Partage<br />
+                                    de documents</a></li>-->
+                                </ul><div class="langues"><a class="actif">FR</a>&nbsp;|&nbsp;<a>EN</a></div>
+                            </nav>
+                        </div>
+
+                    </section>
+
+                </div>
+            </nav>
+            <section class="col-sm-10" style="padding:0px!important; margin-top:0px!important; margin-bottom:0px!important; height:100%!important;">
+
+
+
+
+
+                <a id="main-content"></a>
+                <div class="region region-content">
+                    <section id="block-bloc-declaration-conseil-astuces" class="block block-block-content block-block-content86a885a9-ba57-44f0-b0fe-e288b4d0cccc clearfix">
+
+
+
+
+                        <div class="field field--name-body field--type-text-with-summary field--label-hidden field--item">
+                            <h2>Conseil - Astuces</h2>
+
+                            <p>Les bonus et malus renforcent l’éco-modulation de la contribution. Ils vous incitent à éco-concevoir vos emballages et à sensibiliser les consommateurs au geste de tri. Réduisez votre impact environnemental, sensibilisez vos consommateurs tout en réduisant votre facture !</p>
+
+                            <div class="list">
+                                <div class="pict_why">&nbsp;</div>
+                                <a href="https://monespace-ee.e-fil.com/sites/default/files/DOC_ADMIN_GUIDES/GuideBonus_2016.pdf?display=inline">Voir le Guide des Bonus</a>
+                            </div>
+
+                            <div class="list">
+                                <div class="pict_list">&nbsp;</div>
+                                Si vous souhaitez que d'autres personnes reçoivent l'accusé de réception, pensez à renseigner leur adresse e-mail à la fin de votre parcours de déclaration.
+                            </div>
+                        </div>
+
+                    </section>
+
+                    <section id="block-bloc-declaration-excel-uvc" class="block block-block-content block-block-contentce8acd29-ba3b-490f-be86-d57bd6386e7f clearfix">
+
+
+
+
+                        <div class="field field--name-body field--type-text-with-summary field--label-hidden field--item">
+                            
+                          <data-choix-entreprise></data-choix-entreprise>
+                            <!--    <data-historique-declaration></data-historique-declaration>
+                                <data-uvc-excel></data-uvc-excel><data-validation></data-validation>
+                            <data-authentification></data-authentification>
+                            <data-choix-entreprise></data-choix-entreprise>-->
+                            
+                            <!--<data-choixdeclaration></data-choixdeclaration>
+                      
+                           <data-uvc-web></data-uvc-web>--><data-entreprise></data-entreprise>
+                        </div>
+
+                    </section>
+
+                    <div data-big-pipe-placeholder-id="callback=Drupal%5Cblock%5CBlockViewBuilder%3A%3AlazyBuilder&amp;args[0]=ecopack_theme_local_tasks&amp;args[1]=full&amp;args[2]&amp;token=83712b11"></div>
+
+                    <article data-history-node-id="38" role="article" about="/mon-espace/declaration/excel/uvc" class="true-page is-promoted full clearfix">
+
+                        <div class="content">
+
+                        </div>
+
+                    </article>
+
+
+                </div>
+
+            </section>
+        </div>
+    </div>
+<script type="text/javascript" src="edc-vendor0.0.1.js"></script><script type="text/javascript" src="edc-standalone0.0.1.js"></script></body>
+</html>

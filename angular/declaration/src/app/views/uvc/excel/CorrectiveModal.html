@@ -1,0 +1,23 @@
+﻿<div class="mymodal">
+    <a class="close-icon" ng-click="excelCtrl.closeModal()"></a>
+    <h1>{{'labels.declaration.uvc.popin_corrective.TITRE' | translate}}</h1>
+    <p>{{'labels.declaration.uvc.popin_corrective.LABEL1' | translate}}&nbsp;<strong>{{'labels.declaration.uvc.popin_corrective.LABEL2' | translate}} {{excelCtrl.selected_annee}}</strong></p>
+    <p class="question">
+       {{'labels.declaration.uvc.popin_corrective.QUESTION' | translate}}
+    </p>
+    <form name="corrective_form" ng-submit="excelCtrl.submit_corrective(corrective_form)" novalidate>
+      
+        <select name="motifs" ng-model="excelCtrl.selected_motif" required>
+            <option value="">{{'labels.declaration.uvc.popin_corrective.LABEL_MOTIF' | translate}}</option>
+            <option ng-repeat="motif in excelCtrl.motifs_corrective" value="{{motif.Code}}">{{'motifs_correctives.'+motif.Code | translate}}</option>
+        </select>
+        <label class="control-label" ng-show="corrective_form.motifs.$invalid && (excelCtrl.corrective_submitted || corrective_form.motifs.$touched)">veuillez préciser le motif de votre corrective</label>
+
+       
+        <textarea placeholder="{{'labels.declaration.uvc.popin_corrective.LABEL_COMMENTAIRE' | translate}}" rows="7" ng-model="excelCtrl.commentaire"></textarea>
+        <input id="ValideBtn" type="submit" value="{{'labels.transverse.BTN_SUIVANT' | translate}}" />
+        <input id="CloseBtn" type="button" value="{{'labels.transverse.BTN_ANNULER' | translate}}" ng-click="excelCtrl.closeModal()" />
+    </form>
+
+</div>
+ 

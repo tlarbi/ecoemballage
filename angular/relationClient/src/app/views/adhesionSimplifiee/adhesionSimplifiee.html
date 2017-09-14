@@ -1,0 +1,730 @@
+<loader type="quarter" ng-if="adhesionSimplifieeCtrl.sendingFormFlag" covered>{{'labels.loaders.VALIDATION' | translate}}</loader>
+<loader type="quarter" ng-if="adhesionSimplifieeCtrl.recupRecontractObjectFlag" covered>{{'labels.loaders.GETTING_DATA' | translate}}</loader>
+
+<div data-ng-if="adhesionSimplifieeCtrl.warningFlag" class="alert alert-warning alert-dismissable fade in">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span data-ng-if="adhesionSimplifieeCtrl.statusCode == 3"><strong>{{'errors.adhesionSimplifiee.EXPIRED_LINK' | translate}}</strong>{{'errors.adhesionSimplifiee.EXPIRED_LINK_INSTRUCTION' | translate}}</span><span data-ng-if="adhesionSimplifieeCtrl.statusCode == 2"><strong>{{'errors.adhesionSimplifiee.WARNING_CONTRACT_SIGNED' | translate}}</strong>{{'errors.adhesionSimplifiee.WARNING_CONTRACT_SIGNED_INSTRUCTION' | translate}}</span><span data-ng-if="adhesionSimplifieeCtrl.statusCode == 4"><strong>{{'errors.adhesionSimplifiee.WARNING_CONTRACT_SIGNED' | translate}}</strong>{{'errors.adhesionSimplifiee.WARNING_CONTRACT_ECSIGNED_INSTRUCTION' | translate}}</span>
+</div>
+
+<div data-ng-if="adhesionSimplifieeCtrl.technicalErrorFlag" class="alert alert-danger alert-dismissable fade in">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>{{'errors.adhesionSimplifiee.TECHNICAL' | translate}}</strong><span>{{'errors.adhesionSimplifiee.TECHNICAL_INSTRUCTION' | translate}}</span>
+</div>
+
+<h1 data-ng-if="!adhesionSimplifieeCtrl.recontractModeFlag">{{'labels.relationClient.adhesionRestreinte.TITLE' | translate}}</h1>
+<h1 data-ng-if="adhesionSimplifieeCtrl.recontractModeFlag">{{'labels.relationClient.adhesionRestreinte.TITLE_RECONTRACT' | translate}}</h1>
+
+<div>
+    <button type="button" id="btn-prefill" data-ng-click="adhesionSimplifieeCtrl.prefillForm()" data-ng-hide="true" class="btn btn-default">Remplir</button>
+    <form id="adhesion" name="adhesionForm" data-ng-submit="adhesionSimplifieeCtrl.sendForm(adhesionForm)" novalidate>
+
+        <!-- INFORMATIONS ADMINISTRATIVES -->
+        <fieldset class="sia">
+            <legend>{{'labels.relationClient.adhesionRestreinte.informationsAdministratives.LEGEND' | translate}}</legend>
+            <label data-ng-if="!adhesionSimplifieeCtrl.recontractModeFlag">{{'labels.relationClient.adhesionRestreinte.informationsAdministratives.INSTRUCTION' | translate}}</label>
+			<label data-ng-if="adhesionSimplifieeCtrl.recontractModeFlag">{{'labels.relationClient.adhesionRestreinte.informationsAdministratives.INSTRUCTION_RECONTRACT' | translate}}</label>
+            <!-- RAISON SOCIALE -->
+            <div>
+                <label class="exposant" for="company_name" data-ng-if="adhesionSimplifieeCtrl.form.IA.companyName">{{'labels.relationClient.adhesionRestreinte.informationsAdministratives.COMPANY_NAME' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IA.companyName" type="text" name="company_name" id="company-name" maxlength="40" placeholder="{{'labels.relationClient.adhesionRestreinte.informationsAdministratives.COMPANY_NAME' | translate}}" ng-disabled="adhesionSimplifieeCtrl.recontractModeFlag" required control-input>
+
+                <div data-ng-if="adhesionForm.company_name.$touched" data-ng-messages="adhesionForm.company_name.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.adhesionRestreinte.ERROR_COMPANY_NAME_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- NOM COMMERCIALE -->
+            <div>
+                <label class="exposant" for="comercial-name" data-ng-if="adhesionSimplifieeCtrl.form.IA.comercialName">{{'labels.relationClient.adhesionRestreinte.informationsAdministratives.COMERCIAL_NAME' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IA.comercialName" type="text" name="comercial-name" id="comercial-name" placeholder="{{'labels.relationClient.adhesionRestreinte.informationsAdministratives.COMERCIAL_NAME' | translate}}" control-input>
+            </div>
+
+            <!-- SIRET -->
+            <div>
+                <label class="exposant" for="siret" data-ng-if="adhesionForm.siret.$viewValue">{{'labels.relationClient.adhesionRestreinte.transverse.SIRET' | translate}}{{adhesionSimplifieeCtrl.form.IA.adress.country == 'FR' ? '*' : ''}}</label>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.IA.siret" type="text" maxlength="14" name="siret" id="siret" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.SIRET' | translate}}{{adhesionSimplifieeCtrl.form.IA.adress.country == 'FR' ? '*' : ''}}" ng-disabled="adhesionSimplifieeCtrl.recontractModeFlag" ng-required="adhesionSimplifieeCtrl.form.IA.adress.country == 'FR'" siret-control verify>
+
+                <div data-ng-if="adhesionForm.siret.$touched" data-ng-messages="adhesionForm.siret.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.adhesionRestreinte.ERROR_SIRET_REQUIRED' | translate}}</label>
+                    <label class="error" ng-message="siretPattern">{{'errors.adhesionRestreinte.ERROR_SIRET_INVALID' | translate}}</label>
+                    <label class="error" ng-message="siretVerify">{{'errors.adhesionRestreinte.ERROR_SIRET_EXIST' | translate}}&nbsp;<a href="/login">{{'errors.adhesionRestreinte.ERROR_SIRET_EXIST_LOGIN' | translate}}</a></label>
+                </div>
+            </div>
+
+            <!-- APE -->
+            <div>
+                <label class="exposant" for="ape" data-ng-if="adhesionSimplifieeCtrl.form.IA.ape">{{'labels.relationClient.adhesionRestreinte.informationsAdministratives.APE' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IA.ape" type="text" name="ape" id="ape" placeholder="{{'labels.relationClient.adhesionRestreinte.informationsAdministratives.APE' | translate}}" control-input>
+            </div>
+
+            <!-- EXTRAIT KBIS -->
+            <div>
+                <label>{{'labels.relationClient.adhesionRestreinte.informationsAdministratives.ATTACHMENT' | translate}}</label><br>
+
+                <label for="file-upload" id="file-button" class="contour marg_rgt pointer">{{'labels.relationClient.adhesionRestreinte.informationsAdministratives.ADD_FILE' | translate}}<span id="btn-legend">{{'labels.relationClient.adhesionRestreinte.informationsAdministratives.ADD_FILE_LEGEND' | translate}}</span></label>
+                <input type="file" data-ng-hide="true" id="file-upload" name="file_upload" ng-model="adhesionSimplifieeCtrl.fakeFile" file-upload-control="adhesionSimplifieeCtrl.fileAttachment" value="fake value" not-required="adhesionSimplifieeCtrl.recontractModeFlag"/>
+
+                <div id="file-link" tabindex="-1">
+                    <a href="" ng-click="adhesionSimplifieeCtrl.saveFile(adhesionSimplifieeCtrl.fileAttachment)">{{adhesionSimplifieeCtrl.fileAttachment.name}}</a>
+                    <!-- PICTO CORBEILLE -->
+                    <div class="pict_delete" id="file-delete" ng-if="adhesionSimplifieeCtrl.fileAttachment" ng-click="adhesionSimplifieeCtrl.deleteAttachment(adhesionForm.file_upload)"></div>
+                </div>
+                <button ng-hide="true" type="button" ng-click='adhesionSimplifieeCtrl.checkFile()'>TEST</button>
+
+                <div id="file-error" data-ng-if="adhesionForm.file_upload.$touched" data-ng-messages="adhesionForm.file_upload.$error" class="error">
+                    <label class="error" ng-message="fileEmpty">{{'errors.adhesionRestreinte.ERROR_FILE_REQUIRED' | translate}}</label>
+                    <label class="error" ng-message="fileType">{{'errors.adhesionRestreinte.ERROR_FILE_TYPE' | translate}}</label>
+                    <label class="error" ng-message="fileSize">{{'errors.adhesionRestreinte.ERROR_FILE_SIZE' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- ADRESSE -->
+            <label>{{'labels.relationClient.adhesionRestreinte.informationsAdministratives.HEAD_OFFICE_ADRESS' | translate}}</label>
+            <div>
+                <label class="exposant" for="adress" data-ng-if="adhesionSimplifieeCtrl.form.IA.adress.street">{{'labels.relationClient.adhesionRestreinte.transverse.ADRESS' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IA.adress.street" type="text" maxlength="60" name="adress" id="adress" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.ADRESS' | translate}}" control-input required>
+
+                <div data-ng-if="adhesionForm.adress.$touched" data-ng-messages="adhesionForm.adress.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_ADRESS_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- COMPLEMENT ADRESSE -->
+            <div data-ng-repeat="complement in adhesionSimplifieeCtrl.form.IA.adress.complements">
+                <div>
+                    <label class="exposant" for="ia-complement-{{$index+1}}" data-ng-if="complement.field">{{'labels.relationClient.adhesionRestreinte.transverse.ADRESS_COMPLEMENT' | translate}}</label><input data-ng-model="complement.field" type="text" name="ia-complement-{{$index+1}}" id="ia-complement-{{$index+1}}" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.ADRESS_COMPLEMENT' | translate}}" control-input>
+
+                    <div class="pict_delete" ng-if="!adhesionSimplifieeCtrl.form.IA.adress.complements.minFlag" ng-click="adhesionSimplifieeCtrl.removeFields('ia-complement', $index)"></div>
+                </div>
+            </div>
+            <div data-ng-if="!adhesionSimplifieeCtrl.form.IA.adress.complements.maxFlag"><button type="button" id="btn-complement-ia" class="btn" data-ng-click="adhesionSimplifieeCtrl.addFields('ia-complement')">{{'labels.relationClient.adhesionRestreinte.transverse.ADD_ADRESS_COMPLEMENT' | translate}}</button></div>
+
+            <!-- CODE POSTAL -->
+            <div>
+                <label class="exposant" for="zipcode" data-ng-if="adhesionSimplifieeCtrl.form.IA.adress.zipcode">{{'labels.relationClient.adhesionRestreinte.transverse.ZIPCODE' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IA.adress.zipcode" type="text" name="zipcode" id="zipcode" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.ZIPCODE' | translate}}" required control-input>
+				 <div data-ng-if="adhesionForm.zipcode.$touched" data-ng-messages="adhesionForm.zipcode.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_ZIPCODE_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- VILLE -->
+            <div>
+                <label class="exposant" for="city" data-ng-if="adhesionSimplifieeCtrl.form.IA.adress.city">{{'labels.relationClient.adhesionRestreinte.transverse.CITY' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IA.adress.city" type="text" name="city" id="city" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.CITY' | translate}}" required control-input>
+
+                <div data-ng-if="adhesionForm.city.$touched" data-ng-messages="adhesionForm.city.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_CITY_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- PAYS -->
+            <div>
+                <select-countries replace="{{'labels.relationClient.adhesionRestreinte.transverse.COUNTRY' | translate}}" name="country" id="country" ng-model="adhesionSimplifieeCtrl.form.IA.adress.country" ng-required="true" ng-change="adhesionSimplifieeCtrl.checkTVA()"></select-countries>
+
+                <div data-ng-if="adhesionForm.country.$touched" data-ng-messages="adhesionForm.country.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_COUNTRY_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- PARTICIPATION REP -->
+            <div data-ng-if="!adhesionSimplifieeCtrl.recontractModeFlag">
+                <label for="rep-yes">{{'labels.relationClient.adhesionRestreinte.informationsAdministratives.REP' | translate}}</label>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.IA.radioContributionREP" type="radio" name="rep" id="rep-yes" data-ng-value="true"><label for="rep-yes">{{'labels.relationClient.adhesionRestreinte.transverse.RADIO_YES' | translate}}</label>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.IA.radioContributionREP" type="radio" name="rep" id="rep-no" data-ng-value="false" required><label for="rep-no">{{'labels.relationClient.adhesionRestreinte.transverse.RADIO_NO' | translate}}</label>
+
+                <div data-ng-if="adhesionForm.rep.$touched" data-ng-messages="adhesionForm.rep.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.adhesionRestreinte.ERROR_REP_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- MONTANT CONTRIBUTION -->
+            <div data-ng-if="adhesionSimplifieeCtrl.form.IA.radioContributionREP">
+                <label class="exposant" for="amount" data-ng-if="adhesionForm.amount.$viewValue">{{'labels.relationClient.adhesionRestreinte.informationsAdministratives.AMOUNT' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IA.amount" type="text" name="amount" id="amount" placeholder="{{'labels.relationClient.adhesionRestreinte.informationsAdministratives.AMOUNT' | translate}}" control-input="amount" required>
+
+                <div data-ng-if="adhesionForm.amount.$touched" data-ng-messages="adhesionForm.amount.$error" class="error">
+                    <label class="error" ng-message="amountPattern">{{'errors.transverse.ERROR_AMOUNT_INVALID' | translate}}</label>
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_AMOUNT_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+        </fieldset>
+
+        <!-- INFORMATIONS ADMINISTRATIVES COMPLEMENTAIRES -->
+        <fieldset class="iac">
+            <legend>{{'labels.relationClient.adhesionRestreinte.informationsAdministrativesComplementaires.LEGEND' | translate}}</legend>
+            <label  data-ng-if="!adhesionSimplifieeCtrl.recontractModeFlag">{{'labels.relationClient.adhesionRestreinte.informationsAdministrativesComplementaires.INSTRUCTION' | translate}}</label>
+			<label  data-ng-if="adhesionSimplifieeCtrl.recontractModeFlag">{{'labels.relationClient.adhesionRestreinte.informationsAdministrativesComplementaires.INSTRUCTION_RECONTRACT' | translate}}</label>
+            <label data-ng-if="!adhesionSimplifieeCtrl.recontractModeFlag">{{'labels.relationClient.adhesionRestreinte.informationsAdministrativesComplementaires.COMPANIES_IN_CONTRACT' | translate}}</label>
+			<label data-ng-if="adhesionSimplifieeCtrl.recontractModeFlag">{{'labels.relationClient.adhesionRestreinte.informationsAdministrativesComplementaires.COMPANIES_IN_RECONTRACT' | translate}}</label>
+            <!-- ENTREPRISES CONTRAT -->
+            <div data-ng-repeat="company in adhesionSimplifieeCtrl.form.IAC.companies">
+
+                <!-- NOM ENTREPRISE -->
+                <div>
+                    <label class="exposant" for="company-name-{{$index+1}}" data-ng-if="company.name">{{'labels.relationClient.adhesionRestreinte.informationsAdministrativesComplementaires.COMPANY_NAME' | translate}}{{company.country ? '*' : ''}}</label><input data-ng-model="company.name" type="text" name="company_name_{{$index+1}}" id="company-name-{{$index+1}}" placeholder="{{'labels.relationClient.adhesionRestreinte.informationsAdministrativesComplementaires.COMPANY_NAME' | translate}}{{company.country ? '*' : ''}}" data-ng-required="company.country" control-input>
+
+                    <div data-ng-if="adhesionForm['company_name_' + ($index+1)].$touched" data-ng-messages="adhesionForm['company_name_' + ($index+1)].$error" class="error">
+                        <label class="error" ng-message="required">{{'errors.transverse.ERROR_COMPANY_NAME_REQUIRED' | translate}}</label>
+                    </div>
+                </div>
+
+                <!-- SIRET -->
+                <div>
+                    <label class="exposant" for="siret_{{$index+1}}" data-ng-if="adhesionForm['siret_' + ($index+1)].$viewValue">{{'labels.relationClient.adhesionRestreinte.transverse.SIRET' | translate}}</label><input data-ng-model="company.siret" type="text" maxlength="14" name="siret_{{$index+1}}" id="siret-{{$index+1}}" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.SIRET' | translate}}" siret-control>
+
+                    <div data-ng-if="adhesionForm['siret_' + ($index+1)].$touched" data-ng-messages="adhesionForm['siret_' + ($index+1)].$error" class="error">
+                        <label class="error" ng-message="siretPattern">{{'errors.adhesionRestreinte.ERROR_SIRET_INVALID' | translate}}</label>
+                    </div>
+                </div>
+
+                <!-- PAYS -->
+                <div>
+                    <select-countries replace="{{'labels.relationClient.adhesionRestreinte.transverse.COUNTRY' | translate}}" data-ng-model="company.country" id="country-{{$index+1}}" name="country_{{$index+1}}" data-ng-required="company.name"></select-countries>
+
+                    <div data-ng-if="adhesionForm['country_' + ($index+1)].$touched" data-ng-messages="adhesionForm['country_' + ($index+1)].$error" class="error">
+                        <label class="error" ng-message="required">{{'errors.transverse.ERROR_COUNTRY_REQUIRED' | translate}}</label>
+                    </div>
+                </div>
+
+                <!-- PICTO CORBEILLE -->
+                <div class="pict_delete" ng-if="!adhesionSimplifieeCtrl.form.IAC.companies.minFlag" ng-click="adhesionSimplifieeCtrl.removeFields('company', $index)"></div>
+            </div>
+            <div data-ng-if="!adhesionSimplifieeCtrl.form.IAC.companies.maxFlag"><button id="btn-company-ia" class="btn" type="button" data-ng-click="adhesionSimplifieeCtrl.addFields('company')">{{'labels.relationClient.adhesionRestreinte.informationsAdministrativesComplementaires.ADD_COMPANY' | translate}}</button></div>
+
+            <!-- MARQUES -->
+            <label data-ng-if="!adhesionSimplifieeCtrl.recontractModeFlag">{{'labels.relationClient.adhesionRestreinte.informationsAdministrativesComplementaires.BRANDS_IN_CONTRACT' | translate}}</label>
+			<label data-ng-if="adhesionSimplifieeCtrl.recontractModeFlag">{{'labels.relationClient.adhesionRestreinte.informationsAdministrativesComplementaires.BRANDS_IN_RECONTRACT' | translate}}</label>
+            <div data-ng-repeat="brand in adhesionSimplifieeCtrl.form.IAC.brands">
+                <div>
+                    <label class="exposant" for="brand-{{$index+1}}" data-ng-if="brand.name">{{'labels.relationClient.adhesionRestreinte.informationsAdministrativesComplementaires.BRAND_NAME' | translate}}</label><input data-ng-model="brand.name" type="text" name="brand_{{$index+1}}" id="brand-{{$index+1}}" class="brand" placeholder="{{'labels.relationClient.adhesionRestreinte.informationsAdministrativesComplementaires.BRAND_NAME' | translate}}" control-input>
+
+                    <div class="pict_delete" ng-if="!adhesionSimplifieeCtrl.form.IAC.brands.minFlag" ng-click="adhesionSimplifieeCtrl.removeFields('brand', $index)"></div>
+                </div>
+            </div>
+            <div data-ng-if="!adhesionSimplifieeCtrl.form.IAC.brands.maxFlag"><button type="button" id="btn-brand-iac" class="btn" data-ng-click="adhesionSimplifieeCtrl.addFields('brand')">{{'labels.relationClient.adhesionRestreinte.informationsAdministrativesComplementaires.ADD_BRAND' | translate}}</button></div>
+
+            <!-- ORGA PROFESSIONNELLE ? -->
+            <label>{{'labels.relationClient.adhesionRestreinte.informationsAdministrativesComplementaires.IS_PRO_ORGANISATION' | translate}}</label>
+            <div>
+                <label class="exposant" for="pro-orga" data-ng-if="adhesionSimplifieeCtrl.form.IAC.proOrganisationName">{{'labels.relationClient.adhesionRestreinte.informationsAdministrativesComplementaires.PRO_ORGANISATION_NAME' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IAC.proOrganisationName" type="text" name="pro-orga" id="pro-orga" placeholder="{{'labels.relationClient.adhesionRestreinte.informationsAdministrativesComplementaires.PRO_ORGANISATION_NAME' | translate}}" control-input>
+            </div>
+        </fieldset>
+
+        <!-- INFORMATIONS DE FACTURATIONS -->
+        <fieldset class="idf">
+            <legend>{{'labels.relationClient.adhesionRestreinte.informationsDeFacturation.LEGEND' | translate}}</legend>
+
+            <!-- ENTREPRISE A FACTURER DIFFERENTE -->
+            <div>
+                <label for="company-invoice-yes">{{'labels.relationClient.adhesionRestreinte.informationsDeFacturation.COMPANY_TO_INVOICE_QUESTION' | translate}}</label>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.IDF.radioCompanyInvoice" type="radio" name="company_invoice" id="company-invoice-yes" ng-change="adhesionSimplifieeCtrl.checkTVA()" data-ng-value="true"><label for="company-invoice-yes">{{'labels.relationClient.adhesionRestreinte.transverse.RADIO_YES' | translate}}</label>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.IDF.radioCompanyInvoice" type="radio" name="company_invoice" id="company-invoice-no" ng-change="adhesionSimplifieeCtrl.checkTVA()" data-ng-value="false" required><label for="company-invoice-no">{{'labels.relationClient.adhesionRestreinte.transverse.RADIO_NO' | translate}}</label>
+
+                <div data-ng-if="adhesionForm.company_invoice.$touched" data-ng-messages="adhesionForm.company_invoice.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.adhesionRestreinte.ERROR_COMPANY_INVOICE_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- ENTREPRISE A FACTURER -->
+            <div data-ng-if="adhesionSimplifieeCtrl.form.IDF.radioCompanyInvoice">
+                <!-- NOM ENTREPRISE A FACTURER -->
+                <div>
+                    <label class="exposant" for="company-invoice-name" data-ng-if="adhesionSimplifieeCtrl.form.IDF.companyInvoiceName">{{'labels.relationClient.adhesionRestreinte.informationsDeFacturation.COMPANY_TO_INVOICE_NAME' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IDF.companyInvoiceName" type="text" name="company-invoice-name" id="company-invoice-name" placeholder="{{'labels.relationClient.adhesionRestreinte.informationsDeFacturation.COMPANY_TO_INVOICE_NAME' | translate}}" maxlength="40" required control-input>
+                </div>
+            </div>
+
+            <!-- TVA -->
+            <div>
+                <label class="exposant" for="company-invoice-tva" data-ng-if="adhesionSimplifieeCtrl.form.IDF.tva">{{'labels.relationClient.adhesionRestreinte.informationsDeFacturation.TVA' | translate}}{{adhesionSimplifieeCtrl.tvaRequiredFlag ? '*' : ''}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IDF.tva" type="text" name="company_invoice_tva" id="company-invoice-tva" placeholder="{{'labels.relationClient.adhesionRestreinte.informationsDeFacturation.TVA' | translate}}{{adhesionSimplifieeCtrl.tvaRequiredFlag ? '*' : ''}}" ng-required="adhesionSimplifieeCtrl.tvaRequiredFlag" control-input>
+
+                <div data-ng-if="adhesionForm.company_invoice_tva.$touched" data-ng-messages="adhesionForm.company_invoice_tva.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.adhesionRestreinte.ERROR_TVA_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+
+            <!-- ADRESSE FACTURATION DIFFERENTE -->
+            <div data-ng-if="!adhesionSimplifieeCtrl.form.IDF.radioCompanyInvoice">
+                <label for="billing-yes">{{'labels.relationClient.adhesionRestreinte.informationsDeFacturation.BILLING_ADRESS_CONDITION' | translate}}</label>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.IDF.radioDistinctBillingCompany" type="radio" name="billing" id="billing-yes" ng-change="adhesionSimplifieeCtrl.checkTVA()" data-ng-value="true"><label for="billing-yes">{{'labels.relationClient.adhesionRestreinte.transverse.RADIO_YES' | translate}}</label>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.IDF.radioDistinctBillingCompany" type="radio" name="billing" id="billing-no" ng-change="adhesionSimplifieeCtrl.checkTVA()" data-ng-value="false" required><label for="billing-no">{{'labels.relationClient.adhesionRestreinte.transverse.RADIO_NO' | translate}}</label>
+
+                <div data-ng-if="adhesionForm.billing.$touched" data-ng-messages="adhesionForm.billing.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.adhesionRestreinte.ERROR_ADRESS_BILLING_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- ADRESSE FACTURATION -->
+            <div data-ng-if="adhesionSimplifieeCtrl.form.IDF.radioCompanyInvoice || adhesionSimplifieeCtrl.form.IDF.radioDistinctBillingCompany">
+                <label>{{'labels.relationClient.adhesionRestreinte.informationsDeFacturation.BILLING_ADRESS' | translate}}</label>
+
+                <!-- RUE -->
+                <div>
+                    <label class="exposant" for="idf-adress" data-ng-if="adhesionSimplifieeCtrl.form.IDF.adressInvoice.street">{{'labels.relationClient.adhesionRestreinte.transverse.ADRESS' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IDF.adressInvoice.street" type="text" name="idf-adress" id="idf-adress" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.ADRESS' | translate}}" maxlength="60" required control-input>
+                </div>
+
+                <!-- COMPLEMENT ADRESSE -->
+                <div data-ng-repeat="complement in adhesionSimplifieeCtrl.form.IDF.adressInvoice.complements">
+                    <div>
+                        <label class="exposant" for="idf-complement-{{$index+1}}"  data-ng-if="complement.field">{{'labels.relationClient.adhesionRestreinte.transverse.ADRESS_COMPLEMENT' | translate}}</label><input data-ng-model="complement.field" type="text" name="idf-complement-{{$index+1}}" id="idf-complement-{{$index+1}}"  class="idf-complement" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.ADRESS_COMPLEMENT' | translate}}" control-input>
+
+                        <div class="pict_delete" ng-if="!adhesionSimplifieeCtrl.form.IDF.adressInvoice.complements.minFlag" ng-click="adhesionSimplifieeCtrl.removeFields('idf-complement', $index)"></div>
+                    </div>
+                </div>
+                <div data-ng-if="!adhesionSimplifieeCtrl.form.IDF.adressInvoice.complements.maxFlag"><button type="button" id="btn-complement-idf" class="btn" data-ng-click="adhesionSimplifieeCtrl.addFields('idf-complement')">{{'labels.relationClient.adhesionRestreinte.transverse.ADD_ADRESS_COMPLEMENT' | translate}}</button></div>
+
+                <!-- CODE POSTAL -->
+                <div>
+                    <label class="exposant" for="idf-zipcode" data-ng-if="adhesionSimplifieeCtrl.form.IDF.adressInvoice.zipcode">{{'labels.relationClient.adhesionRestreinte.transverse.ZIPCODE' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IDF.adressInvoice.zipcode" type="text" name="idf-zipcode" id="idf-zipcode" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.ZIPCODE' | translate}}" required control-input>
+                </div>
+
+                <!-- VILLE -->
+                <div>
+                    <label class="exposant" for="idf-city" data-ng-if="adhesionSimplifieeCtrl.form.IDF.adressInvoice.city" >{{'labels.relationClient.adhesionRestreinte.transverse.CITY' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IDF.adressInvoice.city" type="text" name="idf-city" id="idf-city" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.CITY' | translate}}" required control-input>
+                </div>
+
+                <!-- PAYS -->
+                <div>
+                    <select-countries replace="{{'labels.relationClient.adhesionRestreinte.transverse.COUNTRY' | translate}}" data-ng-model="adhesionSimplifieeCtrl.form.IDF.adressInvoice.country" id="idf-country" name="idf-country" ng-change="adhesionSimplifieeCtrl.checkTVA()" required></select-countries>
+                </div>
+            </div>
+
+            <!-- ADRESSE ENVOI FACTURE DIFFERENTE -->
+            <div class="ng-scope">
+                <label for="bill-adress-yes">{{'labels.relationClient.adhesionRestreinte.informationsDeFacturation.BILLING_ADRESS_SEND_QUESTION' | translate}}</label>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.IDF.radioBillingAdress" type="radio" name="bill_adress" id="bill-adress-yes" data-ng-value="true"><label for="bill-adress-yes">{{'labels.relationClient.adhesionRestreinte.transverse.RADIO_YES' | translate}}</label>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.IDF.radioBillingAdress" type="radio" name="bill_adress" id="bill-adress-no" data-ng-value="false" required><label for="bill-adress-no">{{'labels.relationClient.adhesionRestreinte.transverse.RADIO_NO' | translate}}</label>
+
+                <div data-ng-if="adhesionForm.bill_adress.$touched" data-ng-messages="adhesionForm.bill_adress.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.adhesionRestreinte.ERROR_ADRESS_SEND_BILL_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <div data-ng-if="adhesionSimplifieeCtrl.form.IDF.radioBillingAdress">
+
+                <label>{{'labels.relationClient.adhesionRestreinte.informationsDeFacturation.BILL_SEND_ADRESS' | translate}}</label>
+
+                <!-- RUE -->
+                <div>
+                    <label class="exposant" for="company-invoice-adress" data-ng-if="adhesionSimplifieeCtrl.form.IDF.adressSendingBill.street">{{'labels.relationClient.adhesionRestreinte.transverse.ADRESS' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IDF.adressSendingBill.street" type="text" name="company-invoice-adress" id="company-invoice-adress" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.ADRESS' | translate}}" required control-input>
+                </div>
+
+                <!-- COMPLEMENT ADRESSE -->
+                <div data-ng-repeat="complement in adhesionSimplifieeCtrl.form.IDF.adressSendingBill.complements">
+                    <div>
+                        <label class="exposant" for="company-invoice-complement-{{$index+1}}"  data-ng-if="complement.field">{{'labels.relationClient.adhesionRestreinte.transverse.ADRESS_COMPLEMENT' | translate}}</label><input data-ng-model="complement.field" type="text" name="company-invoice-complement-{{$index+1}}" id="company-invoice-complement-{{$index+1}}" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.ADRESS_COMPLEMENT' | translate}}" control-input>
+
+                        <div class="pict_delete" ng-if="!adhesionSimplifieeCtrl.form.IDF.adressSendingBill.complements.minFlag" ng-click="adhesionSimplifieeCtrl.removeFields('company-invoice-complement', $index)"></div>
+                    </div>
+                </div>
+                <div data-ng-if="!adhesionSimplifieeCtrl.form.IDF.adressSendingBill.complements.maxFlag"><button type="button" id="btn-complement-ci" class="btn" data-ng-click="adhesionSimplifieeCtrl.addFields('company-invoice-complement')">{{'labels.relationClient.adhesionRestreinte.transverse.ADD_ADRESS_COMPLEMENT' | translate}}</button></div>
+
+                <!-- CODE POSTAL -->
+                <div>
+                    <label class="exposant" for="company-invoice-zipcode" data-ng-if="adhesionSimplifieeCtrl.form.IDF.adressSendingBill.zipcode">{{'labels.relationClient.adhesionRestreinte.transverse.ZIPCODE' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IDF.adressSendingBill.zipcode" type="text" name="company-invoice-zipcode" id="company-invoice-zipcode" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.ZIPCODE' | translate}}" required control-input>
+                </div>
+
+                <!-- VILLE -->
+                <div>
+                    <label class="exposant" for="company-invoice-city" data-ng-if="adhesionSimplifieeCtrl.form.IDF.adressSendingBill.city" >{{'labels.relationClient.adhesionRestreinte.transverse.CITY' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IDF.adressSendingBill.city" type="text" name="company-invoice-city" id="company-invoice-city" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.CITY' | translate}}" required control-input>
+                </div>
+
+                <!-- PAYS -->
+                <div>
+                    <select-countries replace="{{'labels.relationClient.adhesionRestreinte.transverse.COUNTRY' | translate}}" data-ng-model="adhesionSimplifieeCtrl.form.IDF.adressSendingBill.country" name="company-invoice-country" id="company-invoice-country" required></select-countries>
+                </div>
+            </div>
+
+            <!-- FACTURE DEMATERIALISEE -->
+            <div id="bill-demat">
+                <label id="bill-demat-label" for="bill-demat-yes">{{'labels.relationClient.adhesionRestreinte.informationsDeFacturation.BILLING_DEMAT_QUESTION' | translate}}</label>
+                <span id="bill-demat-legend">{{'labels.relationClient.adhesionRestreinte.informationsDeFacturation.BILLING_DEMAT_LEGEND' | translate}}</span>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.IDF.radioDemat" type="radio" name="bill_demat" id="bill-demat-yes" data-ng-value="true"><label for="bill-demat-yes">{{'labels.relationClient.adhesionRestreinte.transverse.RADIO_YES' | translate}}</label>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.IDF.radioDemat" type="radio" name="bill_demat" id="bill-demat-no" data-ng-value="false" required><label for="bill-demat-no">{{'labels.relationClient.adhesionRestreinte.transverse.RADIO_NO' | translate}}</label>
+
+                <div data-ng-if="adhesionForm.bill_demat.$touched" data-ng-messages="adhesionForm.bill_demat.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.adhesionRestreinte.ERROR_BILL_DEMAT_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- INFORMATIONS CORRESPONDANTS PRINCIPAL -->
+        <fieldset class="CP">
+            <legend>{{'labels.relationClient.adhesionRestreinte.correspondantPrincipal.LEGEND' | translate}}</legend>
+            <label data-ng-if="!adhesionSimplifieeCtrl.recontractModeFlag">{{'labels.relationClient.adhesionRestreinte.correspondantPrincipal.INSTRUCTION' | translate}}</label>
+			<label data-ng-if="adhesionSimplifieeCtrl.recontractModeFlag">{{'labels.relationClient.adhesionRestreinte.correspondantPrincipal.INSTRUCTION_RECONTRACT' | translate}}</label>
+            <!-- CP EMAIL -->
+            <div>
+                <label class="exposant" for="cp_email" data-ng-if="adhesionForm.cp_email.$viewValue">{{'labels.relationClient.adhesionRestreinte.transverse.EMAIL' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.CP.email" type="text" name="cp_email" id="cp-email" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.EMAIL' | translate}}" email-control required>
+
+                <div data-ng-if="adhesionForm.cp_email.$touched" data-ng-messages="adhesionForm.cp_email.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_EMAIL_REQUIRED' | translate}}</label>
+                    <label class="error" ng-message="emailPattern">{{'errors.transverse.ERROR_EMAIL_INVALID' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- CIVILITY -->
+            <div>
+                <label>{{'labels.relationClient.adhesionRestreinte.transverse.CIVILITY' | translate}}</label>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.CP.civility" type="radio" name="cp_civility" id="civility-m" value="Madame"><label for="civility-m">{{'labels.relationClient.adhesionRestreinte.transverse.RADIO_MISS' | translate}}</label>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.CP.civility" type="radio" name="cp_civility" id="civility-mr" value="Monsieur" required><label for="civility-mr">{{'labels.relationClient.adhesionRestreinte.transverse.RADIO_MR' | translate}}</label>
+
+                <div data-ng-if="adhesionForm.cp_email.$touched" data-ng-messages="adhesionForm.cp_civility.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_CIVILITY_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- PRENOM -->
+            <div>
+                <label class="exposant" for="cp-first-name" data-ng-if="adhesionSimplifieeCtrl.form.CP.firstName">{{'labels.relationClient.adhesionRestreinte.transverse.FIRST_NAME' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.CP.firstName" type="text" name="cp_first_name" id="cp-first-name" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.FIRST_NAME' | translate}}" required control-input>
+
+                <div data-ng-if="adhesionForm.cp_first_name.$touched" data-ng-messages="adhesionForm.cp_first_name.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_FIRSTNAME_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- NOM -->
+            <div>
+                <label class="exposant" for="cp-last-name" data-ng-if="adhesionSimplifieeCtrl.form.CP.lastName">{{'labels.relationClient.adhesionRestreinte.transverse.LAST_NAME' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.CP.lastName" type="text" name="cp_last_name" id="cp-last-name" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.LAST_NAME' | translate}}" required control-input>
+
+                <div data-ng-if="adhesionForm.cp_last_name.$touched" data-ng-messages="adhesionForm.cp_last_name.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_LASTNAME_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- FUNCTION -->
+            <div>
+                <select name="cp_function" id="cp-function" data-ng-model="adhesionSimplifieeCtrl.form.CP.function" data-ng-options="function.code as function.label for function in adhesionSimplifieeCtrl.functions | orderBy: 'label'" required>
+                    <option class="gris" value="" disabled selected>{{'labels.relationClient.inscription.PLACEHOLDER_FUNCTION' | translate}}</option>
+                    <!-- option class="option" data-ng-repeat="function in adhesionSimplifieeCtrl.functions track by $index" data-ng-value="function.code">{{function.label}}</option -->
+                </select>
+
+                <div data-ng-if="adhesionForm.cp_function.$touched" data-ng-messages="adhesionForm.cp_function.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_FUNCTION_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- POSTE -->
+            <div>
+                <label class="exposant" for="cp-position" data-ng-if="adhesionSimplifieeCtrl.form.CP.position">{{'labels.relationClient.adhesionRestreinte.transverse.POSITION' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.CP.position" type="text" name="cp-position" id="cp-position" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.POSITION' | translate}}" control-input>
+            </div>
+
+            <!-- TELEPHONE -->
+            <div>
+                <label class="exposant" for="cp_tel" data-ng-if="adhesionForm.cp_tel.$viewValue">{{'labels.relationClient.adhesionRestreinte.transverse.TEL' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.CP.tel" type="text" name="cp_tel" id="cp-tel" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.TEL' | translate}}" control-input="tel">
+
+                <div data-ng-if="adhesionForm.cp_tel.$touched" data-ng-messages="adhesionForm.cp_tel.$error" class="error">
+                    <label class="error" ng-message="telPattern">{{'errors.transverse.ERROR_TEL_INVALID' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- RUE -->
+            <div>
+                <label class="exposant" for="cp-adress" data-ng-if="adhesionSimplifieeCtrl.form.CP.adress.street">{{'labels.relationClient.adhesionRestreinte.transverse.ADRESS' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.CP.adress.street" type="text" name="cp_adress" id="cp-adress" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.ADRESS' | translate}}" required control-input>
+
+                <div data-ng-if="adhesionForm.cp_adress.$touched" data-ng-messages="adhesionForm.cp_adress.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_ADRESS_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- COMPLEMENT ADRESSE -->
+            <div data-ng-repeat="complement in adhesionSimplifieeCtrl.form.CP.adress.complements">
+                <div>
+                    <label class="exposant" for="cp-complement-{{$index+1}}"  data-ng-if="complement.field">{{'labels.relationClient.adhesionRestreinte.transverse.ADRESS_COMPLEMENT' | translate}}</label><input data-ng-model="complement.field" type="text" name="cp_complement_{{$index+1}}" id="cp-complement-{{$index+1}}" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.ADRESS_COMPLEMENT' | translate}}" control-input>
+
+                    <div class="pict_delete" ng-if="!adhesionSimplifieeCtrl.form.CP.adress.complements.minFlag" ng-click="adhesionSimplifieeCtrl.removeFields('cp-complement', $index)"></div>
+                </div>
+            </div>
+            <div data-ng-if="!adhesionSimplifieeCtrl.form.CP.adress.complements.maxFlag"><button type="button" id="btn-complement-cp" class="btn" data-ng-click="adhesionSimplifieeCtrl.addFields('cp-complement')">{{'labels.relationClient.adhesionRestreinte.transverse.ADD_ADRESS_COMPLEMENT' | translate}}</button></div>
+
+            <!-- CODE POSTAL -->
+            <div>
+                <label class="exposant" for="cp-zipcode" data-ng-if="adhesionSimplifieeCtrl.form.CP.adress.zipcode">{{'labels.relationClient.adhesionRestreinte.transverse.ZIPCODE' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.CP.adress.zipcode" type="text" name="cp_zipcode" id="cp-zipcode" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.ZIPCODE' | translate}}" required control-input>
+				   <div data-ng-if="adhesionForm.cp_zipcode.$touched" data-ng-messages="adhesionForm.cp_zipcode.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_ZIPCODE_REQUIRED' | translate}}</label>
+                </div>
+		   </div>
+
+            <!-- VILLE -->
+            <div>
+                <label class="exposant" for="cp-city" data-ng-if="adhesionSimplifieeCtrl.form.CP.adress.city" >{{'labels.relationClient.adhesionRestreinte.transverse.CITY' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.CP.adress.city" type="text" name="cp_city" id="cp-city" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.CITY' | translate}}" required control-input>
+
+                <div data-ng-if="adhesionForm.cp_city.$touched" data-ng-messages="adhesionForm.cp_city.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_CITY_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- PAYS -->
+            <div>
+                <select-countries replace="{{'labels.relationClient.adhesionRestreinte.transverse.COUNTRY' | translate}}" data-ng-model="adhesionSimplifieeCtrl.form.CP.adress.country" name="cp_country" id="cp-country" required></select-countries>
+
+                <div data-ng-if="adhesionForm.cp_country.$touched" data-ng-messages="adhesionForm.cp_country.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_COUNTRY_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- EST-IL PRESTATAIRE -->
+            <div>
+                <label data-ng-if="!adhesionSimplifieeCtrl.recontractModeFlag" for="cp-provider-yes">{{'labels.relationClient.adhesionRestreinte.correspondantPrincipal.IS_PROVIDER' | translate}}</label>
+				<label data-ng-if="adhesionSimplifieeCtrl.recontractModeFlag" for="cp-provider-yes">{{'labels.relationClient.adhesionRestreinte.correspondantPrincipal.IS_PROVIDER_RECONTRACT' | translate}}</label>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.CP.radioProvider" type="radio" name="cp_provider" id="cp-provider-yes" data-ng-value="true"><label for="cp-provider-yes">{{'labels.relationClient.adhesionRestreinte.transverse.RADIO_YES' | translate}}</label>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.CP.radioProvider" type="radio" name="cp_provider" id="cp-provider-no" data-ng-value="false" required><label for="cp-provider-no">{{'labels.relationClient.adhesionRestreinte.transverse.RADIO_NO' | translate}}</label>
+
+                <div data-ng-if="adhesionForm.cp_provider.$touched" data-ng-messages="adhesionForm.cp_provider.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.adhesionRestreinte.ERROR_PROVIDER_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <div data-ng-if="adhesionSimplifieeCtrl.form.CP.radioProvider">
+
+                <!-- CP RAISON SOCIALE -->
+                <div>
+                    <label class="exposant" for="cp-company-name" data-ng-if="adhesionSimplifieeCtrl.form.CP.companyName">{{'labels.relationClient.adhesionRestreinte.transverse.COMPANY_NAME' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.CP.companyName" type="text" name="cp_company_name" id="cp-company-name" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.COMPANY_NAME' | translate}}" required control-input>
+
+                    <div data-ng-if="adhesionForm.cp_company_name.$touched" data-ng-messages="adhesionForm.cp_company_name.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.adhesionRestreinte.ERROR_COMPANY_NAME_REQUIRED' | translate}}</label>
+                </div>
+                </div>
+
+                <!-- CP SIRET -->
+                <div>
+                    <label class="exposant" for="cp-siret" data-ng-if="adhesionForm.cp_siret.$viewValue">{{'labels.relationClient.adhesionRestreinte.transverse.SIRET' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.CP.siret" type="text" maxlength="14" name="cp_siret" id="cp-siret" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.SIRET' | translate}}" siret-control>
+
+                    <div data-ng-if="adhesionForm.cp_siret.$touched" data-ng-messages="adhesionForm.cp_siret.$error" class="error">
+                        <label class="error" ng-message="siretPattern">{{'errors.adhesionRestreinte.ERROR_SIRET_INVALID' | translate}}</label>
+                    </div>
+                </div>
+
+                <!-- CP INDICATION -->
+                <label>{{'labels.relationClient.adhesionRestreinte.correspondantPrincipal.INDICATION' | translate}}</label>
+            </div>
+
+        </fieldset>
+
+        <!-- INFORMATIONS SIGNATAIRE -->
+        <fieldset class="IS">
+            <legend  data-ng-if="!adhesionSimplifieeCtrl.recontractModeFlag">{{'labels.relationClient.adhesionRestreinte.signataire.LEGEND' | translate}}</legend>
+			<legend  data-ng-if="adhesionSimplifieeCtrl.recontractModeFlag">{{'labels.relationClient.adhesionRestreinte.signataire_recontract.LEGEND' | translate}}</legend>
+            <div data-ng-if="!adhesionSimplifieeCtrl.recontractModeFlag">
+                <diV>{{'labels.relationClient.adhesionRestreinte.signataire.DESCRIPTION_1' | translate}}</diV>
+                <diV>{{'labels.relationClient.adhesionRestreinte.signataire.DESCRIPTION_2' | translate}}</diV>
+                <diV>{{'labels.relationClient.adhesionRestreinte.signataire.DESCRIPTION_3' | translate}}</diV>
+            </div>
+			<div data-ng-if="adhesionSimplifieeCtrl.recontractModeFlag">
+                <diV>{{'labels.relationClient.adhesionRestreinte.signataire_recontract.DESCRIPTION_1' | translate}}</diV>
+                <diV>{{'labels.relationClient.adhesionRestreinte.signataire_recontract.DESCRIPTION_2' | translate}}</diV>
+                <diV>{{'labels.relationClient.adhesionRestreinte.signataire_recontract.DESCRIPTION_3' | translate}}</diV>
+            </div>
+            <label data-ng-if="!adhesionSimplifieeCtrl.recontractModeFlag">{{'labels.relationClient.adhesionRestreinte.signataire.INSTRUCTION' | translate}}</label>
+			<label data-ng-if="adhesionSimplifieeCtrl.recontractModeFlag">{{'labels.relationClient.adhesionRestreinte.signataire_recontract.INSTRUCTION' | translate}}</label>
+
+            <!-- SIGNATAIRE EMAIL -->
+            <div>
+                <label class="exposant" for="sign-email" data-ng-if="adhesionForm.sign_email.$viewValue">{{'labels.relationClient.adhesionRestreinte.transverse.EMAIL' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IS.email" type="text" name="sign_email" id="sign-email" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.EMAIL' | translate}}" email-control required>
+
+                <div data-ng-if="adhesionForm.sign_email.$touched" data-ng-messages="adhesionForm.sign_email.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_EMAIL_REQUIRED' | translate}}</label>
+                    <label class="error" ng-message="emailPattern">{{'errors.transverse.ERROR_EMAIL_INVALID' | translate}}</label>
+                </div>
+            </div>
+
+
+
+            <!-- CIVILITY -->
+            <div>
+                <label class="civility-label">{{'labels.relationClient.adhesionRestreinte.transverse.CIVILITY' | translate}}</label>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.IS.civility" type="radio" name="sign_civility" id="signer-civility-m" value="Madame"><label for="signer-civility-m">{{'labels.relationClient.adhesionRestreinte.transverse.RADIO_MISS' | translate}}</label>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.IS.civility" type="radio" name="sign_civility" id="signer-civility-mr" value="Monsieur" required><label for="signer-civility-mr">{{'labels.relationClient.adhesionRestreinte.transverse.RADIO_MR' | translate}}</label>
+
+                <div data-ng-if="adhesionForm.sign_civility.$touched" data-ng-messages="adhesionForm.sign_civility.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_CIVILITY_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- PRENOM -->
+            <div>
+                <label class="exposant" for="sign-first-name" data-ng-if="adhesionSimplifieeCtrl.form.IS.firstName">{{'labels.relationClient.adhesionRestreinte.transverse.FIRST_NAME' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IS.firstName" type="text" name="sign_first_name" id="sign-first-name" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.FIRST_NAME' | translate}}" required control-input>
+
+                <div data-ng-if="adhesionForm.sign_first_name.$touched" data-ng-messages="adhesionForm.sign_first_name.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_FIRSTNAME_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+
+            <!-- NOM -->
+            <div>
+                <label class="exposant" for="sign-last-name" data-ng-if="adhesionSimplifieeCtrl.form.IS.lastName">{{'labels.relationClient.adhesionRestreinte.transverse.LAST_NAME' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IS.lastName" type="text" name="sign_last_name" id="sign-last-name" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.LAST_NAME' | translate}}" required control-input>
+
+                <div data-ng-if="adhesionForm.sign_last_name.$touched" data-ng-messages="adhesionForm.sign_last_name.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_LASTNAME_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- FUNCTION -->
+            <div>
+                <select name="sign_function" id="sign-function" data-ng-model="adhesionSimplifieeCtrl.form.IS.function" data-ng-options="function.code as function.label for function in adhesionSimplifieeCtrl.functions | orderBy: 'label'" required>
+                    <option class="gris" value="" disabled selected>{{'labels.relationClient.inscription.PLACEHOLDER_FUNCTION' | translate}}</option>
+                </select>
+
+                <div data-ng-if="adhesionForm.sign_function.$touched" data-ng-messages="adhesionForm.sign_function.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_FUNCTION_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- POSTE -->
+            <div>
+                <label class="exposant" for="sign-position" data-ng-if="adhesionSimplifieeCtrl.form.IS.position">{{'labels.relationClient.adhesionRestreinte.transverse.POSITION' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IS.position" type="text" name="sign-position" id="sign-position" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.POSITION' | translate}}" control-input>
+            </div>
+
+            <!-- TELEPHONE -->
+            <div>
+                <label class="exposant" for="sign_tel" data-ng-if="adhesionForm.sign_tel.$viewValue">{{'labels.relationClient.adhesionRestreinte.transverse.TEL' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IS.tel" type="text" name="sign_tel" id="sign-tel" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.TEL' | translate}}" control-input="tel">
+
+                <div data-ng-if="adhesionForm.sign_tel.$touched" data-ng-messages="adhesionForm.sign_tel.$error" class="error">
+                    <label class="error" ng-message="telPattern">{{'errors.transverse.ERROR_TEL_INVALID' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- RUE -->
+            <div>
+                <label class="exposant" for="sign-adress" data-ng-if="adhesionSimplifieeCtrl.form.IS.adress.street">{{'labels.relationClient.adhesionRestreinte.transverse.ADRESS' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IS.adress.street" type="text" name="sign_adress" id="sign-adress" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.ADRESS' | translate}}" required control-input>
+
+                <div data-ng-if="adhesionForm.sign_adress.$touched" data-ng-messages="adhesionForm.sign_adress.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_ADRESS_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- COMPLEMENT ADRESSE -->
+            <div data-ng-repeat="complement in adhesionSimplifieeCtrl.form.IS.adress.complements">
+                <div>
+                    <label class="exposant" for="sign-complement-{{$index+1}}"  data-ng-if="complement.field">{{'labels.relationClient.adhesionRestreinte.transverse.ADRESS_COMPLEMENT' | translate}}</label><input data-ng-model="complement.field" type="text" name="sign_complement_{{$index+1}}" id="sign-complement-{{$index+1}}" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.ADRESS_COMPLEMENT' | translate}}" control-input>
+
+                    <div class="pict_delete" ng-if="!adhesionSimplifieeCtrl.form.IS.adress.complements.minFlag" ng-click="adhesionSimplifieeCtrl.removeFields('sign-complement', $index)"></div>
+                </div>
+            </div>
+            <div data-ng-if="!adhesionSimplifieeCtrl.form.IS.adress.complements.maxFlag"><button type="button" id="btn-complement-sign" class="btn" data-ng-click="adhesionSimplifieeCtrl.addFields('sign-complement')">{{'labels.relationClient.adhesionRestreinte.transverse.ADD_ADRESS_COMPLEMENT' | translate}}</button></div>
+
+            <!-- CODE POSTAL -->
+            <div>
+                <label class="exposant" for="sign-zipcode" data-ng-if="adhesionSimplifieeCtrl.form.IS.adress.zipcode">{{'labels.relationClient.adhesionRestreinte.transverse.ZIPCODE' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IS.adress.zipcode" type="text" name="sign_zipcode" id="sign-zipcode" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.ZIPCODE' | translate}}" required control-input>
+                 <div data-ng-if="adhesionForm.sign_zipcode.$touched" data-ng-messages="adhesionForm.sign_zipcode.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_ZIPCODE_REQUIRED' | translate}}</label>
+                </div>
+			</div>
+
+            <!-- VILLE -->
+            <div>
+                <label class="exposant" for="sign-city" data-ng-if="adhesionSimplifieeCtrl.form.IS.adress.city" >{{'labels.relationClient.adhesionRestreinte.transverse.CITY' | translate}}</label><input data-ng-model="adhesionSimplifieeCtrl.form.IS.adress.city" type="text" name="sign_city" id="sign-city" placeholder="{{'labels.relationClient.adhesionRestreinte.transverse.CITY' | translate}}" required control-input>
+
+                <div data-ng-if="adhesionForm.sign_city.$touched" data-ng-messages="adhesionForm.sign_city.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_CITY_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+
+            <!-- PAYS -->
+            <div>
+                <select-countries replace="{{'labels.relationClient.adhesionRestreinte.transverse.COUNTRY' | translate}}" data-ng-model="adhesionSimplifieeCtrl.form.IS.adress.country" name="sign_country" id="sign-country" required></select-countries>
+
+                <div data-ng-if="adhesionForm.sign_country.$touched" data-ng-messages="adhesionForm.sign_country.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.transverse.ERROR_COUNTRY_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- LISTE DES DOCUMENTS -->
+        <fieldset class="VC">
+            <legend>{{'labels.relationClient.adhesionRestreinte.visualisation.LEGEND' | translate}}</legend>
+            <div id="fr-links">
+                <a href="" data-ng-click="adhesionSimplifieeCtrl.getContract('fr')" data-ng-class="{ 'link-disabled': adhesionForm.$invalid }">{{'labels.relationClient.adhesionRestreinte.visualisation.DOWNLOAD_CONTRACT_FR' | translate}}</a>
+                <a data-ng-href="/sites/{{adhesionSimplifieeCtrl.filesContext}}/files/documents_statiques/Conditions-Generales.pdf" target="_blank" download>{{'labels.relationClient.adhesionRestreinte.visualisation.DOWNLOAD_GENERAL_CONDITIONS_FR' | translate}}</a>
+                <a href="" data-ng-click="adhesionSimplifieeCtrl.getDelegate('fr')" data-ng-if="adhesionSimplifieeCtrl.form.CP.radioProvider" data-ng-class="{ 'link-disabled': adhesionForm.$invalid }">{{'labels.relationClient.adhesionRestreinte.visualisation.DOWNLOAD_MANDATE_FR' | translate}}</a>
+                <a data-ng-href="/sites/{{adhesionSimplifieeCtrl.filesContext}}/files/documents_statiques/Annexe-1-Guide-Declaration.pdf" target="_blank" download>{{'labels.relationClient.adhesionRestreinte.visualisation.DOWNLOAD_MANUEL_FR' | translate}}</a>
+                <a data-ng-href="/sites/{{adhesionSimplifieeCtrl.filesContext}}/files/documents_statiques/Annexe-2-Tarif-Contributif.pdf" target="_blank" download>{{'labels.relationClient.adhesionRestreinte.visualisation.DOWNLOAD_RATES_FR' | translate}}</a>
+                <a data-ng-href="/sites/{{adhesionSimplifieeCtrl.filesContext}}/files/documents_statiques/Annexe-3-Charte-Graphique-Point-Vert.pdf" target="_blank" download>{{'labels.relationClient.adhesionRestreinte.visualisation.DOWNLOAD_GRAPHIC_CHART_FR' | translate}}</a>
+                <a data-ng-href="/sites/{{adhesionSimplifieeCtrl.filesContext}}/files/documents_statiques/Annexe-4-Code-Environnement.pdf" target="_blank" download>{{'labels.relationClient.adhesionRestreinte.visualisation.DOWNLOAD_CODE_FR' | translate}}</a>
+            </div>
+            <div id="en-links">
+                <a href="" data-ng-click="adhesionSimplifieeCtrl.getContract('en')" data-ng-class="{ 'link-disabled': adhesionForm.$invalid }">{{'labels.relationClient.adhesionRestreinte.visualisation.DOWNLOAD_CONTRACT_EN' | translate}}</a>
+                <a href="/sites/{{adhesionSimplifieeCtrl.filesContext}}/files/documents_statiques/General Service Conditions 2017.pdf" target="_blank" download>{{'labels.relationClient.adhesionRestreinte.visualisation.DOWNLOAD_GENERAL_CONDITIONS_EN' | translate}}</a>
+                <a href="" data-ng-click="adhesionSimplifieeCtrl.getDelegate('en')" data-ng-if="adhesionSimplifieeCtrl.form.CP.radioProvider" data-ng-class="{ 'link-disabled': adhesionForm.$invalid }">{{'labels.relationClient.adhesionRestreinte.visualisation.DOWNLOAD_MANDATE_EN' | translate}}</a>
+                <a href="/sites/{{adhesionSimplifieeCtrl.filesContext}}/files/documents_statiques/Annexe-1-Declaration-Manual.pdf" target="_blank" download>{{'labels.relationClient.adhesionRestreinte.visualisation.DOWNLOAD_MANUEL_EN' | translate}}</a>
+                <a href="/sites/{{adhesionSimplifieeCtrl.filesContext}}/files/documents_statiques/Annexe-2-Declaration-Rate-Table.pdf" target="_blank" download>{{'labels.relationClient.adhesionRestreinte.visualisation.DOWNLOAD_RATES_EN' | translate}}</a>
+                <a href="/sites/{{adhesionSimplifieeCtrl.filesContext}}/files/documents_statiques/Annexe-3-Green-Dot-Graphic-Charter.pdf" target="_blank" download>{{'labels.relationClient.adhesionRestreinte.visualisation.DOWNLOAD_GRAPHIC_CHART_EN' | translate}}</a>
+               <a data-ng-href="/sites/{{adhesionSimplifieeCtrl.filesContext}}/files/documents_statiques/Annex 4 - French environmental code_2017.pdf" target="_blank" download>{{'labels.relationClient.adhesionRestreinte.visualisation.DOWNLOAD_CODE_EN' | translate}}</a>
+            </div>
+
+            <data-loading class="load-adhesion" data-ng-if="adhesionSimplifieeCtrl.fileGenerationFlag"></data-loading>
+        </fieldset>
+
+        <!-- VALIDATION DU FORMULAIRE -->
+        <fieldset class="VF">
+            <legend>{{'labels.relationClient.adhesionRestreinte.validation.LEGEND' | translate}}</legend>
+            <div>
+                <label for="signer-yes">{{'labels.relationClient.adhesionRestreinte.validation.IS_SIGNER' | translate}}</label>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.isSigner" type="radio" name="signer" id="signer-yes" data-ng-value="true"><label for="signer-yes">{{'labels.relationClient.adhesionRestreinte.transverse.RADIO_YES' | translate}}</label>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.isSigner" type="radio" name="signer" id="signer-no" data-ng-value="false" required><label for="signer-no">{{'labels.relationClient.adhesionRestreinte.transverse.RADIO_NO' | translate}}</label>
+
+                <div data-ng-if="adhesionForm.signer.$touched" data-ng-messages="adhesionForm.signer.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.adhesionRestreinte.ERROR_SIGNER_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <button id="btn-submit" type="submit" class="btn btn-default">{{'labels.relationClient.adhesionRestreinte.validation.VALIDATE_DATA' | translate}}</button>
+
+        </fieldset>
+    </form>
+
+    <!-- SIGNATURE DU CONTRAT -->
+    <form id="signature-adhesion" name="signAdhesionForm" data-ng-submit="adhesionSimplifieeCtrl.sign(signAdhesionForm, adhesionForm.$valid)" novalidate>
+        <fieldset class="SC" data-ng-if="adhesionSimplifieeCtrl.sendedFormFlag && adhesionSimplifieeCtrl.form.isSigner">
+            <legend>{{'labels.relationClient.adhesionRestreinte.signature.LEGEND' | translate}}</legend>
+            <label>{{'labels.relationClient.adhesionRestreinte.signature.INDICATION' | translate}}</label>
+
+            <!-- CODE ACTIVATION -->
+            <label id="activation-code-label" for="activation_code">{{'labels.relationClient.adhesionRestreinte.signature.CODE_ACTIVATION' | translate}}</label>
+            <div>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.activationCode" type="text" name="activation_code" id="activation-code" control-input="activation-code" id-trace="adhesionSimplifieeCtrl.form.TraceId" required>
+
+                <div data-ng-if="signAdhesionForm.activation_code.$touched" data-ng-messages="signAdhesionForm.activation_code.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.adhesionRestreinte.ERROR_ACTIVATION_CODE_REQUIRED' | translate}}</label>
+                    <label class="error" ng-message="activationCodePattern">{{'errors.adhesionRestreinte.ERROR_ACTIVATION_CODE_INVALID' | translate}}</label>
+                    <label class="error" ng-message="invalidCode">{{'errors.adhesionRestreinte.ERROR_ACTIVATION_CODE_INVALID' | translate}}</label>
+                    <label class="error" ng-message="expiredCode">{{'errors.adhesionRestreinte.ERROR_ACTIVATION_CODE_INVALID' | translate}}</label>
+                    <label class="error" ng-message="technicalError">{{'errors.transverse.TECHNICAL' | translate}}</label>
+
+                </div>
+            </div>
+
+            <!-- VALIDATION EXACTITUDE DES DONNEES -->
+            <div>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.sign.dataCertification" type="checkbox" name="data_certification" id="data-certification" value="true" required>
+                <label>{{'labels.relationClient.adhesionRestreinte.signature.DATA_VALIDATION' | translate}}</label>
+
+                <div data-ng-if="signAdhesionForm.data_certification.$touched" data-ng-messages="signAdhesionForm.data_certification.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.adhesionRestreinte.ERROR_DATA_CERTIFICATION_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- VALIDATION PRESTATAIRE -->
+            <div data-ng-if="adhesionSimplifieeCtrl.form.CP.radioProvider">
+                <input data-ng-model="adhesionSimplifieeCtrl.form.sign.delegatesValidation" type="checkbox" name="delegates_validation" id="delegates-validation" value="true" required>
+                <label>{{'labels.relationClient.adhesionRestreinte.signature.PROVIDER_VALIDATION' | translate}}</label>
+
+                <div data-ng-if="signAdhesionForm.delegates_validation.$touched" data-ng-messages="signAdhesionForm.delegates_validation.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.adhesionRestreinte.ERROR_DELEGATE_VALIDATION_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- TERMES DE CONTRAT -->
+            <div>
+                <input data-ng-model="adhesionSimplifieeCtrl.form.sign.contractAccept" type="checkbox" name="contract_accept" id="contract-accept" value="true" required>
+                <label>{{'labels.relationClient.adhesionRestreinte.signature.CONTRACT_ACCEPT' | translate}}</label>
+
+                <div data-ng-if="signAdhesionForm.contract_accept.$touched" data-ng-messages="signAdhesionForm.contract_accept.$error" class="error">
+                    <label class="error" ng-message="required">{{'errors.adhesionRestreinte.ERROR_CONTRACT_ACCEPT_REQUIRED' | translate}}</label>
+                </div>
+            </div>
+
+            <!-- SIGNATURE -->
+            <button id="btn-submit" type="submit" class="btn btn-default">{{'labels.relationClient.adhesionRestreinte.signature.SIGN' | translate}}</button>
+
+        </fieldset>
+    </form>
+    <div class="champs"><p><span>{{'labels.relationClient.inscription.REQUIRED_FIELDS' | translate}}</span><span ng-bind-html="('labels.relationClient.inscription.INFORMATION' | translate).replace('#orgaContext#', adhesionSimplifieeCtrl.orgaContext).replace('#linkMail#',adhesionSimplifieeCtrl.linkMail)"></span></p></div>
+</div>

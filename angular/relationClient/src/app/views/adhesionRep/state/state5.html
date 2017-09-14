@@ -1,0 +1,14 @@
+<div>
+    <h1>{{'labels.relationClient.adhesionRep.ETAPE_5' | translate}} <br /> {{'labels.relationClient.adhesionRep.INTITULE_ETAPE_5' | translate}}</h1>
+
+    <form id="adhesion-rep-5">
+        <p>{{'labels.relationClient.adhesionRep.ETAPE_5_QUESTION_1' | translate}}</p><br />
+        <input type="radio" value="Oui" id="oui" ng-model="adhesionRepCtrl.form_etape5_question1_rep" name="rep" /> <label for="oui">{{'labels.relationClient.adhesionRep.REP_OUI' | translate}}</label>
+        <input type="radio" value="Non" id="non" ng-model="adhesionRepCtrl.form_etape5_question1_rep" name="rep" /> <label for="non">{{'labels.relationClient.adhesionRep.REP_NON' | translate}}</label>
+    </form>
+
+    <div class="form_validation">
+        <a ui-sref="state4" ng-click="adhesionRepCtrl.removeStep5Session()">{{'labels.relationClient.adhesionRep.RETOUR' | translate}}</a>
+        <input type="button" class="btn suivant" ng-disabled="adhesionRepCtrl.form_etape5_question1_rep==undefined" ng-click="adhesionRepCtrl.etape5Validation(1,1,'Oui')" value="{{'labels.relationClient.adhesionRep.RESULTATS' | translate}}">
+    </div>
+</div>

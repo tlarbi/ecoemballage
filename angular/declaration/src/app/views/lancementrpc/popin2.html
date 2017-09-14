@@ -1,0 +1,40 @@
+<div class="mymodal">
+    <h1 data-ng-if="!lancementrpcCtrl.IsModification">LANCER LA MISSION DE RAPPORT DE PROCÉDURES CONVENUES</h1>
+    <h1 data-ng-if="lancementrpcCtrl.IsModification">MODIFIER LA MISSION DE RAPPORT DE PROCÉDURES CONVENUES</h1>
+    <!--<a class="close-icon" href="/mon-espace/declaration/accueil"></a>-->
+    <a class="close-icon" ng-click="lancementrpcCtrl.closeModal()"></a>
+
+
+
+    <div class="ctrl_form">
+        <div id="recherche">
+            <label for="id_recherche" id="recherche">&nbsp;</label>
+            <input type="text" name="recherche" id="id_recherche" placeholder="{{'labels.relationClient.choixEntreprise.SEARCH' | translate}}" 
+                               data-ng-model="lancementrpcCtrl.someVal" data-ng-change="lancementrpcCtrl.textChanged()" data-ng-Trim="false">
+        </div>
+    </div>
+
+    <div class="table_produits">
+        <table id="choice_expert">
+            <tr>
+                <th>Nom &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                <th>Adresse &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                <th>Adresse e-mail &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            </tr>
+            <tr data-ng-click="lancementrpcCtrl.eltSelected(myexpert)" data-ng-repeat="myexpert in lancementrpcCtrl.expertsList" >
+                <td>{{myexpert.nom}}  {{myexpert.prenom}}</td>
+                <td>{{myexpert.adresse}} <br/> {{myexpert.code_postal}}  {{myexpert.ville}} </td>
+                <td>{{myexpert.email}}</td>
+            </tr>
+        </table>
+    </div>
+        <!--<ul id="choice_expert">
+            <li data-ng-repeat="client in lancementrpcCtrl.clients | orderBy:'libelle'" data-ng-if="lancementrpcCtrl.checkMatching(client)"
+                data-ng-click="lancementrpcCtrl.goHome(client)">{{client.libelle}} - <span class="bleu">{{client.idSAP}}</span></li>
+        </ul>-->
+        <button id="ajout" data-ng-click="lancementrpcCtrl.displayMore()" data-ng-model="lancementrpcCtrl.diplayMoreState" data-ng-disabled="!lancementrpcCtrl.diplayMoreState">Afficher plus</button>
+
+        <button class="suivant" data-ng-click="lancementrpcCtrl.createRPC()" data-ng-model="lancementrpcCtrl.validerState" data-ng-disabled="!lancementrpcCtrl.validerState">VALIDER</button>
+
+        <button id="CloseBtn" data-ng-click="lancementrpcCtrl.closeModal()">Annuler</button>
+    </div>

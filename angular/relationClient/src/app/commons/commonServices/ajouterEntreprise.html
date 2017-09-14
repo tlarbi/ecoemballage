@@ -1,0 +1,34 @@
+<a class="close-icon" ng-click="commonCtrl.closePopup()"></a>
+<h1>{{'labels.relationClient.ajoutCompteClient.TITLE_ADD_COMPANY' | translate}}</h1>
+<form name="addClientForm" novalidate>
+  <div>{{'labels.relationClient.ajoutCompteClient.TEXT_ADD_COMPANY' | translate}}</div>
+  <div class="input" id="divNumeroClient">
+    <input
+      type="text"
+      name="clientNumber"
+      placeholder="{{'labels.relationClient.ajoutCompteClient.PLACEHOLDER_CLIENT_NUMBER' | translate}}"
+      ng-model="commonCtrl.clientNumber"
+      ng-class="{'error': addClientForm.clientNumber.$touched && !commonCtrl.focusFlag && (addClientForm.clientNumber.$error.required || commonCtrl.isError()), 'success': commonCtrl.clientNumberExistFlag && !commonCtrl.technicalErrorFlag}"
+      ng-focus="commonCtrl.onFocus()"
+      ng-blur="commonCtrl.onBlur()"
+      required/>
+    <label class="error" ng-if="addClientForm.clientNumber.$touched && addClientForm.clientNumber.$error.required && !commonCtrl.focusFlag">
+      <span>{{'errors.ajoutCompteClient.CLIENT_NUMBER_REQUIRED' | translate}}</span>
+    </label>
+
+    <label class="error" ng-if="addClientForm.clientNumber.$dirty && !commonCtrl.clientNumberExistFlag && !commonCtrl.clientNumberExistInSessionFlag && !commonCtrl.technicalErrorFlag && !addClientForm.clientNumber.$error.required && !commonCtrl.focusFlag && !commonCtrl.processFlag">
+      <span>{{'errors.ajoutCompteClient.COMPANY_NOT_FOUND' | translate}}</span>
+    </label>
+
+    <label class="error" ng-if="addClientForm.clientNumber.$dirty && commonCtrl.clientNumberExistInSessionFlag && !commonCtrl.focusFlag">
+      <span>{{'errors.ajoutCompteClient.COMPANY_ALREADY_BOUND' | translate}}</span>
+    </label>
+
+    <label class="error" ng-if="addClientForm.clientNumber.$dirty && commonCtrl.technicalErrorFlag && !commonCtrl.focusFlag">
+      <span>{{commonCtrl.technicalErrorMessage}}</span>
+    </label>
+
+  </div>
+  <button class="btn btn-default" type="button" ng-disabled="addClientForm.clientNumber.$error.required || commonCtrl.isError()" ng-click="commonCtrl.addNewClientValidate()">{{'labels.transverse.BTN_ADD' | translate}}</button>
+  <button class="btn btn-default btn-annuler" type="button"  ng-click="commonCtrl.closePopup()">{{'labels.transverse.BTN_ANNULER' | translate}}</button>
+</form>

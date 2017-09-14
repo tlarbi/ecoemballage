@@ -1,0 +1,50 @@
+<loading data-ng-if="authentificationCtrl.loadingFlag" id="loading-login"></loading>
+
+<div data-ng-if="authentificationCtrl.displayFlag && !authentificationCtrl.nextPageFlag">
+    <h1>{{'labels.relationClient.authentification.TITLE' | translate}}</h1>
+    <div>
+        <span>{{'labels.relationClient.authentification.MESSAGE' | translate}}</span>
+        <form class="marg_bs" name="authentificationForm" ng-submit="authentificationCtrl.submit()">
+
+            <!-- USERNAME -->
+            <div id="identifiant">
+                <label for="id_identifiant"><img ng-src="/sites/default/files/inline-images/pict_identif.jpg" alt="picto identifiant"/></label>
+                <input data-ng-class="{ 'error' : (authentificationForm.loginName.$dirty || authentificationCtrl.displayError || !authentificationCtrl.isEmailEmpty()) && authentificationCtrl.checkErrors('username') && !authentificationCtrl.navigateFlag, 'success' : authentificationCtrl.emailExistFlag }" type="text" name="loginName" id="id_identifiant" placeholder="{{'labels.relationClient.authentification.PLACEHOLDER_LOGIN' | translate}}" data-ng-model="authentificationCtrl.form.username" data-ng-blur="authentificationCtrl.blurTimeOut(authentificationCtrl.delay)" data-ng-focus="authentificationCtrl.focus()" required>
+                <div data-ng-if="authentificationCtrl.processFlag" class="load">&nbsp;</div>
+
+                <!-- ERRORS -->
+                <div data-ng-if="(authentificationForm.loginName.$dirty || authentificationCtrl.displayError || !authentificationCtrl.isEmailEmpty()) && !authentificationCtrl.navigateFlag">
+                    <label  class="error" data-ng-if="authentificationCtrl.emailNotExistFlag"><span>{{'errors.authentification.ERROR_EMAIL_ACCOUNT' | translate}}</span>&nbsp;&nbsp;&nbsp;<a class="petit" href="/creation-compte">{{'errors.authentification.ERROR_EMAIL_CREATE_ACCOUNT' | translate}}</a></label>
+                    <label  class="error" data-ng-if="authentificationCtrl.emailInvalidFlag"><span>{{'errors.authentification.ERROR_EMAIL_INVALID' | translate}}</span></label>
+                    <label  class="error" data-ng-if="authentificationCtrl.emailEmptyFlag"><span>{{'errors.authentification.ERROR_EMAIL_REQUIRED' | translate}}</span></label>
+                    <label  class="error" data-ng-if="authentificationCtrl.technicalErrorFlag"><span>{{'errors.authentification.ERROR_TECHNICAL' | translate}}</span></label>
+                    <label  class="error" data-ng-if="authentificationCtrl.accountBlockedFlag"><span>{{('errors.authentification.WARNING_ACCOUNT_BLOCKED' | translate).replace('#orgaContext#', authentificationCtrl.orgaContext)}}&nbsp;&nbsp;<a href="#" data-ng-click="authentificationCtrl.resetPassword()">{{'errors.authentification.WARNING_ACCOUNT_BLOCKED_LINK' | translate}}</a></span></label>
+                </div>
+            </div>
+
+
+            <!-- PASSWORD -->
+            <div id="mdp">
+                <label for="id_mdp"><img ng-src="/sites/default/files/inline-images/pict_mdp.jpg" alt="picto identifiant"/></label>
+                <input type="password" name="passwordName" id="id_identifiant" placeholder="{{'labels.relationClient.authentification.PLACEHOLDER_PASSWORD' | translate}}" data-ng-model="authentificationCtrl.form.password" ng-focus="authentificationCtrl.resetFlags('pass')" required>
+                <br/>
+                <!-- ERRORS -->
+                <label  class="error" data-ng-if="authentificationCtrl.passInvalidFlag"><span>{{'errors.authentification.ERROR_WRONG_PASSWORD' | translate}}</span></label>
+                <a href="#" class="petit" data-ng-click="authentificationCtrl.navigate('pass')">{{'labels.relationClient.authentification.FORGOTTEN_PASSWORD' | translate}}</a>
+
+
+            </div>
+
+            <!-- SEND -->
+            <button type="submit" data-ng-disabled="authentificationForm.$invalid || authentificationCtrl.checkErrors()" class="btn btn-default suivant">{{'labels.relationClient.authentification.LOGIN' | translate}}</button>
+        </form>
+        <span class="marg_ht-but">{{'labels.relationClient.authentification.DONT_HAVE_ACCOUNT_YET' | translate}}&nbsp;<a href="#" data-ng-click="authentificationCtrl.navigate('signup')">{{'labels.relationClient.authentification.CREATE_ACCOUNT' | translate}}</a></span>
+    </div>
+</div>
+
+<!-- message réinitialisation mot de passe envoyé -->
+<div data-ng-if="authentificationCtrl.nextPageFlag">
+    <h1>{{'labels.relationClient.transverse.GET_NEW_PASSWORD' | translate}}</h1>
+    <div>{{'labels.relationClient.transverse.NEW_PASSWORD_REQUEST_SENT' | translate}}</div>
+    <button class="suivant marg_btn" data-ng-click="authentificationCtrl.next()">{{'labels.transverse.BTN_OK' | translate}}</button>
+</div>

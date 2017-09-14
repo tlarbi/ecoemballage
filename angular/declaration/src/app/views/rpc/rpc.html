@@ -1,0 +1,31 @@
+<div class="tbody_compte">
+    <table id="tbl_rpc">
+        <tbody>
+            <tr data-ng-repeat="rpc in rpcCtrl.rpcs | limitTo:3">
+                <td><b>{{'labels.declaration.rpc.RPC_INTITULE' | translate}} {{rpc.Annee}}</b></td>
+                <td>
+                    <label ng-if="rpc.Statut=='1'">{{'labels.declaration.rpc.RPC_STATUT_1' | translate}}</label>
+                    <label ng-if="rpc.Statut=='2'">{{'labels.declaration.rpc.RPC_STATUT_2' | translate}} </label>
+                    <label ng-if="rpc.Statut==''">{{'labels.declaration.rpc.RPC_STATUT_A_FAIRE' | translate}} </label>
+                    <label ng-if="rpc.Statut=='0'">{{'labels.declaration.rpc.RPC_STATUT_A_VENIR' | translate}} </label>
+                </td>
+                <td>
+                    <input type="button" class="btn" ng-click="rpcCtrl.lancement(rpc)" ng-if="rpc.Statut==''" value="{{'labels.declaration.rpc.BUTTON_LANCER_MISSION' | translate}}" />
+                    <input type="button" class="btn" ng-click="rpcCtrl.changeMission(rpc)" ng-if="rpc.Statut=='1'" value="{{'labels.declaration.rpc.BUTTON_MODIFIER' | translate}}" />
+                    <input type="button" class="btn" ng-click="rpcCtrl.codeActivation(rpc)" ng-if="rpc.Statut=='1'&&rpc.TypeExpert=='CAC'" value="{{'labels.declaration.rpc.CODE_ACTIVATION' | translate}}" />
+
+                    <label ng-if="rpc.Statut=='2'&&rpc.Exist==false">{{'labels.declaration.rpc.RPC_ERROR_OCCUR' | translate}}</label>
+                    <!--<a href="" class="acte" target="_blank" ng-if="rpc.Statut=='2'&&rpc.Exist==true" ng-click="rpcCtrl.getRpcFile(1,rpc)"><div class="pict_visu"></div></a>-->
+
+
+                    <a href="" class="acte" ng-if="rpc.Statut=='2'&&rpc.Exist==true" ng-click="rpcCtrl.getRpcFile(1,rpc)"><div class="pict_visu" id="pict-visu-rpc"></div></a>
+                    <a href="" class="acte" ng-if="rpc.Statut=='2'&&rpc.Exist==true" ng-click="rpcCtrl.getRpcFile(2,rpc)"><div class="pict_telecharge" id="pict-telecharger-rpc"></div></a>
+
+                 </td>
+                    <td ng-if="rpc.Statut=='2'&&rpc.Exist==true">
+                        
+                    </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

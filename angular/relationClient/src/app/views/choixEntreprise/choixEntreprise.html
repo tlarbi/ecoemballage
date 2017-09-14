@@ -1,0 +1,17 @@
+	<div class="ident_user">
+		<div class="pastille-clt">{{choixEntrepriseCtrl.userInfo.initials}}</div>
+		<div class="p-pastille">
+			<h1>{{'labels.relationClient.choixEntreprise.WELCOME' | translate}}&nbsp;<span class="bleu">{{choixEntrepriseCtrl.userInfo.civility}}&nbsp;{{choixEntrepriseCtrl.userInfo.lastName}}</span></h1>
+			<span>{{'labels.relationClient.choixEntreprise.CHOOSE_ACCOUNT' | translate}}</span>
+		</div>
+	</div>
+	<div class="ctrl_form">
+		<div id="recherche">
+			<label for="id_recherche" id="recherche">&nbsp;</label>
+			<input type="text" name="recherche" id="id_recherche" placeholder="{{'labels.relationClient.choixEntreprise.SEARCH' | translate}}" data-ng-model="choixEntrepriseCtrl.research">
+        </div>
+	</div>
+	<ul id="choice_ste">
+		<li data-ng-repeat="client in choixEntrepriseCtrl.clients | orderBy:'libelle'" data-ng-if="choixEntrepriseCtrl.checkMatching(client)" data-ng-click="choixEntrepriseCtrl.goHome(client)">{{client.libelle}} - <span class="bleu">{{client.idSAP}}</span></li>
+	</ul>
+	<button id="ajout" data-ng-click="choixEntrepriseCtrl.addClientAccount()">{{'labels.relationClient.choixEntreprise.ADD_CLIENT_ACCOUNT' | translate}}</button>

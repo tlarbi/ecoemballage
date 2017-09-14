@@ -1,0 +1,16 @@
+<div class="mymodal">
+    <loader type="quarter" ng-if="popupsAdhesionCtrl.sendingFormFlag" covered>{{'labels.loaders.SIGNING' | translate}}</loader>
+    <h1>{{'labels.relationClient.adhesionRestreinte.popupValidationContrat.title' | translate}}</h1>
+    <a class="close-icon" href="/adhesion/accueil-adhesion-questionnaire" ></a>
+   <!-- data-ng-if="false" <a class="close-icon" ng-click="popupsAdhesionCtrl.closePopup('reject')"></a> -->
+
+      <button class="btn" ng-click="popupsAdhesionCtrl.sign()">{{'labels.relationClient.adhesionRestreinte.popupValidationContrat.MSG1' | translate}}</button>
+
+      <button id="CloseBtn" ng-click="popupsAdhesionCtrl.closePopup('reject')" >{{'labels.relationClient.adhesionRestreinte.popupValidationContrat.MSG2' | translate}}</button>
+      <!--
+      <div data-ng-if="popupsAdhesionCtrl.flags.technicalError" class="error">{{'labels.relationClient.adhesionRestreinte.popupValidationContrat.MSG3' | translate}}</div>
+      <div data-ng-if="popupsAdhesionCtrl.flags.invalidCode" class="error">{{'labels.relationClient.adhesionRestreinte.popupValidationContrat.MSG4' | translate}}</div>
+      <div data-ng-if="popupsAdhesionCtrl.flags.expiredLink" class="error">{{'labels.relationClient.adhesionRestreinte.popupValidationContrat.MSG5' | translate}}</div>
+        -->
+
+</div>

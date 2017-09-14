@@ -1,0 +1,19 @@
+<div class="mymodal">
+
+    <h1>{{'labels.declaration.rpc.RPC_CHANGE_1' | translate}}</h1>
+    <!--<a class="close-icon" href="/mon-espace/declaration/accueil"></a>-->
+    <a class="close-icon" ng-click="rpcCtrl.closeModal()"></a>
+
+
+    <p><b>{{'labels.declaration.rpc.RPC_CHANGE_2' | translate}}</b></p><br />
+
+    <input type="radio" ng-model="rpcCtrl.ec" value="EC" /><label class="info-check">{{'labels.declaration.rpc.RPC_CHANGE_3' | translate}}</label>
+    <input type="radio" ng-model="rpcCtrl.ec" value="CAC" /><label class="info-check">{{'labels.declaration.rpc.RPC_CHANGE_4' | translate}}</label><br /> <br />
+
+ 
+    <button class="suivant btnn" ng-click="rpcCtrl.ChoixExpert()" ng-disabled="!rpcCtrl.ec">
+        {{'labels.transverse.BTN_SUIVANT' | translate}}
+    </button>
+    <input id="CloseBtn" value="{{'labels.transverse.BTN_ANNULER' | translate}}" ng-click="rpcCtrl.closeModal()" type="button">
+
+</div>

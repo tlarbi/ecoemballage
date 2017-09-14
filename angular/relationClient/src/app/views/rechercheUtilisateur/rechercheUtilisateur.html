@@ -1,0 +1,17 @@
+<div>
+  <form name="rechercheUtilisateurForm" id="recherche-utilisateur-form" ng-submit="rechercheUtilisateurCtrl.submit()" novalidate>
+    <div uib-alert class="alert-danger" ng-show="rechercheUtilisateurCtrl.operationFailure">{{'labels.transverse.TECHNICAL_ERROR' | translate}}</div>
+    <label for="mail">{{'labels.relationClient.rechercheUtilisateur.LABEL_EMAIL' | translate}}</label>
+    <input type="text" id="mail" name="mail" ng-model="rechercheUtilisateurCtrl.form.email" ng-pattern="rechercheUtilisateurCtrl.emailRegExp" ng-focus="rechercheUtilisateurCtrl.mailFocus()" required />
+    <label class="error" ng-if="rechercheUtilisateurForm.mail.$dirty && rechercheUtilisateurForm.mail.$error.required">
+      <span>{{'errors.rechercheUtilisateur.ERROR_EMAIL_MISSING' | translate}}</span>
+    </label>
+    <label class="error" ng-if="rechercheUtilisateurForm.mail.$dirty && rechercheUtilisateurForm.mail.$error.pattern">
+      <span>{{'errors.rechercheUtilisateur.ERROR_EMAIL_INVALID' | translate}}</span>
+    </label>
+    <label class="error" ng-if="rechercheUtilisateurCtrl.userNotFound">
+      <span>{{'errors.rechercheUtilisateur.ERROR_EMAIL_NOTFOUND' | translate}}</span>
+    </label>
+    <button class="btn btn-default" type="submit" ng-disabled="rechercheUtilisateurForm.$invalid">{{'labels.relationClient.rechercheUtilisateur.SEARCH_USER' | translate}}</button>
+  </form>
+</div>

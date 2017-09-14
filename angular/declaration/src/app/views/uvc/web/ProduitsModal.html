@@ -1,0 +1,22 @@
+﻿<div class="mymodal produits_modal">
+    <a class="close-icon" ng-click="ctrl.closeModal()"></a>
+    <h1>{{'labels.declaration.uvc.popin_produits.TITRE' | translate}}</h1>
+    <p>{{'labels.declaration.uvc.popin_produits.DESCRIPTION' | translate}}</p>
+    <span class="recherche_produit_img"></span>
+    <label class="produit_exposant" ng-hide="ctrl.query=='' || ctrl.query==null">{{'labels.declaration.uvc.popin_produits.SEARCH_LABEL'|translate}}</label>
+    <input type="text" ng-model="ctrl.query" placeholder="{{'labels.declaration.uvc.popin_produits.SEARCH_LABEL' | translate}}" />
+    <div class="table_produits">
+        <table border="1">
+            <tr>
+                <th>{{'labels.declaration.uvc.popin_produits.CODE_PRODUIT' | translate}}</th>
+                <th>{{'labels.declaration.uvc.popin_produits.LIBELLE_PRODUIT' | translate}}</th>
+            </tr>
+            <tr data-ng-repeat="p in ctrl.produits | filter:ctrl.query" ng-click="ctrl.code_produit_tmp=p.code"  ng-class="{'row_selected': ctrl.code_produit_tmp==p.code}">
+                <td>{{p.code}}</td>
+                <td>{{p.libelle}}</td>
+            </tr>
+        </table>
+    </div>
+    <button id="ValideBtn" ng-disabled="ctrl.code_produit_tmp==''" ng-click="ctrl.setProduit()">{{'labels.declaration.uvc.popin_produits.BTN_ADD' | translate}}</button>
+    <input id="CloseBtn" type="button" value="{{'labels.declaration.uvc.popin_produits.BTN_ANNULER' | translate}}" ng-click="ctrl.closeModal()" />
+</div>

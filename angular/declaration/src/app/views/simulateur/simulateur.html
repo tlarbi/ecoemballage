@@ -1,0 +1,46 @@
+<div class="simulateur">
+    <h1><strong>{{'labels.declaration.choixdeclaration.simulateur.TITLE_SIMULATEUR' | translate}}</strong> </h1>
+    <h5>{{'labels.declaration.choixdeclaration.simulateur.TITLE_SIMULATEUR_CHOIX' | translate}} </h5>
+    <div class="bloc_simulateur ">
+    <table>
+        <tr>
+            <td><h4>{{simulateurCtrl.getTypeDeclarationParId('sect').titre}}</h4>
+        <p data-ng-bind-html="simulateurCtrl.getTypeDeclarationParId('sect').html"></p></td>
+            <td><a target="_self" class="button btn_simul" href="{{simulateurCtrl.getExcelLinkByType('SimulateurSECTORIELLE')}}?display=attachement">{{simulateurCtrl.orga == 'adelphe' ? ('labels.transverse.DOWNLOAD' | translate) : ''}}</a></td>
+        </tr>
+        </table>
+        <table>
+        <tr>
+            <td><h4>{{simulateurCtrl.getTypeDeclarationParId('uvc').titre}}</h4>
+        <p data-ng-bind-html="simulateurCtrl.getTypeDeclarationParId('uvc').html"></p></td>
+            <td><a target="_self" class="button btn_simul" href="{{simulateurCtrl.getExcelLinkByType('SimulateurUVC')}}?display=attachement">{{simulateurCtrl.orga == 'adelphe' ? ('labels.transverse.DOWNLOAD' | translate) : ''}}</a></td>
+        </tr>
+        </table>
+        <table>
+        <tr>
+            <td><h4>{{simulateurCtrl.getTypeDeclarationParId('emb').titre}}</h4>
+        <p data-ng-bind-html="simulateurCtrl.getTypeDeclarationParId('emb').html"></p></td>
+            <td><a target="_self" class="button btn_simul" href="{{simulateurCtrl.getExcelLinkByType('SimulateurDETAILLEE')}}?display=attachement">{{simulateurCtrl.orga == 'adelphe' ? ('labels.transverse.DOWNLOAD' | translate) : ''}}</a></td>
+        </tr>
+    </table>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,50 @@
+<div data-ng-if="reinitialisationMotDePasseCtrl.tokenValidFlag">
+    <h1>{{'labels.relationClient.reinitialisationMotDePasse.TITLE' | translate}}</h1>
+    <span>{{'labels.relationClient.reinitialisationMotDePasse.INSTRUCTION' | translate}}</span><br><br>
+    <div class="create_compte">
+      <form name="reinitialisationMotDePasseForm" data-ng-submit="reinitialisationMotDePasseCtrl.submit()" novalidate>
+
+        <div id="newPassword">
+            <label data-ng-if="!reinitialisationMotDePasseForm.pass.$error.required" class="exposant" for="newPassword">{{'labels.relationClient.reinitialisationMotDePasse.NEW_PASSWORD_PLACEHOLDER' | translate}}</label>
+            <input data-ng-class="{'error': reinitialisationMotDePasseForm.pass.$dirty && reinitialisationMotDePasseForm.pass.$invalid, 'success': reinitialisationMotDePasseCtrl.checkPattern('pass')}" id="newPassword" name="pass" type="password" placeholder="{{'labels.relationClient.reinitialisationMotDePasse.NEW_PASSWORD_PLACEHOLDER' | translate}}" data-ng-model="reinitialisationMotDePasseCtrl.form.pass" required/>
+
+            <div data-ng-if="reinitialisationMotDePasseForm.pass.$dirty" data-ng-messages="reinitialisationMotDePasseForm.pass.$error" class="error">
+                <label ng-message="required">{{'errors.reinitialisationMotDePasse.ERROR_PASSWORD_REQUIRED' | translate}}</label>
+            </div>
+
+            <div data-ng-if="reinitialisationMotDePasseForm.pass.$valid" class='error'>
+                <label data-ng-if="!reinitialisationMotDePasseCtrl.checkPattern('pass')">{{'errors.reinitialisationMotDePasse.ERROR_PASSWORD_INVALID' | translate}}</label>
+                <label data-ng-if="reinitialisationMotDePasseCtrl.technicalErrorFlag">{{'errors.transverse.reinitialisationMotDePasse.TECHNICAL_ERROR' | translate}}</label>
+            </div>
+        </div>
+
+        <div class="controlPassword">    
+            <p><strong>{{'labels.relationClient.transverse.PASSWORD_RULES' | translate}}</strong><br>
+                <span ng-class="{'success': reinitialisationMotDePasseCtrl.checkPattern('length')}">{{'labels.relationClient.transverse.PASSWORD_RULE_LENGTH' | translate}}</span><br>
+                <span ng-class="{'success': reinitialisationMotDePasseCtrl.checkPattern('maj')}">{{'labels.relationClient.transverse.PASSWORD_RULE_MAJ' | translate}}</span><br>
+                <span ng-class="{'success': reinitialisationMotDePasseCtrl.checkPattern('min')}">{{'labels.relationClient.transverse.PASSWORD_RULE_MIN' | translate}}</span><br>
+                <span ng-class="{'success': reinitialisationMotDePasseCtrl.checkPattern('num')}">{{'labels.relationClient.transverse.PASSWORD_RULE_NUM' | translate}}</span><br>
+                <span ng-class="{'success': reinitialisationMotDePasseCtrl.checkPattern('specialCar')}">{{'labels.relationClient.transverse.PASSWORD_RULE_SPECIAL_CAR' | translate}}@, #, $, %, ^, &amp;, +, =</span>
+            </p>
+        </div><br>
+
+        <div id="newPasswordConfirm">
+            <label data-ng-if="!reinitialisationMotDePasseForm.confirmPass.$error.required" class="exposant" for="newPasswordConfirm">{{'labels.relationClient.reinitialisationMotDePasse.CONFIRM_NEW_PASSWORD_PLACEHOLDER' | translate}}</label>
+            <input data-ng-class="{'error': reinitialisationMotDePasseForm.confirmPass.$dirty && (reinitialisationMotDePasseForm.confirmPass.$invalid || !reinitialisationMotDePasseCtrl.checkPasswords()), 'success': reinitialisationMotDePasseCtrl.checkPasswords()}" id="newPasswordConfirm" name="confirmPass" type="password" placeholder="{{'labels.relationClient.reinitialisationMotDePasse.CONFIRM_NEW_PASSWORD_PLACEHOLDER' | translate}}" data-ng-model="reinitialisationMotDePasseCtrl.form.confirmPass" required/>
+
+            <div data-ng-if="reinitialisationMotDePasseForm.confirmPass.$dirty" data-ng-messages="reinitialisationMotDePasseForm.confirmPass.$error" class="error">
+                <label ng-message="required">{{'errors.reinitialisationMotDePasse.ERROR_CONFIRM_PASSWORD_REQUIRED' | translate}}</label>
+            </div>
+
+            <div data-ng-if="!reinitialisationMotDePasseForm.confirmPass.$error.required" class='error'>
+                <label data-ng-if="!reinitialisationMotDePasseCtrl.checkPasswords()">{{'errors.reinitialisationMotDePasse.ERROR_CONFIRM_PASSWORD_MISMATCH' | translate}}</label>
+            </div>
+        </div><br>
+
+        <button class="confirm btn" type="submit" data-ng-disabled="reinitialisationMotDePasseForm.$invalid || !reinitialisationMotDePasseCtrl.checkPattern('pass') || !reinitialisationMotDePasseCtrl.checkPasswords()">{{'labels.transverse.BTN_COMFIRM' | translate}}</button>
+
+
+
+      </form>
+    </div>
+</div>

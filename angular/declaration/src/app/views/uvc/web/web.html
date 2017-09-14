@@ -1,0 +1,348 @@
+<div class="declaration_web" data-ng-if="ctrl.id_declaration!='' && !ctrl.error">
+    <div class="uvc_form_container">
+        <div class="uvc_form" ng-class="{'stop_scrolling':ctrl.selectedUVC==undefined}">
+            <form id="uvc_web_form_id" name="ctrl.uvc_web_form_id" novalidate ng-show="ctrl.vue=='ecriture'">
+                <input ng-change="ctrl.produit_spec='0';ctrl.uvc.ProduitId='';ctrl.uvc.NbUvcEmballMenagers=''" type="radio" name="type_produit" data-ng-model="ctrl.uvc.Spec" data-ng-value="false" /><label class="add_uvc_label">{{'labels.declaration.uvc.formulaire.LABEL_ADD_UVC'|translate}}</label>
+                <input type="radio" name="type_produit" data-ng-model="ctrl.uvc.Spec" data-ng-value="true" ng-change="ctrl.uvc.ProduitId=''" />
+                <select ng-options="t.id as t.libelle for t in ctrl.list_produits_spec" ng-class="{'produits_spec_not_seleted': !ctrl.uvc.Spec}" ng-change="ctrl.uvc.Spec=true;ctrl.CalculerNbBobinesAlimentaire()" class="produits_spec" name="produits_spec" data-ng-model="ctrl.uvc.ProduitId">
+                    <option value="" disabled>{{'labels.declaration.uvc.formulaire.LABEL_ADD_SPEC'|translate}}</option>
+                </select>
+
+                <a class="infobulle_uvc" style="margin-top: 5px;">
+                    <span class="arrow_box arrow_box_right">{{'labels.declaration.uvc.formulaire.INFOBULLE1'|translate}}</span>
+                </a>
+                <br />
+                <label class="control-label" ng-show="ctrl.erreurs && ctrl.submitted">{{'labels.declaration.uvc.formulaire.ERREUR_FORMULAIRE'|translate}}</label>
+                <h3>
+                    {{'labels.declaration.uvc.formulaire.TITRE_PRODUIT'|translate}}
+                    <a class="infobulle_uvc">
+                        <span class="arrow_box">{{'labels.declaration.uvc.formulaire.INFOBULLE2'|translate}}</span>
+                    </a>
+                </h3>
+                <label class="produit_exposant" ng-hide="ctrl.uvc==undefined || ctrl.uvc.Libelle=='' || ctrl.uvc.Libelle==null">{{'labels.declaration.uvc.formulaire.LABEL_LIBELLE_UVC'|translate}}</label>
+                <input name="uvc_libelle" class="uvc_libelle" type="text" placeholder="{{'labels.declaration.uvc.formulaire.LABEL_LIBELLE_UVC'|translate}}" ng-model="ctrl.uvc.Libelle" data-ng-class="{ 'error' : ctrl.uvc_web_form_id.uvc_libelle.$invalid && (ctrl.submitted || ctrl.uvc_web_form_id.uvc_libelle.$touched)}" maxlength="50" required />
+                <label class="control-label" ng-show="ctrl.uvc_web_form_id.uvc_libelle.$invalid && (ctrl.submitted || ctrl.uvc_web_form_id.uvc_libelle.$touched)">{{'labels.declaration.uvc.formulaire.ERROR_LIBELLE'|translate}}</label>
+                <div ng-click="!ctrl.uvc.Spec && ctrl.openModal()" class="search_product" data-ng-class="{ 'search_product_error' : ctrl.uvc_web_form_id.produit_id.$invalid && ctrl.submitted}">
+                    <label class="produit_exposant" ng-hide="ctrl.uvc==ProduitId || ctrl.uvc.ProduitId=='' || ctrl.uvc.ProduitId==null">{{'labels.declaration.uvc.formulaire.CODE_PRODUIT'|translate}}</label>
+                    <label class="produit_exposant" ng-hide="ctrl.uvc==ProduitId || ctrl.uvc.ProduitId=='' || ctrl.uvc.ProduitId==null">{{'labels.declaration.uvc.formulaire.LABEL_LIBELLE_PRODUIT'|translate}}</label>
+                    <input type="text" name="produit_id" required placeholder="{{'labels.declaration.uvc.formulaire.CODE_PRODUIT'|translate}}" ng-model="ctrl.uvc.ProduitId" disabled />
+                    <input type="text" placeholder="{{'labels.declaration.uvc.formulaire.LABEL_LIBELLE_PRODUIT'|translate}}" value="{{(ctrl.uvc.ProduitId!='' && ctrl.uvc.ProduitId!=null?'produits.'+ctrl.uvc.ProduitId:'') | translate}}" ng-show="!ctrl.uvc.Spec" disabled />
+                    <input type="text" placeholder="{{'labels.declaration.uvc.formulaire.LABEL_LIBELLE_PRODUIT'|translate}}" value="{{(ctrl.uvc.ProduitId!='' && ctrl.uvc.ProduitId!=null?'produits_spec.'+ctrl.uvc.ProduitId:'') | translate}}" ng-show="ctrl.uvc.Spec" disabled />
+                    <span class="select_produit" ng-class="{'disabled':ctrl.uvc.Spec}"></span>
+                </div>
+                <label class="control-label" ng-show="ctrl.uvc_web_form_id.produit_id.$invalid && ctrl.submitted">{{'labels.declaration.uvc.formulaire.ERROR_PRODUIT'|translate}}</label>
+
+                <h3>
+                    {{'labels.declaration.uvc.formulaire.TITRE_POIDS'|translate}}
+                    <SPAN>{{ctrl.uvc.Spec?'labels.declaration.uvc.formulaire.TITRE_POIDS_UNITAIRE_KG':'labels.declaration.uvc.formulaire.TITRE_POIDS_UNITAIRE'|translate}}</SPAN>
+                    <a class="infobulle_uvc">
+                        <span class="arrow_box">
+                            {{'labels.declaration.uvc.formulaire.INFOBULLE3'|translate}}
+                        </span>
+                    </a>
+                </h3>
+                <span>{{'labels.declaration.uvc.formulaire.LABEL_REMPLIR_PRODUITS'|translate}}</span>
+                <table class="materiaux_inputs">
+                    <tr class="title_row">
+                        <td style="width:48%"><label class="produit_exposant" ng-hide="ctrl.hideExposant(ctrl.uvc.acier)">{{'labels.declaration.uvc.Materiaux.acier'|translate}}</label></td>
+                        <td style="width:4%"></td>
+                        <td style="width:48%"><label class="produit_exposant" ng-hide="ctrl.hideExposant(ctrl.uvc.alum)">{{'labels.declaration.uvc.Materiaux.alum'|translate}}</label></td>
+                    </tr>
+                    <tr>
+                        <td style="width:48%"><input name="acier" type="number" placeholder="{{'labels.declaration.uvc.Materiaux.acier'|translate}}" ng-model="ctrl.uvc.acier" ng-pattern="/^[0-9]+(\.[0-9]{1,4})?$/" step="0.01" min="0" data-ng-class="{'error' : ctrl.uvc_web_form_id.acier.$invalid && (ctrl.submitted || ctrl.uvc_web_form_id.acier.$touched)}" materiau /></td>
+                        <td style="width:4%"></td>
+                        <td style="width:48%"><input name="alum" type="number" placeholder="{{'labels.declaration.uvc.Materiaux.alum'|translate}}" ng-model="ctrl.uvc.alum" ng-pattern="/^[0-9]+(\.[0-9]{1,4})?$/" step="0.01" min="0" data-ng-class="{'error' : ctrl.uvc_web_form_id.alum.$invalid && (ctrl.submitted || ctrl.uvc_web_form_id.alum.$touched)}" ng-change="ctrl.CalculerNbBobinesAlimentaire()" materiau /></td>
+                    </tr>
+                    <tr class="title_row">
+                        <td><label class="produit_exposant" ng-hide="ctrl.hideExposant(ctrl.uvc.pcNonBriq)">{{'labels.declaration.uvc.Materiaux.pcNonBriq'|translate}}</label></td>
+                        <td></td>
+                        <td><label class="produit_exposant" ng-hide="ctrl.hideExposant(ctrl.uvc.briq)">{{'labels.declaration.uvc.Materiaux.briq'|translate}}</label></td>
+                    </tr>
+                    <tr>
+                        <td><input type="number" name="pcNonBriq" placeholder="{{'labels.declaration.uvc.Materiaux.pcNonBriq'|translate}}" ng-model="ctrl.uvc.pcNonBriq" ng-pattern="/^[0-9]+(\.[0-9]{1,4})?$/" step="0.01" min="0" data-ng-class="{'error' : ctrl.uvc_web_form_id.pcNonBriq.$invalid && (ctrl.submitted || ctrl.uvc_web_form_id.pcNonBriq.$touched)}" ng-change="ctrl.CalculerNbBobinesAlimentaire()" materiau /></td>
+                        <td></td>
+                        <td><input type="number" name="briq" placeholder="{{'labels.declaration.uvc.Materiaux.briq'|translate}}" ng-model="ctrl.uvc.briq" ng-pattern="/^[0-9]+(\.[0-9]{1,4})?$/" step="0.01" min="0" data-ng-class="{'error' : ctrl.uvc_web_form_id.briq.$invalid && (ctrl.submitted || ctrl.uvc_web_form_id.briq.$touched)}" materiau /></td>
+                    </tr>
+                    <tr class="title_row">
+                        <td><label class="produit_exposant" ng-hide="ctrl.hideExposant(ctrl.uvc.petClair)">{{'labels.declaration.uvc.Materiaux.petClair'|translate}}</label></td>
+                        <td></td>
+                        <td><label class="produit_exposant" ng-hide="ctrl.hideExposant(ctrl.uvc.flacon)">{{'labels.declaration.uvc.Materiaux.flacon'|translate}}</label></td>
+                    </tr>
+                    <tr>
+                        <td><input type="number" name="petClair" placeholder="{{'labels.declaration.uvc.Materiaux.petClair'|translate}}" ng-model="ctrl.uvc.petClair" ng-pattern="/^[0-9]+(\.[0-9]{1,4})?$/" step="0.01" min="0" data-ng-class="{'error' : ctrl.uvc_web_form_id.petClair.$invalid && (ctrl.submitted || ctrl.uvc_web_form_id.petClair.$touched)}" materiau /></td>
+                        <td></td>
+                        <td><input type="number" name="flacon" placeholder="{{'labels.declaration.uvc.Materiaux.flacon'|translate}}" ng-model="ctrl.uvc.flacon" ng-pattern="/^[0-9]+(\.[0-9]{1,4})?$/" step="0.01" min="0" data-ng-class="{'error' : ctrl.uvc_web_form_id.flacon.$invalid && (ctrl.submitted ||ctrl.uvc_web_form_id.flacon.$touched)}" materiau /></td>
+                    </tr>
+                    <tr class="title_row">
+                        <td><label class="produit_exposant" ng-hide="ctrl.hideExposant(ctrl.uvc.autrePlas)">{{'labels.declaration.uvc.Materiaux.autrePlas'|translate}}</label></td>
+                        <td></td>
+                        <td><label class="produit_exposant" ng-hide="ctrl.hideExposant(ctrl.uvc.verre)">{{'labels.declaration.uvc.Materiaux.verre'|translate}}</label></td>
+                    </tr>
+                    <tr>
+                        <td><input type="number" name="autrePlas" placeholder="{{'labels.declaration.uvc.Materiaux.autrePlas'|translate}}" ng-model="ctrl.uvc.autrePlas" ng-pattern="/^[0-9]+(\.[0-9]{1,4})?$/" step="0.01" min="0" data-ng-class="{'error' : ctrl.uvc_web_form_id.autrePlas.$invalid && (ctrl.submitted || ctrl.uvc_web_form_id.autrePlas.$touched)}" ng-change="ctrl.CalculerNbBobinesAlimentaire()" materiau /></td>
+                        <td></td>
+                        <td><input type="number" name="verre" placeholder="{{'labels.declaration.uvc.Materiaux.verre'|translate}}" ng-model="ctrl.uvc.verre" ng-pattern="/^[0-9]+(\.[0-9]{1,4})?$/" step="0.01" min="0" data-ng-class="{'error' : ctrl.uvc_web_form_id.verre.$invalid && (ctrl.submitted || ctrl.uvc_web_form_id.verre.$touched)}" materiau /></td>
+                    </tr>
+
+                    <tr class="title_row" ng-if="ctrl.orgaCommerciale=='adelphe'">
+                        <td><label class="produit_exposant" ng-hide="ctrl.hideExposant(ctrl.uvc.Bois)">{{'labels.declaration.uvc.Materiaux.bois'|translate}}</label></td>
+                        <td></td>
+                        <td><label class="produit_exposant" ng-hide="ctrl.hideExposant(ctrl.uvc.Textile)">{{'labels.declaration.uvc.Materiaux.textile'|translate}}</label></td>
+                    </tr>
+                    <tr ng-if="ctrl.orgaCommerciale=='adelphe'">
+                        <td><input type="number" name="autrePlas" placeholder="{{'labels.declaration.uvc.Materiaux.bois'|translate}}" ng-model="ctrl.uvc.Bois" ng-pattern="/^[0-9]+(\.[0-9]{1,4})?$/" step="0.01" min="0" data-ng-class="{'error' : ctrl.uvc_web_form_id.bois.$invalid && (ctrl.submitted || ctrl.uvc_web_form_id.bois.$touched)}" materiau /></td>
+                        <td></td>
+                        <td><input type="number" name="textile" placeholder="{{'labels.declaration.uvc.Materiaux.textile'|translate}}" ng-model="ctrl.uvc.Textile" ng-pattern="/^[0-9]+(\.[0-9]{1,4})?$/" step="0.01" min="0" data-ng-class="{'error' : ctrl.uvc_web_form_id.textile.$invalid && (ctrl.submitted || ctrl.uvc_web_form_id.textile.$touched)}" materiau /></td>
+                    </tr>
+
+
+                    <tr class="title_row">
+                        <td><label class="produit_exposant" ng-hide="ctrl.hideExposant(ctrl.uvc.autre)">{{'labels.declaration.uvc.Materiaux.autre'|translate}}</label></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><input type="number" name="autre" placeholder="{{'labels.declaration.uvc.Materiaux.autre'|translate}}" ng-model="ctrl.uvc.autre" ng-pattern="/^[0-9]+(\.[0-9]{1,4})?$/" step="0.01" min="0" data-ng-class="{'error' : ctrl.uvc_web_form_id.autre.$invalid && (ctrl.submitted || ctrl.uvc_web_form_id.autre.$touched)}" materiau /></td>
+                    </tr>
+                </table>
+                <input type="hidden" name="materiaux_valide" ng-model="test0" ng-required="!ctrl.MateriauxValide()" />
+                <label class="control-label" ng-show="ctrl.uvc_web_form_id.materiaux_valide.$invalid && (ctrl.submitted || ctrl.uvc_web_form_id.autre.$touched|| ctrl.uvc_web_form_id.autre.$touched|| ctrl.uvc_web_form_id.verre.$touched|| ctrl.uvc_web_form_id.autrePlas.$touched|| ctrl.uvc_web_form_id.flacon.$touched|| ctrl.uvc_web_form_id.petClair.$touched|| ctrl.uvc_web_form_id.briq.$touched|| ctrl.uvc_web_form_id.pcNonBriq.$touched|| ctrl.uvc_web_form_id.alum.$touched|| ctrl.uvc_web_form_id.acier.$touched || (ctrl.orgaCommerciale=='adelphe' && (ctrl.uvc_web_form_id.bois.$touched || ctrl.uvc_web_form_id.textile.$touched)))">
+                    {{'labels.declaration.uvc.formulaire.ERROR_MATERIAUX'|translate}}
+                </label>
+                <br />
+                <input type="hidden" name="produits_spec_valide" ng-model="test1" ng-required="!ctrl.ProduitSpecValide()" />
+                <label class="control-label" ng-show="ctrl.uvc_web_form_id.produits_spec_valide.$invalid && (ctrl.submitted || ctrl.uvc_web_form_id.autre.$touched|| ctrl.uvc_web_form_id.autre.$touched|| ctrl.uvc_web_form_id.verre.$touched|| ctrl.uvc_web_form_id.autrePlas.$touched|| ctrl.uvc_web_form_id.flacon.$touched|| ctrl.uvc_web_form_id.petClair.$touched|| ctrl.uvc_web_form_id.briq.$touched|| ctrl.uvc_web_form_id.pcNonBriq.$touched|| ctrl.uvc_web_form_id.alum.$touched|| ctrl.uvc_web_form_id.acier.$touched || (ctrl.orgaCommerciale=='adelphe' && (ctrl.uvc_web_form_id.bois.$touched || ctrl.uvc_web_form_id.textile.$touched)))">
+                    {{'labels.declaration.uvc.formulaire.ERREUR_PRODUIT_SPEC'+ctrl.ProduitSpecError|translate}}
+                </label>
+                <h3>
+                    {{'labels.declaration.uvc.formulaire.TITRE_DECOTE'|translate}}
+                    <a class="infobulle_uvc">
+                        <span class="arrow_box">{{'labels.declaration.uvc.formulaire.INFOBULLE4'|translate}}</span>
+                    </a>
+                </h3>
+                {{'labels.declaration.uvc.formulaire.LABEL_PAPIER_CARTON_RECYCLE'|translate}}
+                <div ng-class="{'toggle btn btn-primary':ctrl.uvc.Decote,'toggle btn btn-default off': !ctrl.uvc.Decote}" ng-click="ctrl.uvc.Decote=!ctrl.uvc.Decote; ctrl.decote_touched=true">
+                    <div class="toggle-group">
+                        <label class="btn btn-primary toggle-on">{{'labels.declaration.uvc.formulaire.DECOTE_OUI'|translate}}</label>
+                        <label class="btn btn-default active toggle-off">{{'labels.declaration.uvc.formulaire.DECOTE_NON'|translate}}</label>
+                        <span class="toggle-handle btn btn-default"></span>
+                    </div>
+                </div>
+                <input type="hidden" name="decote_valide" ng-model="test" ng-required="ctrl.uvc.Decote && (ctrl.uvc.pcNonBriq == null || ctrl.uvc.pcNonBriq == '' || ctrl.uvc.pcNonBriq == 0)" />
+                <label class="control-label" ng-show="ctrl.uvc_web_form_id.decote_valide.$invalid">
+                    {{'labels.declaration.uvc.formulaire.ERROR_DECOTE'|translate}}
+                </label>
+                <div class="bloc_bonus">
+                    <h3>
+                        {{'labels.declaration.uvc.formulaire.TITRE_BONUS'|translate}}
+                        <a class="infobulle_uvc">
+                            <span class="arrow_box">{{'labels.declaration.uvc.formulaire.INFOBULLE5'|translate}}</span>
+                        </a>
+                    </h3>
+                    <div style="width:48%; float:left">
+                        <label class="produit_exposant" ng-hide="ctrl.uvc==undefined || ctrl.uvc.BonusReductionId=='' || ctrl.uvc.BonusReductionId==null || ctrl.uvc.BonusReductionId==0">{{'bonus_reduction.0'|translate}}</label>
+                    </div>
+                    <div style="width:48%; float:right">
+                        <label class="produit_exposant" ng-hide="ctrl.uvc==undefined || ctrl.uvc.BonusSensibilisationId=='' || ctrl.uvc.BonusSensibilisationId==null || ctrl.uvc.BonusSensibilisationId==0">{{'bonus_sensibilisation.0'|translate}}</label>
+                    </div>
+                    <div style="clear:both" >
+                        <select name="bonus_reduction" data-ng-model="ctrl.uvc.BonusReductionId" ng-options="t.id as t.libelle for t in ctrl.list_bonus_reduction">
+                            <option value="">{{'bonus_reduction.0'|translate}}</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <select name="bonus_sensibilisation" data-ng-model="ctrl.uvc.BonusSensibilisationId" ng-options="t.id as t.libelle for t in ctrl.list_bonus_sensibilisation">
+                            <option value="">{{'bonus_sensibilisation.0'|translate}}</option>
+                        </select>
+                    </div>
+                </div>
+                <h3>
+                    {{'labels.declaration.uvc.formulaire.TITRE_MALUS'|translate}}
+                    <a class="infobulle_uvc">
+                        <span class="arrow_box">{{'labels.declaration.uvc.formulaire.INFOBULLE6'|translate}}</span>
+                    </a>
+                </h3>
+                <table class="table_malus">
+                    <tr>
+                        <td class="choix_param" ng-class="{ 'selected_malus' : ctrl.uvc.MalusPerturbateur }" ng-click="ctrl.uvc.MalusPerturbateur=!ctrl.uvc.MalusPerturbateur;ctrl.uvc.MalusSansFiliere=false;">
+                            {{'labels.declaration.uvc.formulaire.MALUS_PERTURBATEUR'|translate}}
+                        </td>
+                        <td class="choix_param" ng-class="{ 'selected_malus' : ctrl.uvc.MalusSansFiliere }" ng-click="ctrl.uvc.MalusSansFiliere=!ctrl.uvc.MalusSansFiliere; ctrl.uvc.MalusPerturbateur=false;">
+                            {{'labels.declaration.uvc.formulaire.MALUS_SANS_FILIERE'|translate}}
+                        </td>
+                    </tr>
+                </table>
+                <p class="erreur_non_blocante" ng-show="(ctrl.uvc.MalusPerturbateur|| ctrl.uvc.MalusSansFiliere) && (ctrl.uvc.BonusSensibilisationId!=0 && ctrl.uvc.BonusSensibilisationId!=unll && ctrl.uvc.BonusSensibilisationId!=undefined)"> {{'labels.declaration.uvc.formulaire.ERREUR_NON_BLOCANT'|translate}}</p>
+                <h3>
+                    {{'labels.declaration.uvc.formulaire.TITRE_NOMBRE_UVC'|translate}}
+                    <a class="infobulle_uvc">
+                        <span class="arrow_box">{{'labels.declaration.uvc.formulaire.INFOBULLE7'|translate}}</span>
+                    </a>
+                </h3>
+                <table class="materiaux_inputs nbembtbl">
+                    <tr class="title_row">
+                        <td style="width:48%"><label class="produit_exposant" ng-hide="ctrl.hideExposant(ctrl.uvc.NbUvcEmballMenagers)">{{'labels.declaration.uvc.formulaire.TITRE_EMB_MENAGER'|translate}}</label></td>
+                        <td style="width:4%"></td>
+                        <td style="width:48%"><label class="produit_exposant" ng-hide="ctrl.hideExposant(ctrl.uvc.NbUvcEmballNonMenagers)">{{'labels.declaration.uvc.formulaire.TITRE_EMB_NON_MENAGER'|translate}}</label></td>
+                    </tr>
+                    <tr>
+                        <td style="width:48%">
+                            <input name="emb_menager" ng-disabled="ctrl.uvc.Spec && (ctrl.uvc.ProduitId == '150000' ||ctrl.uvc.ProduitId == '160000')" class="uvc_nombre" type="number" min="0" onkeypress="return event.charCode >= 48" ng-pattern="/^[0-9][^\.]*$/" placeholder="{{'labels.declaration.uvc.formulaire.TITRE_EMB_MENAGER'|translate}}" ng-model="ctrl.uvc.NbUvcEmballMenagers" materiau data-ng-class="{ 'error' : ctrl.uvc_web_form_id.emb_menager.$invalid && (ctrl.submitted || ctrl.uvc_web_form_id.emb_menager.$touched)}" required />
+                        </td>
+                        <td style="width:4%"></td>
+                        <td style="width:48%"><input class="uvc_nombre" type="number" min="0" onkeypress="return event.charCode >= 48" ng-pattern="/^[0-9][^\.]*$/" placeholder="{{'labels.declaration.uvc.formulaire.TITRE_EMB_NON_MENAGER'|translate}}" ng-model="ctrl.uvc.NbUvcEmballNonMenagers" materiau /></td>
+                    </tr>
+                    <tr><td colspan="3"><label class="control-label" ng-show="ctrl.uvc_web_form_id.emb_menager.$invalid && (ctrl.submitted || ctrl.uvc_web_form_id.emb_menager.$touched)">{{'labels.declaration.uvc.formulaire.TITRE_NB_UVC'|translate}}</label></td></tr>
+                </table>
+
+
+                <hr />
+                <h3>
+                    {{'labels.declaration.uvc.formulaire.TITRE_TOTAL_UVC'|translate}}
+
+                </h3>
+                <table class="contributions_table">
+                    <tr>
+                        <th width="50%">{{'labels.declaration.uvc.formulaire.TITRE_CONTRIBUTION_UNIT_TOTAL'|translate}}</th>
+                        <th width="50%">{{'labels.declaration.uvc.formulaire.TITRE_CONTRIBUTION_TOTAL'|translate}}</th>
+                    </tr>
+                    <tr>
+                        <td>{{ctrl.uvc.ContribUnitTotale | decimalSeparator}}</td>
+                        <td>{{ctrl.uvc.ContribTotaleLigne | decimalSeparator}}</td>
+                    </tr>
+                </table>
+                <br />
+                <br />
+                <!--ng-disabled="!uvc_web_form_id.$valid"-->
+                <button class="btn" ng-click="ctrl.ValidateUvc(ctrl.uvc_web_form_id)">{{'labels.declaration.uvc.formulaire.BTN_VALIDER_PRODUIT'|translate}}</button>     <!--{{'uvc_web_form_id.$valid'+uvc_web_form_id.$valid}}-->
+            </form>
+            <div id="vue" ng-show="ctrl.vue=='lecture'">
+                {{'labels.declaration.uvc.formulaire.TITRE_UVC_VUE'|translate}}
+                <hr />
+                <h3>{{'labels.declaration.uvc.formulaire.TITRE_PRODUIT'|translate}}</h3>
+                {{'labels.declaration.uvc.formulaire.LABEL_LIBELLE_UVC'|translate}} : <strong>{{ctrl.uvc.Libelle}}</strong><br />
+                {{'labels.declaration.uvc.formulaire.CODE_PRODUIT'|translate}} : <strong>{{ctrl.uvc.ProduitId}}</strong><span style="width:100px;display:inline-block"></span>{{'labels.declaration.uvc.formulaire.LABEL_LIBELLE_PRODUIT'|translate}} : <strong>{{ctrl.uvc.Spec?'produits_spec.'+ctrl.uvc.ProduitId:'produits.'+ctrl.uvc.ProduitId|translate}}</strong>
+                <hr />
+                <h3>
+                    {{'labels.declaration.uvc.formulaire.TITRE_POIDS'|translate}}
+                    <SPAN>{{ctrl.uvc.Spec?'labels.declaration.uvc.formulaire.TITRE_POIDS_UNITAIRE_KG':'labels.declaration.uvc.formulaire.TITRE_POIDS_UNITAIRE'|translate}}</SPAN>
+                </h3>
+                <table class="materiaux_inputs">
+                    <tr ng-show="ctrl.ShowMateriauPreview(ctrl.uvc.acier)">
+                        <td>{{'labels.declaration.uvc.Materiaux.acier'|translate}} : <strong>{{ctrl.uvc.acier | decimalSeparator}}</strong></td>
+                    </tr>
+                    <tr ng-show="ctrl.ShowMateriauPreview(ctrl.uvc.alum)">
+                        <td>{{'labels.declaration.uvc.Materiaux.alum'|translate}} : <strong>{{ctrl.uvc.alum | decimalSeparator}}</strong></td>
+                    </tr>
+                    <tr ng-show="ctrl.ShowMateriauPreview(ctrl.uvc.pcNonBriq)">
+                        <td> {{'labels.declaration.uvc.Materiaux.pcNonBriq'|translate}} : <strong>{{ctrl.uvc.pcNonBriq | decimalSeparator}}</strong></td>
+                    </tr>
+                    <tr ng-show="ctrl.ShowMateriauPreview(ctrl.uvc.briq)">
+                        <td> {{'labels.declaration.uvc.Materiaux.briq'|translate}} : <strong>{{ctrl.uvc.briq | decimalSeparator}}</strong></td>
+                    </tr>
+                    <tr ng-show="ctrl.ShowMateriauPreview(ctrl.uvc.petClair)">
+                        <td>{{'labels.declaration.uvc.Materiaux.petClair'|translate}} : <strong>{{ctrl.uvc.petClair | decimalSeparator}}</strong></td>
+
+                    </tr>
+                    <tr ng-show="ctrl.ShowMateriauPreview(ctrl.uvc.flacon)">
+                        <td>{{'labels.declaration.uvc.Materiaux.flacon'|translate}} : <strong>{{ctrl.uvc.flacon | decimalSeparator}}</strong></td>
+                    </tr>
+                    <tr ng-show="ctrl.ShowMateriauPreview(ctrl.uvc.autrePlas)">
+                        <td>{{'labels.declaration.uvc.Materiaux.autrePlas'|translate}} : <strong>{{ctrl.uvc.autrePlas | decimalSeparator}}</strong></td>
+                    </tr>
+                    <tr ng-show="ctrl.ShowMateriauPreview(ctrl.uvc.verre)">
+                        <td>{{'labels.declaration.uvc.Materiaux.verre'|translate}} : <strong>{{ctrl.uvc.verre | decimalSeparator}}</strong></td>
+                    </tr>
+                    <tr ng-if="ctrl.orgaCommerciale=='adelphe'" ng-show="ctrl.ShowMateriauPreview(ctrl.uvc.Bois)">
+                        <td>{{'labels.declaration.uvc.Materiaux.bois'|translate}} : <strong>{{ctrl.uvc.Bois | decimalSeparator}}</strong></td>
+                    </tr>
+                    <tr ng-if="ctrl.orgaCommerciale=='adelphe'" ng-show="ctrl.ShowMateriauPreview(ctrl.uvc.Textile)">
+                        <td>{{'labels.declaration.uvc.Materiaux.textile'|translate}} : <strong>{{ctrl.uvc.Textile | decimalSeparator}}</strong></td>
+                    </tr>
+                    <tr ng-show="ctrl.ShowMateriauPreview(ctrl.uvc.autre)">
+                        <td>{{'labels.declaration.uvc.Materiaux.autre'|translate}} : <strong>{{ctrl.uvc.autre | decimalSeparator}}</strong></td>
+                    </tr>
+                </table>
+                <hr />
+                <h3>{{'labels.declaration.uvc.formulaire.TITRE_DECOTE'|translate}}</h3>
+                {{'labels.declaration.uvc.formulaire.LABEL_DECOTE'|translate}}: <strong>{{ctrl.uvc.Decote?'labels.declaration.uvc.formulaire.DECOTE_OUI':'labels.declaration.uvc.formulaire.DECOTE_NON'|translate}}</strong>
+                <hr />
+                <h3>{{'labels.declaration.uvc.formulaire.TITRE_BONUS'|translate}}</h3>
+                {{'bonus_reduction.0'|translate}} : <strong>{{ctrl.uvc.BonusReductionId!=null?'bonus_reduction.'+ctrl.uvc.BonusReductionId:''|translate}}</strong><br />
+                {{'bonus_sensibilisation.0'|translate}} : <strong>{{ctrl.uvc.BonusSensibilisationId!=null?'bonus_sensibilisation.'+ctrl.uvc.BonusSensibilisationId:''|translate}}</strong>
+                <hr />
+                <h3>{{'labels.declaration.uvc.formulaire.TITRE_MALUS'|translate}}</h3>
+                {{ctrl.uvc.MalusPerturbateur?'labels.declaration.uvc.formulaire.MALUS_PERTURBATEUR':''|translate}}
+                {{ctrl.uvc.MalusSansFiliere?'labels.declaration.uvc.formulaire.MALUS_SANS_FILIERE':''|translate}}
+                <hr />
+                <h3>{{'labels.declaration.uvc.formulaire.TITRE_NOMBRE_UVC'|translate}}</h3>
+                {{'labels.declaration.uvc.formulaire.TITRE_EMB_MENAGER'|translate}} : <strong>{{ctrl.uvc.NbUvcEmballMenagers | thousandSeparator}}</strong><br />
+                {{'labels.declaration.uvc.formulaire.TITRE_EMB_NON_MENAGER'|translate}} : <strong>{{ctrl.uvc.NbUvcEmballNonMenagers | thousandSeparator}}</strong>
+                <hr />
+                <h3>{{'labels.declaration.uvc.formulaire.TITRE_TOTAL_UVC'|translate}}</h3>
+                <table class="contributions_table">
+                    <tr>
+                        <th width="50%">{{'labels.declaration.uvc.formulaire.TITRE_CONTRIBUTION_UNIT_TOTAL'|translate}}</th>
+                        <th width="50%">{{'labels.declaration.uvc.formulaire.TITRE_CONTRIBUTION_TOTAL'|translate}}</th>
+                    </tr>
+                    <tr>
+                        <td>{{ctrl.uvc.ContribUnitTotale | decimalSeparator}}</td>
+                        <td>{{ctrl.uvc.ContribTotaleLigne | decimalSeparator}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div id="cache" ng-show="ctrl.selectedUVC==undefined"></div>
+        </div>
+    </div>
+    <div class="uvc_list_container">
+        <div class="uvc_list">
+            <div class="sort_div">
+                {{'labels.declaration.uvc.formulaire.LABEL_TRI'|translate}} <select name="sort_field" ng-model="ctrl.sort_field" ng-change="ctrl.sort()">
+                    <option value="date" selected="selected">{{'labels.declaration.uvc.web.DATE_AJOUT' | translate}}</option>
+                    <option value="ordre_alphabetique">{{'labels.declaration.uvc.web.ORDRE_ALPHABETIQUE' | translate}}</option>
+                    <option value="montant_contribution_croissant">{{'labels.declaration.uvc.web.MONTANT_CONTRIB_CROISSANT' | translate}}</option>
+                    <option value="montant_contribution_decroissant">{{'labels.declaration.uvc.web.MONNAIE_CONTRIB_DECROISSANT' | translate}}</option>
+                </select>
+            </div>
+            <div class="search_div">
+                <span class="recherche_uvc_img" ng-click="ctrl.search_field.length>0 &&ctrl.search()"></span> <input type="text" placeholder="{{'labels.declaration.uvc.formulaire.LABEL_Recherche'|translate}}" ng-model="ctrl.search_field" ng-keyup="($event.keyCode == 13 || !ctrl.search_field.length ) && ctrl.search()" />
+            </div>
+            <table class="table_emballages">
+                <tr ng-repeat="emballage in ctrl.listUvc" ng-class="{'uvc_selected':ctrl.selectedUVC.LigneDeclarationId==emballage.LigneDeclarationId}">
+                    <td style="width:10%">
+                        <span ng-class="{'uvc_valide':emballage.Valider,'uvc_non_valide':!emballage.Valider}"></span>
+                    </td>
+                    <td>
+                        <div style="float:left">
+                            <a ng-class="{'uvc_lib':ctrl.valide,'uvc_lib_disabled':!ctrl.valide}" ng-click="ctrl.valide && ctrl.selectUvc(emballage)">{{emballage.Libelle!=''?emballage.Libelle:'labels.declaration.uvc.formulaire.BTN_NEW_UVC' | translate}}</a><br />
+                            <span>{{emballage.NbUvcEmballMenagers | thousandSeparator}}</span> UVC - <span>{{emballage.ContribTotaleLigne | decimalSeparator}} </span> {{'labels.declaration.uvc.formulaire.MONNAIE' | translate}}
+                        </div>
+                        <a ng-show="emballage.Valider && ctrl.valide && !(ctrl.selectedUVC!=undefined&& ctrl.vue=='ecriture')" ng-click="ctrl.copyUvc(emballage.LigneDeclarationId)" class="uvc_duplicate"></a>
+                        <a ng-show="(ctrl.valide ||!emballage.Valider) && (!(ctrl.selectedUVC!=undefined && ctrl.vue=='ecriture'))" ng-click="ctrl.editUvc(emballage)" class="uvc_edit"></a>
+                        <a ng-show="ctrl.valide || ctrl.selectedUVC==undefined || (ctrl.selectedUVC!=undefined && ctrl.selectedUVC.LigneDeclarationId==emballage.LigneDeclarationId)" ng-click="ctrl.deleteUvc(emballage.LigneDeclarationId,$index)" class="uvc_delete"></a>
+                        <a ng-show="ctrl.selectedUVC!=undefined && ctrl.selectedUVC.LigneDeclarationId==emballage.LigneDeclarationId && ctrl.vue=='ecriture' && !emballage.Valider && emballage.Libelle!=''" ng-click="ctrl.CancelEdition(ctrl.uvc_web_form_id)" class="uvc_cancel">{{'labels.declaration.uvc.formulaire.BTN_ANNULER' | translate}}</a>
+                        <a ng-show="ctrl.selectedUVC!=undefined && ctrl.selectedUVC.LigneDeclarationId==emballage.LigneDeclarationId && ctrl.vue=='ecriture' && !emballage.Valider" ng-click="ctrl.ValidateUvc(ctrl.uvc_web_form_id)" class="uvc_save">{{'labels.declaration.uvc.formulaire.BTN_ENREGISTRER' | translate}}</a>
+                    </td>
+                </tr>
+            </table>
+            <!--<div style="color:red" ng-show="!ctrl.valide">Vous avez un uvc non validé!</div>-->
+            <div class="bloc_pagination" ng-show="ctrl.pages.length>1">
+                <ul>
+                    <li ng-repeat="page in ctrl.pages">
+                        <span ng-class="{'selected_page':ctrl.page_index==page}" ng-click="ctrl.setPage(page);">{{page+1}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="create_uvc_bloc">
+            <button id="ajout" class="create_uvc_btn" ng-click="ctrl.AddUvc()">{{'labels.declaration.uvc.formulaire.BTN_ADD_UVC'|translate}}</button>
+        </div>
+    </div>
+    <div class="bottom_bar">
+        {{'labels.declaration.uvc.formulaire.LABEL_CONTRIBUTION'|translate}} {{ctrl.annee}} : <span class="contribution">{{ctrl.contribution_totale | decimalSeparator}} {{'labels.declaration.uvc.formulaire.MONNAIE' | translate}}</span> <span class="ht">{{'labels.declaration.uvc.formulaire.LABEL_HT'|translate}}</span>
+        <button class="btn suivant" ng-disabled="!ctrl.valide" ng-click="ctrl.Continue()">{{'labels.declaration.uvc.formulaire.BTN_NEXT_STEP'|translate}}</button>
+        <a class="btn_retour" ng-click="ctrl.goBack()">{{'labels.declaration.uvc.formulaire.BTN_ANNULER'|translate}}</a>
+    </div>
+</div>
+<div class="creat_declaration_web" data-ng-if="ctrl.id_declaration=='' || ctrl.error">
+    {{'labels.declaration.uvc.formulaire.ERREUR_DECLARATION'|translate}}
+</div>
